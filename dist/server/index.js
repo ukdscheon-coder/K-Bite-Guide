@@ -8,15 +8,18 @@ const html = String.raw`<!doctype html>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #101419;
-      --panel: #171d23;
-      --panel-2: #202831;
-      --text: #f5f7f9;
-      --muted: #aab4bf;
+      --bg: #17120d;
+      --panel: #241a13;
+      --panel-2: #34261b;
+      --text: #fff7ea;
+      --muted: #d8c3a5;
       --line: rgba(255,255,255,.12);
-      --primary: #f4f0e7;
-      --primary-text: #151515;
-      --accent: #27384b;
+      --primary: #f4d06f;
+      --primary-text: #20150a;
+      --accent: #194d47;
+      --jade: #9fbda8;
+      --dancheong-red: #b94a36;
+      --ink: #111416;
       --radius: 22px;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -25,8 +28,9 @@ const html = String.raw`<!doctype html>
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at 15% 5%, rgba(82, 105, 133, .28), transparent 32%),
-        linear-gradient(180deg, #0c0f12, var(--bg));
+        radial-gradient(circle at 18% 6%, rgba(244, 208, 111, .18), transparent 28%),
+        radial-gradient(circle at 92% 4%, rgba(159, 189, 168, .22), transparent 30%),
+        linear-gradient(180deg, #0e0d0b, var(--bg));
       color: var(--text);
     }
     button, input, select {
@@ -83,8 +87,9 @@ const html = String.raw`<!doctype html>
     .screen.active { display: flex; }
     @keyframes in { from { opacity: .35; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
     .home {
-      justify-content: center;
-      padding-bottom: 40px;
+      justify-content: start;
+      padding-top: 12px;
+      padding-bottom: 20px;
     }
     h1, h2, h3, p { margin: 0; }
     h1 {
@@ -109,6 +114,91 @@ const html = String.raw`<!doctype html>
     .home-copy {
       margin-top: 10px;
       max-width: 320px;
+    }
+    .hero-card {
+      position: relative;
+      min-height: 255px;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,.16);
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(185,74,54,.92), rgba(27,82,75,.96)),
+        var(--panel);
+      padding: 18px;
+      display: grid;
+      align-content: end;
+      box-shadow: 0 18px 48px rgba(0,0,0,.3);
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(244,208,111,.45) 0 7px, transparent 8px),
+        radial-gradient(circle at 82% 18%, rgba(255,247,234,.32) 0 5px, transparent 6px),
+        repeating-linear-gradient(135deg, rgba(255,247,234,.12) 0 2px, transparent 2px 18px);
+      opacity: .9;
+    }
+    .moon-jar {
+      position: absolute;
+      right: -14px;
+      top: 26px;
+      width: 126px;
+      height: 126px;
+      border-radius: 46% 52% 50% 48%;
+      background: radial-gradient(circle at 35% 28%, #fffdf7, #d8d8cd 58%, #9fbda8 100%);
+      box-shadow: inset -15px -18px 25px rgba(60,54,40,.2);
+      opacity: .95;
+    }
+    .tiger-badge {
+      position: absolute;
+      left: 18px;
+      top: 22px;
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      border-radius: 22px;
+      background: rgba(17,20,22,.5);
+      border: 1px solid rgba(255,255,255,.18);
+      font-size: 38px;
+      transform: rotate(-5deg);
+    }
+    .food-strip {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      gap: 8px;
+    }
+    .food-tile {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(255,247,234,.92);
+      border: 1px solid rgba(32,21,10,.12);
+      color: #20150a;
+      font-size: 28px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.18);
+    }
+    .hero-text {
+      position: relative;
+      z-index: 1;
+      max-width: 230px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      margin-bottom: 8px;
+      border: 1px solid rgba(255,247,234,.34);
+      border-radius: 999px;
+      padding: 6px 9px;
+      color: #fff7ea;
+      background: rgba(17,20,22,.22);
+      font-size: 12px;
+      font-weight: 700;
     }
     .actions {
       display: grid;
@@ -139,10 +229,16 @@ const html = String.raw`<!doctype html>
       height: 52px;
       border-radius: 16px;
       font-size: 23px;
+      flex: none;
     }
     .action.primary .action-icon {
-      background: #dfe5eb;
-      color: #111;
+      background: #fff7ea;
+      color: var(--primary-text);
+      border-color: rgba(32,21,10,.14);
+    }
+    .action strong {
+      color: currentColor;
+      font-weight: 800;
     }
     .sub {
       display: block;
@@ -362,18 +458,32 @@ const html = String.raw`<!doctype html>
     </header>
 
     <section class="screen home active" id="home">
+      <div class="hero-card" aria-label="Korean food and heritage visual">
+        <div class="moon-jar" aria-hidden="true"></div>
+        <div class="tiger-badge" aria-hidden="true">虎</div>
+        <div class="hero-text">
+          <span class="eyebrow">Korean table guide</span>
+          <h1>K-Bite Guide</h1>
+          <p class="muted home-copy" data-i="homeCopy">Find the Korean dish in front of you, then learn exactly how to eat it.</p>
+        </div>
+        <div class="food-strip" aria-hidden="true">
+          <span class="food-tile">🥓</span>
+          <span class="food-tile">🍚</span>
+          <span class="food-tile">🥚</span>
+        </div>
+      </div>
       <div>
-        <h1>K-Bite Guide</h1>
-        <p class="muted home-copy" data-i="homeCopy"></p>
+        <h2 data-i="homeTitle">Eat Korean food with confidence</h2>
+        <p class="muted home-copy" data-i="homeSupport">Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.</p>
       </div>
       <div class="actions">
-        <button class="action primary" id="toSearch">
+        <button class="action primary" id="toSearch" type="button">
           <span class="action-icon">🔎</span>
-          <span><strong data-i="searchFood"></strong><span class="sub" data-i="searchSub"></span></span>
+          <span><strong data-i="searchFood">Search food</strong><span class="sub" data-i="searchSub">Search by dish, sauce, ingredient, or eating action</span></span>
         </button>
-        <button class="action" id="toScan">
+        <button class="action" id="toScan" type="button">
           <span class="action-icon">📷</span>
-          <span><strong data-i="scanMenu"></strong><span class="sub" data-i="scanSub"></span></span>
+          <span><strong data-i="scanMenu">Scan food</strong><span class="sub" data-i="scanSub">Use the camera to identify food and open its guide</span></span>
         </button>
       </div>
     </section>
@@ -416,10 +526,10 @@ const html = String.raw`<!doctype html>
 
   <script>
     const ui = {
-      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan menu", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu..." },
-      ja: { homeCopy: "目の前の韓国料理を見つけて、正しい食べ方を確認できます。", searchFood: "料理を検索", searchSub: "料理名、ソース、食材、食べ方で検索", scanMenu: "メニューをスキャン", scanSub: "カメラで料理を認識してガイドを表示", home: "ホーム", foodSearch: "料理検索", foodScan: "料理スキャン", scanCopy: "料理にカメラを向けます。認識後、料理名と食べ方が下に表示されます。", cameraHint: "ここにカメラ画面が表示されます", startCamera: "カメラ開始", detectFood: "料理を認識", cameraBlocked: "この環境ではカメラ許可がブロックされています。iPhoneではHTTPSリンクをSafariで開いて許可してください。", analyzing: "カメラ画像を解析中...", detected: "認識結果", how: "食べ方", ask: "韓国語で店員に質問", askPlaceholder: "質問を入力。例：これは火が通っていますか？", translate: "翻訳", play: "韓国語を再生", suggestion: "おすすめ文", searchPlaceholder: "豚バラ、卵、刺身、豆腐など" },
-      zhCN: { homeCopy: "找到眼前的韩国料理，并学习正确吃法。", searchFood: "搜索菜品", searchSub: "按菜名、酱料、食材或吃法搜索", scanMenu: "扫描菜单", scanSub: "用相机识别食物并打开指南", home: "首页", foodSearch: "菜品搜索", foodScan: "食物扫描", scanCopy: "把镜头对准食物。识别后，菜名和吃法会显示在下方。", cameraHint: "相机画面会显示在这里", startCamera: "开启相机", detectFood: "识别食物", cameraBlocked: "此环境可能阻止相机权限。在 iPhone 上请用 Safari 打开 HTTPS 链接并允许相机。", analyzing: "正在分析相机画面...", detected: "识别结果", how: "怎么吃", ask: "用韩语问店员", askPlaceholder: "输入问题，例如：这个熟了吗？", translate: "翻译", play: "播放韩语", suggestion: "推荐句", searchPlaceholder: "试试五花肉、鸡蛋、生鱼片、豆腐" },
-      zhTW: { homeCopy: "找到眼前的韓國料理，並學習正確吃法。", searchFood: "搜尋菜色", searchSub: "按菜名、醬料、食材或吃法搜尋", scanMenu: "掃描菜單", scanSub: "用相機辨識食物並開啟指南", home: "首頁", foodSearch: "菜色搜尋", foodScan: "食物掃描", scanCopy: "把鏡頭對準食物。辨識後，菜名和吃法會顯示在下方。", cameraHint: "相機畫面會顯示在這裡", startCamera: "開啟相機", detectFood: "辨識食物", cameraBlocked: "此環境可能阻止相機權限。在 iPhone 上請用 Safari 開啟 HTTPS 連結並允許相機。", analyzing: "正在分析相機畫面...", detected: "辨識結果", how: "怎麼吃", ask: "用韓語問店員", askPlaceholder: "輸入問題，例如：這個熟了嗎？", translate: "翻譯", play: "播放韓語", suggestion: "推薦句", searchPlaceholder: "試試五花肉、雞蛋、生魚片、豆腐" }
+      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", homeTitle: "Eat Korean food with confidence", homeSupport: "Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan food", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu..." },
+      ja: { homeCopy: "目の前の韓国料理を見つけて、正しい食べ方を確認できます。", homeTitle: "韓国料理を安心して楽しむ", homeSupport: "料理名で検索、または料理をスキャンして、食べ方・ソース・韓国語フレーズを確認できます。", searchFood: "料理を検索", searchSub: "料理名、ソース、食材、食べ方で検索", scanMenu: "料理をスキャン", scanSub: "カメラで料理を認識してガイドを表示", home: "ホーム", foodSearch: "料理検索", foodScan: "料理スキャン", scanCopy: "料理にカメラを向けます。認識後、料理名と食べ方が下に表示されます。", cameraHint: "ここにカメラ画面が表示されます", startCamera: "カメラ開始", detectFood: "料理を認識", cameraBlocked: "この環境ではカメラ許可がブロックされています。iPhoneではHTTPSリンクをSafariで開いて許可してください。", analyzing: "カメラ画像を解析中...", detected: "認識結果", how: "食べ方", ask: "韓国語で店員に質問", askPlaceholder: "質問を入力。例：これは火が通っていますか？", translate: "翻訳", play: "韓国語を再生", suggestion: "おすすめ文", searchPlaceholder: "豚バラ、卵、刺身、豆腐など" },
+      zhCN: { homeCopy: "找到眼前的韩国料理，并学习正确吃法。", homeTitle: "放心享受韩国料理", homeSupport: "按名称搜索或扫描食物，查看正确步骤、酱料和韩语店员用语。", searchFood: "搜索菜品", searchSub: "按菜名、酱料、食材或吃法搜索", scanMenu: "扫描食物", scanSub: "用相机识别食物并打开指南", home: "首页", foodSearch: "菜品搜索", foodScan: "食物扫描", scanCopy: "把镜头对准食物。识别后，菜名和吃法会显示在下方。", cameraHint: "相机画面会显示在这里", startCamera: "开启相机", detectFood: "识别食物", cameraBlocked: "此环境可能阻止相机权限。在 iPhone 上请用 Safari 打开 HTTPS 链接并允许相机。", analyzing: "正在分析相机画面...", detected: "识别结果", how: "怎么吃", ask: "用韩语问店员", askPlaceholder: "输入问题，例如：这个熟了吗？", translate: "翻译", play: "播放韩语", suggestion: "推荐句", searchPlaceholder: "试试五花肉、鸡蛋、生鱼片、豆腐" },
+      zhTW: { homeCopy: "找到眼前的韓國料理，並學習正確吃法。", homeTitle: "放心享受韓國料理", homeSupport: "按名稱搜尋或掃描食物，查看正確步驟、醬料和韓語店員用語。", searchFood: "搜尋菜色", searchSub: "按菜名、醬料、食材或吃法搜尋", scanMenu: "掃描食物", scanSub: "用相機辨識食物並開啟指南", home: "首頁", foodSearch: "菜色搜尋", foodScan: "食物掃描", scanCopy: "把鏡頭對準食物。辨識後，菜名和吃法會顯示在下方。", cameraHint: "相機畫面會顯示在這裡", startCamera: "開啟相機", detectFood: "辨識食物", cameraBlocked: "此環境可能阻止相機權限。在 iPhone 上請用 Safari 開啟 HTTPS 連結並允許相機。", analyzing: "正在分析相機畫面...", detected: "辨識結果", how: "怎麼吃", ask: "用韓語問店員", askPlaceholder: "輸入問題，例如：這個熟了嗎？", translate: "翻譯", play: "播放韓語", suggestion: "推薦句", searchPlaceholder: "試試五花肉、雞蛋、生魚片、豆腐" }
     };
 
     const dishes = [
@@ -556,13 +666,22 @@ const html = String.raw`<!doctype html>
     }
 
     $("#lang").onchange = (e) => { state.lang = e.target.value; renderText(); };
-    $("#toSearch").onclick = () => setScreen("search");
-    $("#toScan").onclick = () => { setScreen("scan"); startCamera(); };
-    $$("[data-home]").forEach(btn => btn.onclick = () => setScreen("home"));
+    function bindTap(selector, handler) {
+      const el = typeof selector === "string" ? $(selector) : selector;
+      if (!el) return;
+      el.addEventListener("click", handler, { passive: true });
+      el.addEventListener("touchend", (event) => {
+        event.preventDefault();
+        handler(event);
+      }, { passive: false });
+    }
+    bindTap("#toSearch", () => setScreen("search"));
+    bindTap("#toScan", () => { setScreen("scan"); startCamera(); });
+    $$("[data-home]").forEach(btn => bindTap(btn, () => setScreen("home")));
     $("#query").oninput = (e) => { state.query = e.target.value; renderResults(); };
     $("#clear").onclick = () => { state.query = ""; $("#query").value = ""; renderResults(); };
-    $("#cameraBtn").onclick = startCamera;
-    $("#detectBtn").onclick = detectFood;
+    bindTap("#cameraBtn", startCamera);
+    bindTap("#detectBtn", detectFood);
     renderText();
   </script>
 </body>
