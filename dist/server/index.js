@@ -408,6 +408,11 @@ const html = String.raw`<!doctype html>
       padding: 11px 12px;
       line-height: 1.45;
     }
+    .meaning {
+      margin-top: -4px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
     .camera {
       display: grid;
       place-items: center;
@@ -533,25 +538,25 @@ const html = String.raw`<!doctype html>
     };
 
     const dishes = [
-      { id: "samgyeopsal", emoji: "🥓", ko: "삼겹살", search: "pork belly samgyeopsal bbq ssam lettuce 삼겹살 五花肉 豚バラ", phrase: "이거 다 익었나요?", text: {
+      { id: "samgyeopsal", emoji: "🥓", ko: "삼겹살", search: "pork belly samgyeopsal bbq ssam lettuce 삼겹살 五花肉 豚バラ", phrase: "이거 다 익었나요?", meaning: { en: "Is this fully cooked?", ja: "これは火が通っていますか？", zhCN: "这个熟了吗？", zhTW: "這個熟了嗎？" }, text: {
         en: ["Samgyeopsal", "Grilled pork belly eaten with ssamjang, garlic, kimchi, and lettuce.", ["Pork", "Cook fully"], ["Grill until both sides are golden.", "Cut into bite-sized pieces with scissors.", "Dip lightly in sesame oil salt or ssamjang.", "Wrap with lettuce, garlic, and kimchi if you like."]],
         ja: ["サムギョプサル", "豚バラを焼き、サムジャン、ニンニク、キムチ、レタスと食べます。", ["豚肉", "しっかり焼く"], ["両面がこんがりするまで焼きます。", "ハサミで一口大に切ります。", "ごま油塩やサムジャンに軽くつけます。", "レタス、ニンニク、キムチで包んで食べます。"]],
         zhCN: ["韩式烤五花肉", "烤猪五花，配包饭酱、蒜片、泡菜和生菜。", ["猪肉", "全熟"], ["烤到两面金黄。", "用剪刀剪成一口大小。", "轻蘸芝麻油盐或包饭酱。", "可以用生菜、蒜片、泡菜包着吃。"]],
         zhTW: ["韓式烤五花肉", "烤豬五花，配包飯醬、蒜片、泡菜和生菜。", ["豬肉", "全熟"], ["烤到兩面金黃。", "用剪刀剪成一口大小。", "輕蘸芝麻油鹽或包飯醬。", "可以用生菜、蒜片、泡菜包著吃。"]]
       }},
-      { id: "sundubu", emoji: "🥚", ko: "순두부찌개", search: "soft tofu stew egg sundubu 순두부찌개 tofu egg 豆腐 鸡蛋 卵", phrase: "계란은 지금 넣으면 되나요?", text: {
+      { id: "sundubu", emoji: "🥚", ko: "순두부찌개", search: "soft tofu stew egg sundubu 순두부찌개 tofu egg 豆腐 鸡蛋 卵", phrase: "계란은 지금 넣으면 되나요?", meaning: { en: "Should I put the egg in now?", ja: "卵は今入れればいいですか？", zhCN: "鸡蛋现在放进去可以吗？", zhTW: "雞蛋現在放進去可以嗎？" }, text: {
         en: ["Sundubu jjigae", "Soft tofu stew served boiling hot, often with a raw egg.", ["Hot stew", "Egg timing"], ["Crack the egg in while the stew is bubbling.", "Press it gently under the broth.", "Wait about one minute.", "Scoop tofu, broth, and egg over rice."]],
         ja: ["スンドゥブチゲ", "熱々で出てくる柔らかい豆腐の鍋。生卵を入れることがあります。", ["熱い鍋", "卵のタイミング"], ["鍋が沸いているうちに卵を入れます。", "卵をスープの中へ軽く押します。", "約1分待ちます。", "豆腐、スープ、卵をご飯にのせます。"]],
         zhCN: ["嫩豆腐锅", "滚烫的嫩豆腐汤，常附生鸡蛋。", ["热汤", "鸡蛋时机"], ["汤还沸腾时放入鸡蛋。", "用勺子轻轻压进汤里。", "等约一分钟。", "把豆腐、汤和鸡蛋舀到饭上。"]],
         zhTW: ["嫩豆腐鍋", "滾燙的嫩豆腐湯，常附生雞蛋。", ["熱湯", "雞蛋時機"], ["湯還沸騰時放入雞蛋。", "用湯匙輕輕壓進湯裡。", "等約一分鐘。", "把豆腐、湯和雞蛋舀到飯上。"]]
       }},
-      { id: "hoe", emoji: "🐟", ko: "회", search: "raw fish hoe sashimi chojang soy sauce 회 生鱼片 生魚片 刺身", phrase: "이건 간장에 먹어요, 초장에 먹어요?", text: {
+      { id: "hoe", emoji: "🐟", ko: "회", search: "raw fish hoe sashimi chojang soy sauce 회 生鱼片 生魚片 刺身", phrase: "이건 간장에 먹어요, 초장에 먹어요?", meaning: { en: "Should I eat this with soy sauce or chojang?", ja: "これは醤油ですか、チョジャンですか？", zhCN: "这个蘸酱油还是辣醋酱？", zhTW: "這個蘸醬油還是辣醋醬？" }, text: {
         en: ["Korean raw fish", "Sliced raw fish eaten with soy-wasabi, chojang, or wrapped in lettuce.", ["Raw fish", "Sauce choice"], ["Taste one slice with soy sauce and wasabi.", "Try another with chojang.", "For Korean style, wrap fish with garlic and ssamjang.", "Eat the wrap in one bite if possible."]],
         ja: ["韓国式刺身", "醤油わさび、チョジャン、またはレタス包みで食べる刺身です。", ["生魚", "ソース選択"], ["まず醤油とわさびで味わいます。", "次にチョジャンでも試します。", "韓国式ではニンニクとサムジャンで包みます。", "できれば一口で食べます。"]],
         zhCN: ["韩式生鱼片", "可蘸酱油芥末、辣醋酱，或用生菜包着吃。", ["生鱼", "酱料选择"], ["先用酱油和芥末尝一片。", "再试试辣醋酱。", "韩式吃法可加蒜和包饭酱包菜。", "可以的话一口吃下。"]],
         zhTW: ["韓式生魚片", "可蘸醬油芥末、辣醋醬，或用生菜包著吃。", ["生魚", "醬料選擇"], ["先用醬油和芥末嚐一片。", "再試試辣醋醬。", "韓式吃法可加蒜和包飯醬包菜。", "可以的話一口吃下。"]]
       }},
-      { id: "bibimbap", emoji: "🍚", ko: "비빔밥", search: "bibimbap mixed rice gochujang egg 비빔밥 拌饭 拌飯 ビビンバ", phrase: "고추장은 얼마나 넣으면 돼요?", text: {
+      { id: "bibimbap", emoji: "🍚", ko: "비빔밥", search: "bibimbap mixed rice gochujang egg 비빔밥 拌饭 拌飯 ビビンバ", phrase: "고추장은 얼마나 넣으면 돼요?", meaning: { en: "How much gochujang should I add?", ja: "コチュジャンはどれくらい入れますか？", zhCN: "辣椒酱应该放多少？", zhTW: "辣椒醬應該放多少？" }, text: {
         en: ["Bibimbap", "Rice with vegetables, egg, meat, and gochujang, meant to be mixed before eating.", ["Mix fully", "Sauce gradually"], ["Add gochujang little by little.", "Break the egg if included.", "Mix rice and toppings evenly.", "Taste and add more sauce only if needed."]],
         ja: ["ビビンバ", "ご飯に野菜、卵、肉、コチュジャンをのせ、混ぜて食べる料理です。", ["よく混ぜる", "ソースは少しずつ"], ["コチュジャンを少しずつ入れます。", "卵があれば崩します。", "ご飯と具材を均一に混ぜます。", "味見して必要なら足します。"]],
         zhCN: ["拌饭", "米饭上放蔬菜、鸡蛋、肉和辣椒酱，吃前需要拌匀。", ["充分拌匀", "酱料少量加"], ["先加少量辣椒酱。", "如果有鸡蛋，先把它拌开。", "把米饭和配菜充分拌匀。", "尝味道后再决定要不要加酱。"]],
@@ -560,14 +565,14 @@ const html = String.raw`<!doctype html>
     ];
 
     const rules = [
-      [["fully cooked", "cooked", "ready", "火が通", "熟了", "熟嗎"], "이거 다 익었나요?"],
-      [["egg", "卵", "鸡蛋", "雞蛋"], "계란은 지금 넣으면 되나요?"],
-      [["sauce", "dip", "soy", "chojang", "ソース", "醤油", "酱", "醬"], "어떤 소스에 찍어 먹으면 돼요?"],
-      [["spicy", "hot", "辛", "辣"], "많이 매워요?"],
-      [["mix", "stir", "混", "拌"], "이거 다 섞어서 먹는 건가요?"],
-      [["wrap", "ssam", "lettuce", "包", "レタス"], "쌈은 어떻게 싸 먹으면 돼요?"],
-      [["pork", "豚", "猪", "豬"], "돼지고기가 들어가나요?"],
-      [["allergy", "sesame", "nut", "アレルギー", "过敏", "過敏"], "알레르기가 있는데 이 음식에 들어가나요?"]
+      { keys: ["fully cooked", "cooked", "ready", "火が通", "熟了", "熟嗎"], ko: "이거 다 익었나요?", meaning: { en: "Is this fully cooked?", ja: "これは火が通っていますか？", zhCN: "这个熟了吗？", zhTW: "這個熟了嗎？" } },
+      { keys: ["egg", "卵", "鸡蛋", "雞蛋"], ko: "계란은 지금 넣으면 되나요?", meaning: { en: "Should I put the egg in now?", ja: "卵は今入れればいいですか？", zhCN: "鸡蛋现在放进去可以吗？", zhTW: "雞蛋現在放進去可以嗎？" } },
+      { keys: ["sauce", "dip", "soy", "chojang", "ソース", "醤油", "酱", "醬"], ko: "어떤 소스에 찍어 먹으면 돼요?", meaning: { en: "Which sauce should I dip this in?", ja: "どのソースにつければいいですか？", zhCN: "应该蘸哪种酱？", zhTW: "應該蘸哪種醬？" } },
+      { keys: ["spicy", "hot", "辛", "辣"], ko: "많이 매워요?", meaning: { en: "Is it very spicy?", ja: "かなり辛いですか？", zhCN: "这个很辣吗？", zhTW: "這個很辣嗎？" } },
+      { keys: ["mix", "stir", "混", "拌"], ko: "이거 다 섞어서 먹는 건가요?", meaning: { en: "Do I mix everything together?", ja: "全部混ぜて食べますか？", zhCN: "这个要全部拌在一起吃吗？", zhTW: "這個要全部拌在一起吃嗎？" } },
+      { keys: ["wrap", "ssam", "lettuce", "包", "レタス"], ko: "쌈은 어떻게 싸 먹으면 돼요?", meaning: { en: "How should I make the wrap?", ja: "どう包んで食べればいいですか？", zhCN: "这个应该怎么包着吃？", zhTW: "這個應該怎麼包著吃？" } },
+      { keys: ["pork", "豚", "猪", "豬"], ko: "돼지고기가 들어가나요?", meaning: { en: "Does it contain pork?", ja: "豚肉は入っていますか？", zhCN: "里面有猪肉吗？", zhTW: "裡面有豬肉嗎？" } },
+      { keys: ["allergy", "sesame", "nut", "アレルギー", "过敏", "過敏"], ko: "알레르기가 있는데 이 음식에 들어가나요?", meaning: { en: "I have an allergy. Is it in this food?", ja: "アレルギーがあります。この料理に入っていますか？", zhCN: "我有过敏。这个菜里有吗？", zhTW: "我有過敏。這個菜裡有嗎？" } }
     ];
 
     const state = { lang: "en", query: "", selected: null, scanned: null };
@@ -586,11 +591,12 @@ const html = String.raw`<!doctype html>
       u.lang = "ko-KR";
       speechSynthesis.speak(u);
     }
-    function translateQuestion(value, fallback) {
+    function translateQuestion(value, fallbackKo, fallbackMeaning) {
       const input = (value || "").trim().toLowerCase();
-      if (!input) return fallback;
-      const found = rules.find(([keys]) => keys.some(k => input.includes(k.toLowerCase())));
-      return found ? found[1] : "이걸 어떻게 먹으면 돼요?";
+      if (!input) return { ko: fallbackKo, meaning: fallbackMeaning };
+      const found = rules.find(rule => rule.keys.some(k => input.includes(k.toLowerCase())));
+      if (found) return { ko: found.ko, meaning: found.meaning[state.lang] };
+      return { ko: "이걸 어떻게 먹으면 돼요?", meaning: input };
     }
     function renderDetail(target, dish) {
       const text = local(dish);
@@ -609,15 +615,23 @@ const html = String.raw`<!doctype html>
           '<div class="askline"><input data-question placeholder="' + t("askPlaceholder") + '"><button class="primary-btn" data-translate>' + t("translate") + '</button></div>' +
           '<p class="muted">' + t("suggestion") + '</p>' +
           '<p class="korean" data-korean>' + dish.phrase + '</p>' +
+          '<p class="meaning" data-meaning>' + dish.meaning[state.lang] + '</p>' +
           '<button class="primary-btn" data-speak>' + t("play") + '</button>' +
         '</section>';
       const korean = target.querySelector("[data-korean]");
+      const meaning = target.querySelector("[data-meaning]");
       const input = target.querySelector("[data-question]");
-      target.querySelector("[data-translate]").onclick = () => korean.textContent = translateQuestion(input.value, dish.phrase);
+      target.querySelector("[data-translate]").onclick = () => {
+        const translated = translateQuestion(input.value, dish.phrase, dish.meaning[state.lang]);
+        korean.textContent = translated.ko;
+        meaning.textContent = translated.meaning;
+      };
       target.querySelector("[data-speak]").onclick = () => speak(korean.textContent);
       input.onkeydown = (event) => {
         if (event.key === "Enter") {
-          korean.textContent = translateQuestion(input.value, dish.phrase);
+          const translated = translateQuestion(input.value, dish.phrase, dish.meaning[state.lang]);
+          korean.textContent = translated.ko;
+          meaning.textContent = translated.meaning;
           speak(korean.textContent);
         }
       };
