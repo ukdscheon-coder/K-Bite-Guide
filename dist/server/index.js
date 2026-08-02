@@ -8,6 +8,7 @@ const html = String.raw`<!doctype html>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="K-Bite">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Free mobile guide for foreign visitors learning how to eat Korean food, search dishes, scan food, and ask restaurant staff in Korean.">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icon.svg">
@@ -240,6 +241,17 @@ const html = String.raw`<!doctype html>
     }
     .install-btn.active {
       display: block;
+    }
+    .ad-slot {
+      display: grid;
+      place-items: center;
+      min-height: 78px;
+      border: 1px dashed rgba(244,208,111,.28);
+      border-radius: 18px;
+      background: rgba(255,255,255,.035);
+      color: rgba(216,195,165,.72);
+      font-size: 12px;
+      text-align: center;
     }
     .action {
       min-height: 90px;
@@ -479,6 +491,20 @@ const html = String.raw`<!doctype html>
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
+    .footer {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px 0 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(216,195,165,.35);
+    }
     @media (max-width: 360px) {
       h1 { font-size: 35px; }
       .app { padding-left: 12px; padding-right: 12px; }
@@ -550,6 +576,9 @@ const html = String.raw`<!doctype html>
         <p class="platform active" data-platform="other" data-i="installOther">Use this as a mobile web app on iPhone Safari or Android Chrome.</p>
         <button class="primary-btn install-btn" id="installBtn" type="button" data-i="installButton">Install app</button>
       </div>
+      <div class="ad-slot" data-ad-slot>
+        <span data-i="adLabel">Ad space reserved</span>
+      </div>
     </section>
 
     <section class="screen" id="search">
@@ -586,11 +615,16 @@ const html = String.raw`<!doctype html>
       <p class="muted" id="scanStatus"></p>
       <article class="detail" id="scanDetail"></article>
     </section>
+    <footer class="footer">
+      <a href="/about">About</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/contact">Contact</a>
+    </footer>
   </main>
 
   <script>
     const ui = {
-      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", homeTitle: "Eat Korean food with confidence", homeSupport: "Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan food", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu...", installTitle: "Install on your phone", installIOS: "iPhone: open in Safari, tap Share, then Add to Home Screen.", installAndroid: "Android: open in Chrome, tap Install app or Add to Home screen.", installOther: "Use this as a mobile web app on iPhone Safari or Android Chrome.", installButton: "Install app" },
+      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", homeTitle: "Eat Korean food with confidence", homeSupport: "Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan food", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu...", installTitle: "Install on your phone", installIOS: "iPhone: open in Safari, tap Share, then Add to Home Screen.", installAndroid: "Android: open in Chrome, tap Install app or Add to Home screen.", installOther: "Use this as a mobile web app on iPhone Safari or Android Chrome.", installButton: "Install app", adLabel: "Ad space reserved" },
       ja: { homeCopy: "目の前の韓国料理を見つけて、正しい食べ方を確認できます。", homeTitle: "韓国料理を安心して楽しむ", homeSupport: "料理名で検索、または料理をスキャンして、食べ方・ソース・韓国語フレーズを確認できます。", searchFood: "料理を検索", searchSub: "料理名、ソース、食材、食べ方で検索", scanMenu: "料理をスキャン", scanSub: "カメラで料理を認識してガイドを表示", home: "ホーム", foodSearch: "料理検索", foodScan: "料理スキャン", scanCopy: "料理にカメラを向けます。認識後、料理名と食べ方が下に表示されます。", cameraHint: "ここにカメラ画面が表示されます", startCamera: "カメラ開始", detectFood: "料理を認識", cameraBlocked: "この環境ではカメラ許可がブロックされています。iPhoneではHTTPSリンクをSafariで開いて許可してください。", analyzing: "カメラ画像を解析中...", detected: "認識結果", how: "食べ方", ask: "韓国語で店員に質問", askPlaceholder: "質問を入力。例：これは火が通っていますか？", translate: "翻訳", play: "韓国語を再生", suggestion: "おすすめ文", searchPlaceholder: "豚バラ、卵、刺身、豆腐など", installTitle: "スマートフォンにインストール", installIOS: "iPhone: Safariで開き、共有からホーム画面に追加します。", installAndroid: "Android: Chromeで開き、アプリをインストールまたはホーム画面に追加します。", installOther: "iPhone SafariまたはAndroid Chromeでモバイルアプリとして使えます。", installButton: "アプリをインストール" },
       zhCN: { homeCopy: "找到眼前的韩国料理，并学习正确吃法。", homeTitle: "放心享受韩国料理", homeSupport: "按名称搜索或扫描食物，查看正确步骤、酱料和韩语店员用语。", searchFood: "搜索菜品", searchSub: "按菜名、酱料、食材或吃法搜索", scanMenu: "扫描食物", scanSub: "用相机识别食物并打开指南", home: "首页", foodSearch: "菜品搜索", foodScan: "食物扫描", scanCopy: "把镜头对准食物。识别后，菜名和吃法会显示在下方。", cameraHint: "相机画面会显示在这里", startCamera: "开启相机", detectFood: "识别食物", cameraBlocked: "此环境可能阻止相机权限。在 iPhone 上请用 Safari 打开 HTTPS 链接并允许相机。", analyzing: "正在分析相机画面...", detected: "识别结果", how: "怎么吃", ask: "用韩语问店员", askPlaceholder: "输入问题，例如：这个熟了吗？", translate: "翻译", play: "播放韩语", suggestion: "推荐句", searchPlaceholder: "试试五花肉、鸡蛋、生鱼片、豆腐", installTitle: "安装到手机", installIOS: "iPhone：用 Safari 打开，点分享，然后添加到主屏幕。", installAndroid: "Android：用 Chrome 打开，点安装应用或添加到主屏幕。", installOther: "可在 iPhone Safari 或 Android Chrome 上作为手机网页应用使用。", installButton: "安装应用" },
       zhTW: { homeCopy: "找到眼前的韓國料理，並學習正確吃法。", homeTitle: "放心享受韓國料理", homeSupport: "按名稱搜尋或掃描食物，查看正確步驟、醬料和韓語店員用語。", searchFood: "搜尋菜色", searchSub: "按菜名、醬料、食材或吃法搜尋", scanMenu: "掃描食物", scanSub: "用相機辨識食物並開啟指南", home: "首頁", foodSearch: "菜色搜尋", foodScan: "食物掃描", scanCopy: "把鏡頭對準食物。辨識後，菜名和吃法會顯示在下方。", cameraHint: "相機畫面會顯示在這裡", startCamera: "開啟相機", detectFood: "辨識食物", cameraBlocked: "此環境可能阻止相機權限。在 iPhone 上請用 Safari 開啟 HTTPS 連結並允許相機。", analyzing: "正在分析相機畫面...", detected: "辨識結果", how: "怎麼吃", ask: "用韓語問店員", askPlaceholder: "輸入問題，例如：這個熟了嗎？", translate: "翻譯", play: "播放韓語", suggestion: "推薦句", searchPlaceholder: "試試五花肉、雞蛋、生魚片、豆腐", installTitle: "安裝到手機", installIOS: "iPhone：用 Safari 開啟，點分享，然後加入主畫面。", installAndroid: "Android：用 Chrome 開啟，點安裝應用程式或加入主畫面。", installOther: "可在 iPhone Safari 或 Android Chrome 上作為手機網頁應用使用。", installButton: "安裝應用程式" },
@@ -652,7 +686,7 @@ const html = String.raw`<!doctype html>
     const state = { lang: "en", query: "", selected: null, scanned: null };
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-    const t = (key) => ui[state.lang][key];
+    const t = (key) => ui[state.lang][key] || ui.en[key] || "";
     const local = (dish) => dish.text[state.lang];
 
     function setScreen(id) {
@@ -826,7 +860,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v6";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v7";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -844,12 +878,83 @@ self.addEventListener("fetch", event => {
   }).catch(() => caches.match(event.request).then(response => response || caches.match("/"))));
 });`;
 
+function escapeHtml(value = "") {
+  return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+}
+
+function legalPage(title, body) {
+  return String.raw`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101419">
+  <title>${title} - K-Bite Guide</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { margin: 0; background: #17120d; color: #fff7ea; }
+    main { width: min(100%, 430px); min-height: 100dvh; margin: 0 auto; padding: max(18px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom)); }
+    a { color: #f4d06f; }
+    .card { display: grid; gap: 16px; border: 1px solid rgba(255,255,255,.12); border-radius: 22px; background: #241a13; padding: 18px; }
+    h1 { margin: 0; font-size: 30px; line-height: 1.08; }
+    h2 { margin: 10px 0 0; font-size: 18px; }
+    p, li { color: #d8c3a5; line-height: 1.55; }
+    .back { display: inline-block; margin-bottom: 14px; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="/">← Back to K-Bite Guide</a>
+    <article class="card">
+      <h1>${title}</h1>
+      ${body}
+    </article>
+  </main>
+</body>
+</html>`;
+}
+
+const pages = {
+  "/about": legalPage("About", String.raw`
+    <p>K-Bite Guide is a free mobile guide for foreign visitors in Korea. It helps travelers search Korean dishes, scan food, learn table customs, and ask restaurant staff simple questions in Korean.</p>
+    <p>The guide focuses on practical eating steps: how to grill meat, wrap ssam, mix bibimbap, add an egg to sundubu jjigae, and choose sauces for raw fish or barbecue.</p>
+    <p>K-Bite Guide is designed for iPhone Safari and Android Chrome as an installable mobile web app.</p>
+  `),
+  "/privacy": legalPage("Privacy Policy", String.raw`
+    <p>Last updated: August 2, 2026</p>
+    <h2>Information we collect</h2>
+    <p>K-Bite Guide does not require an account and does not ask users to submit personal information. Search text and selected language are processed in the browser for app functionality.</p>
+    <h2>Camera</h2>
+    <p>The scan feature may request camera permission on the user's device. Camera access is used only to show a local preview and identify food inside the app flow. K-Bite Guide does not store camera images on this site.</p>
+    <h2>Advertising and analytics</h2>
+    <p>This site may display advertising in the future to keep the guide free. Advertising partners may use cookies or similar technologies according to their own policies. Users can review how Google uses information from partner sites at <a href="https://policies.google.com/technologies/partner-sites">Google's partner sites policy</a>.</p>
+    <h2>Contact</h2>
+    <p>For privacy questions, contact the site owner through the contact page.</p>
+  `),
+  "/contact": legalPage("Contact", String.raw`
+    <p>For feedback, food corrections, language suggestions, restaurant partnerships, or advertising inquiries, contact the K-Bite Guide owner.</p>
+    <p>Email: <a href="mailto:uk.dscheon@gmail.com">uk.dscheon@gmail.com</a></p>
+  `),
+};
+
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     const url = new URL(request.url);
+    if (pages[url.pathname]) {
+      return new Response(pages[url.pathname], {
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    }
     if (url.pathname === "/manifest.webmanifest") {
       return new Response(JSON.stringify(manifest), {
         headers: { "content-type": "application/manifest+json; charset=utf-8" },
+      });
+    }
+    if (url.pathname === "/ads.txt") {
+      const publisherId = env?.ADSENSE_PUBLISHER_ID || "";
+      const body = publisherId ? `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0\n` : "# Add ADSENSE_PUBLISHER_ID to publish ads.txt\n";
+      return new Response(body, {
+        headers: { "content-type": "text/plain; charset=utf-8" },
       });
     }
     if (url.pathname === "/icon.svg") {
@@ -862,7 +967,11 @@ export default {
         headers: { "content-type": "text/javascript; charset=utf-8", "cache-control": "no-cache" },
       });
     }
-    return new Response(html, {
+    const adsenseClient = env?.ADSENSE_CLIENT ? escapeHtml(env.ADSENSE_CLIENT) : "";
+    const monetizedHtml = adsenseClient
+      ? html.replace("</head>", `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script></head>`)
+      : html;
+    return new Response(monetizedHtml, {
       headers: {
         "content-type": "text/html; charset=utf-8",
         "permissions-policy": "camera=*",
