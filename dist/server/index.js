@@ -595,21 +595,22 @@ const html = String.raw`<!doctype html>
     function renderDetail(target, dish) {
       const text = local(dish);
       target.classList.add("active");
-      target.innerHTML = \`
-        <div class="dish-head">
-          <div class="food-img">\${dish.emoji}</div>
-          <div><h3>\${text[0]} / \${dish.ko}</h3><p class="muted">\${text[1]}</p></div>
-        </div>
-        <div class="badges">\${text[2].map(b => \`<span class="badge">\${b}</span>\`).join("")}</div>
-        <section><h3>\${t("how")}</h3><ol>\${text[3].map((s,i) => \`<li class="step"><span class="num">\${i+1}</span><span>\${s}</span></li>\`).join("")}</ol></section>
-        <section class="ask">
-          <h3>\${t("ask")}</h3>
-          <div class="askline"><input data-question placeholder="\${t("askPlaceholder")}"><button class="primary-btn" data-translate>\${t("translate")}</button></div>
-          <p class="muted">\${t("suggestion")}</p>
-          <p class="korean" data-korean>\${dish.phrase}</p>
-          <button class="primary-btn" data-speak>\${t("play")}</button>
-        </section>
-      \`;
+      target.innerHTML =
+        '<div class="dish-head">' +
+          '<div class="food-img">' + dish.emoji + '</div>' +
+          '<div><h3>' + text[0] + ' / ' + dish.ko + '</h3><p class="muted">' + text[1] + '</p></div>' +
+        '</div>' +
+        '<div class="badges">' + text[2].map(b => '<span class="badge">' + b + '</span>').join("") + '</div>' +
+        '<section><h3>' + t("how") + '</h3><ol>' +
+          text[3].map((s,i) => '<li class="step"><span class="num">' + (i + 1) + '</span><span>' + s + '</span></li>').join("") +
+        '</ol></section>' +
+        '<section class="ask">' +
+          '<h3>' + t("ask") + '</h3>' +
+          '<div class="askline"><input data-question placeholder="' + t("askPlaceholder") + '"><button class="primary-btn" data-translate>' + t("translate") + '</button></div>' +
+          '<p class="muted">' + t("suggestion") + '</p>' +
+          '<p class="korean" data-korean>' + dish.phrase + '</p>' +
+          '<button class="primary-btn" data-speak>' + t("play") + '</button>' +
+        '</section>';
       const korean = target.querySelector("[data-korean]");
       const input = target.querySelector("[data-question]");
       target.querySelector("[data-translate]").onclick = () => korean.textContent = translateQuestion(input.value, dish.phrase);
@@ -626,7 +627,7 @@ const html = String.raw`<!doctype html>
       const rows = dishes.filter(d => !q || (d.search + " " + local(d)[0] + " " + d.ko).toLowerCase().includes(q));
       $("#results").innerHTML = rows.map(d => {
         const text = local(d);
-        return \`<button class="dish-row \${state.selected === d.id ? "active" : ""}" data-dish="\${d.id}"><span class="food-img">\${d.emoji}</span><span><strong>\${text[0]}</strong><span class="sub">\${d.ko}</span></span></button>\`;
+        return '<button class="dish-row ' + (state.selected === d.id ? "active" : "") + '" data-dish="' + d.id + '"><span class="food-img">' + d.emoji + '</span><span><strong>' + text[0] + '</strong><span class="sub">' + d.ko + '</span></span></button>';
       }).join("");
       $$("#results [data-dish]").forEach(btn => btn.onclick = () => {
         const dish = dishes.find(d => d.id === btn.dataset.dish);
@@ -660,7 +661,7 @@ const html = String.raw`<!doctype html>
       setTimeout(() => {
         const dish = dishes[Math.floor(Date.now() / 1000) % dishes.length];
         state.scanned = dish.id;
-        $("#scanStatus").textContent = \`\${t("detected")}: \${local(dish)[0]} / \${dish.ko}\`;
+        $("#scanStatus").textContent = t("detected") + ": " + local(dish)[0] + " / " + dish.ko;
         renderDetail($("#scanDetail"), dish);
       }, 450);
     }
