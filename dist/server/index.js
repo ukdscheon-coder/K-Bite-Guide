@@ -243,7 +243,7 @@ const html = String.raw`<!doctype html>
       display: block;
     }
     .ad-slot {
-      display: grid;
+      display: none;
       place-items: center;
       min-height: 78px;
       border: 1px dashed rgba(244,208,111,.28);
@@ -252,6 +252,42 @@ const html = String.raw`<!doctype html>
       color: rgba(216,195,165,.72);
       font-size: 12px;
       text-align: center;
+    }
+    .lang-picks, .suggestions, .phrase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .lang-chip, .suggestion-chip, .phrase-chip {
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: rgba(255,255,255,.055);
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+    .lang-chip.active {
+      background: var(--primary);
+      color: var(--primary-text);
+      border-color: transparent;
+      font-weight: 800;
+    }
+    .phrase-chip {
+      border-radius: 14px;
+      text-align: left;
+      line-height: 1.3;
+    }
+    .result-count, .demo-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+      margin: 0;
+    }
+    .lang-picks {
+      margin-top: 12px;
+    }
+    .suggestions {
+      margin-top: -4px;
     }
     .action {
       min-height: 90px;
@@ -327,6 +363,11 @@ const html = String.raw`<!doctype html>
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 11px 12px;
+    }
+    .result-count, .demo-note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
     }
     .searchbox input {
       min-width: 0;
@@ -491,6 +532,9 @@ const html = String.raw`<!doctype html>
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
+    button:disabled {
+      opacity: .48;
+    }
     .footer {
       display: flex;
       justify-content: center;
@@ -558,6 +602,7 @@ const html = String.raw`<!doctype html>
       <div>
         <h2 data-i="homeTitle">Eat Korean food with confidence</h2>
         <p class="muted home-copy" data-i="homeSupport">Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.</p>
+        <div class="lang-picks" id="langPicks" aria-label="Language quick select"></div>
       </div>
       <div class="actions">
         <button class="action primary" id="toSearch" type="button">
@@ -591,6 +636,8 @@ const html = String.raw`<!doctype html>
         <input id="query" type="search" autocomplete="off">
         <button class="ghost" id="clear" aria-label="Clear">×</button>
       </div>
+      <div class="suggestions" id="searchChips"></div>
+      <p class="result-count" id="resultCount"></p>
       <div class="list" id="results"></div>
       <article class="detail" id="searchDetail"></article>
     </section>
@@ -612,6 +659,7 @@ const html = String.raw`<!doctype html>
         <button class="primary-btn" id="cameraBtn" data-i="startCamera"></button>
         <button class="small-btn" id="detectBtn" data-i="detectFood"></button>
       </div>
+      <p class="demo-note" data-i="demoNote"></p>
       <p class="muted" id="scanStatus"></p>
       <article class="detail" id="scanDetail"></article>
     </section>
@@ -632,6 +680,16 @@ const html = String.raw`<!doctype html>
       th: { homeCopy: "ค้นหาอาหารเกาหลีตรงหน้าคุณ แล้วเรียนรู้วิธีกินที่ถูกต้อง", homeTitle: "กินอาหารเกาหลีอย่างมั่นใจ", homeSupport: "ค้นหาชื่ออาหารหรือสแกนอาหารเพื่อดูขั้นตอน ซอส และประโยคภาษาเกาหลีสำหรับถามพนักงาน", searchFood: "ค้นหาอาหาร", searchSub: "ค้นหาด้วยชื่ออาหาร ซอส วัตถุดิบ หรือวิธีกิน", scanMenu: "สแกนอาหาร", scanSub: "ใช้กล้องระบุอาหารและเปิดคู่มือ", home: "หน้าแรก", foodSearch: "ค้นหาอาหาร", foodScan: "สแกนอาหาร", scanCopy: "หันกล้องไปที่อาหาร หลังจากตรวจจับแล้ว ชื่ออาหารและวิธีกินจะแสดงด้านล่าง", cameraHint: "ตัวอย่างภาพจากกล้องจะแสดงที่นี่", startCamera: "เปิดกล้อง", detectFood: "ตรวจจับอาหาร", cameraBlocked: "สิทธิ์กล้องถูกบล็อก ใน iPhone ให้เปิดลิงก์ HTTPS ด้วย Safari แล้วอนุญาตกล้อง", analyzing: "กำลังวิเคราะห์ภาพจากกล้อง...", detected: "ตรวจพบ", how: "วิธีกิน", ask: "ถามพนักงานเป็นภาษาเกาหลี", askPlaceholder: "พิมพ์คำถาม เช่น สุกแล้วหรือยัง?", translate: "แปล", play: "เล่นเสียงเกาหลี", suggestion: "ประโยคแนะนำ", searchPlaceholder: "ลองค้นหา หมูสามชั้น ไข่ ปลาดิบ เต้าหู้...", installTitle: "ติดตั้งบนโทรศัพท์", installIOS: "iPhone: เปิดใน Safari แตะแชร์ แล้วเลือกเพิ่มไปยังหน้าจอโฮม", installAndroid: "Android: เปิดใน Chrome แล้วแตะติดตั้งแอปหรือเพิ่มไปยังหน้าจอโฮม", installOther: "ใช้เป็นเว็บแอปบนมือถือได้ใน iPhone Safari หรือ Android Chrome", installButton: "ติดตั้งแอป" },
       vi: { homeCopy: "Tìm món Hàn trước mặt bạn, rồi xem chính xác cách ăn.", homeTitle: "Tự tin ăn món Hàn", homeSupport: "Tìm theo tên món hoặc quét món ăn để xem các bước, nước chấm và câu hỏi tiếng Hàn.", searchFood: "Tìm món ăn", searchSub: "Tìm theo món, sốt, nguyên liệu hoặc cách ăn", scanMenu: "Quét món ăn", scanSub: "Dùng camera để nhận diện món và mở hướng dẫn", home: "Trang chủ", foodSearch: "Tìm món", foodScan: "Quét món", scanCopy: "Hướng camera vào món ăn. Sau khi nhận diện, tên món và cách ăn sẽ hiện bên dưới.", cameraHint: "Khung xem camera sẽ hiện ở đây", startCamera: "Mở camera", detectFood: "Nhận diện món", cameraBlocked: "Quyền camera đang bị chặn. Trên iPhone, mở liên kết HTTPS bằng Safari và cho phép camera.", analyzing: "Đang phân tích hình ảnh camera...", detected: "Đã nhận diện", how: "Cách ăn", ask: "Hỏi nhân viên bằng tiếng Hàn", askPlaceholder: "Nhập câu hỏi, ví dụ: Món này chín chưa?", translate: "Dịch", play: "Phát tiếng Hàn", suggestion: "Câu gợi ý", searchPlaceholder: "Thử tìm thịt ba chỉ, trứng, cá sống, đậu phụ...", installTitle: "Cài vào điện thoại", installIOS: "iPhone: mở bằng Safari, chạm Chia sẻ, rồi Thêm vào Màn hình chính.", installAndroid: "Android: mở bằng Chrome, chạm Cài đặt ứng dụng hoặc Thêm vào màn hình chính.", installOther: "Dùng như ứng dụng web di động trên iPhone Safari hoặc Android Chrome.", installButton: "Cài ứng dụng" }
     };
+
+    Object.assign(ui.en, {
+      chooseLanguage: "Choose your language",
+      quickSearch: "Quick search",
+      resultsFound: "dishes found",
+      quickQuestions: "Quick questions",
+      scanNeedsCamera: "Start the camera first, then detect the food.",
+      demoResult: "Demo result",
+      demoNote: "Camera recognition is a guided demo in this preview. Real AI food recognition can be connected for production."
+    });
 
     const dishes = [
       { id: "samgyeopsal", emoji: "🥓", ko: "삼겹살", search: "pork belly samgyeopsal bbq ssam lettuce 삼겹살 五花肉 豚バラ liempo หมูสามชั้น thịt ba chỉ", phrase: "이거 다 익었나요?", meaning: { en: "Is this fully cooked?", ja: "これは火が通っていますか？", zhCN: "这个熟了吗？", zhTW: "這個熟了嗎？", fil: "Luto na ba ito nang husto?", th: "สุกทั่วแล้วหรือยัง?", vi: "Món này đã chín kỹ chưa?" }, text: {
@@ -672,6 +730,63 @@ const html = String.raw`<!doctype html>
       }}
     ];
 
+    function simpleDish(id, emoji, ko, enName, desc, tags, steps, search, phrase, meaning) {
+      return {
+        id, emoji, ko,
+        search: [id, ko, enName, tags.join(" "), search].join(" "),
+        phrase,
+        meaning: { en: meaning, ja: meaning, zhCN: meaning, zhTW: meaning, fil: meaning, th: meaning, vi: meaning },
+        text: { en: [enName, desc, tags, steps] }
+      };
+    }
+    dishes.push(
+      simpleDish("naengmyeon", "🍜", "냉면", "Naengmyeon", "Cold buckwheat noodles, usually served with icy broth or spicy sauce.", ["Cold noodles", "Cut first"], ["Use scissors to cut the long noodles.", "Add vinegar and mustard little by little.", "Mix gently before eating.", "Sip the cold broth between bites."], "cold noodles buckwheat vinegar mustard mul naengmyeon bibim naengmyeon", "면을 잘라서 먹으면 될까요?", "Should I cut the noodles before eating?"),
+      simpleDish("mulhoe", "🐟", "물회", "Mulhoe", "Cold spicy raw fish soup with vegetables and icy broth.", ["Raw seafood", "Cold spicy"], ["Mix the sauce and icy broth well.", "Eat fish and vegetables together.", "Add noodles or rice if served.", "Go slowly if it is very cold or spicy."], "cold raw fish soup seafood spicy ice", "밥이나 면을 넣어 먹나요?", "Do I add rice or noodles to this?"),
+      simpleDish("bokjiri", "🍲", "복지리탕", "Bokjiri-tang", "Clear pufferfish soup with a clean broth and dipping sauce.", ["Hot soup", "Bones"], ["Taste the clear broth first.", "Dip fish pieces in soy-vinegar sauce.", "Watch carefully for bones.", "Eat with rice and side dishes."], "pufferfish clear soup bok jiri tang fish bones", "가시가 있나요?", "Are there bones I should watch for?"),
+      simpleDish("dakgalbi", "🍗", "닭갈비", "Dakgalbi", "Spicy stir-fried chicken cooked at the table with cabbage and rice cakes.", ["Chicken", "Table cooking"], ["Let the staff cook and stir it first.", "Wait until chicken is fully cooked.", "Eat with perilla leaves or lettuce.", "Order fried rice at the end if you want."], "spicy chicken stir fry cabbage rice cake fried rice", "지금 먹어도 되나요?", "Can I eat this now?"),
+      simpleDish("dakhanmari", "🍗", "닭한마리 칼국수", "Dakhanmari kalguksu", "Whole chicken soup finished with noodles and dipping sauce.", ["Chicken soup", "Noodles later"], ["Make a dipping sauce with soy, mustard, vinegar, and chili.", "Dip chicken pieces in the sauce.", "Add potatoes or rice cakes if served.", "Add kalguksu noodles after most chicken is eaten."], "whole chicken soup kalguksu noodle mustard vinegar", "칼국수는 언제 넣나요?", "When should I add the noodles?"),
+      simpleDish("samhab", "🥓", "삼합", "Samhab", "A three-part bite, often pork, kimchi, and skate or seafood.", ["Three-bite combo", "Strong flavor"], ["Take a small piece of each part.", "Stack pork, kimchi, and skate or seafood.", "Add sauce only lightly.", "Eat together in one bite if comfortable."], "samhab pork kimchi skate hongeo seafood three combination", "어떤 순서로 같이 먹나요?", "What should I combine in one bite?"),
+      simpleDish("ssambap", "🥬", "쌈밥", "Ssambap", "Rice and side dishes wrapped in leafy greens with ssamjang.", ["Wrap", "Vegetables"], ["Put a small spoon of rice on a leaf.", "Add meat or side dishes.", "Add a little ssamjang.", "Fold and eat in one bite."], "wrap rice lettuce ssam ssamjang vegetable", "쌈은 어떻게 싸면 되나요?", "How should I make the wrap?"),
+      simpleDish("bossam", "🥩", "보쌈", "Bossam", "Boiled pork eaten with kimchi, garlic, and wraps.", ["Pork", "Wrap"], ["Place pork on cabbage or lettuce.", "Add bossam kimchi and garlic if you like.", "Use saeujeot or ssamjang lightly.", "Wrap and eat together."], "boiled pork wrap kimchi cabbage saeujeot", "새우젓에 찍어 먹나요?", "Should I dip this in salted shrimp sauce?"),
+      simpleDish("jokbal", "🥩", "족발", "Jokbal", "Braised pork trotter sliced and eaten with garlic, chili, and dipping sauces.", ["Pork", "Dip"], ["Dip a slice in saeujeot or ssamjang.", "Add garlic or chili if you like.", "Wrap with lettuce for a lighter bite.", "Eat the chewy skin and meat together."], "pork trotter braised jokbal saeujeot garlic", "어떤 소스에 찍어 먹나요?", "Which sauce should I use?"),
+      simpleDish("sogalbi", "🥩", "소갈비", "Sogalbi", "Beef short ribs grilled at the table and eaten with salt, sauce, or wraps.", ["Beef BBQ", "Grill"], ["Grill until browned on both sides.", "Cut between the bones if needed.", "Dip lightly in salt or house sauce.", "Wrap with lettuce and garlic if desired."], "beef rib galbi grill bbq sauce salt lettuce", "고기는 얼마나 익혀야 하나요?", "How cooked should the beef be?"),
+      simpleDish("hanwoo", "🥩", "한우구이", "Hanwoo gui", "Premium Korean beef, usually grilled briefly and dipped simply.", ["Beef BBQ", "Quick grill"], ["Grill each side briefly.", "Do not overcook thin pieces.", "Try salt first to taste the beef.", "Use wasabi or sauce after the first bite."], "korean beef hanwoo grill bbq salt wasabi", "소금에 먼저 찍어 먹나요?", "Should I try it with salt first?"),
+      simpleDish("gopchang", "🔥", "곱창", "Gopchang", "Grilled beef or pork intestines, often finished with fried rice.", ["Grilled intestine", "Cook fully"], ["Let it grill until crisp outside.", "Ask staff before eating because timing matters.", "Dip in sauce with onion or chili.", "Order fried rice at the end if offered."], "intestine grill gopchang makchang daechang fried rice", "지금 먹어도 안전한가요?", "Is it ready and safe to eat now?"),
+      simpleDish("bulgogi", "🥩", "불고기", "Bulgogi", "Sweet soy-marinated beef cooked with onions and mushrooms.", ["Beef", "Sweet soy"], ["Let the beef cook in the pan.", "Eat with rice when fully cooked.", "Spoon some sauce over rice.", "Wrap with lettuce if served."], "marinated beef sweet soy bulgogi mushroom onion", "밥에 국물을 올려 먹어도 되나요?", "Can I spoon the sauce over rice?"),
+      simpleDish("kimchijjigae", "🍲", "김치찌개", "Kimchi jjigae", "Spicy kimchi stew with pork, tofu, or tuna.", ["Hot stew", "Spicy"], ["Let it cool slightly before eating.", "Scoop kimchi, tofu, and broth onto rice.", "Ask if it contains pork or tuna if needed.", "Share from the pot with a ladle."], "kimchi stew pork tofu tuna spicy soup", "돼지고기가 들어가나요?", "Does this contain pork?"),
+      simpleDish("doenjangjjigae", "🍲", "된장찌개", "Doenjang jjigae", "Soybean paste stew with tofu, vegetables, and sometimes seafood or beef.", ["Soybean stew", "Rice"], ["Taste the savory broth first.", "Eat tofu and vegetables with rice.", "It is often shared from the middle pot.", "Ask about seafood or beef if allergic."], "soybean paste stew tofu seafood beef", "해산물이 들어가나요?", "Does this contain seafood?"),
+      simpleDish("budaejjigae", "🍲", "부대찌개", "Budae jjigae", "Spicy army stew with sausage, ham, noodles, beans, and kimchi.", ["Spicy stew", "Processed meat"], ["Wait until it boils strongly.", "Let noodles soften before eating.", "Eat sausage, kimchi, and broth with rice.", "Ask before adding extra ramen or cheese."], "army stew sausage ham ramen cheese beans kimchi", "라면은 지금 먹어도 되나요?", "Are the noodles ready to eat now?"),
+      simpleDish("gamjatang", "🍖", "감자탕", "Gamjatang", "Pork bone soup with potatoes and greens.", ["Pork bone", "Hot soup"], ["Use tongs or chopsticks to pull meat from the bone.", "Dip meat in mustard soy sauce.", "Eat greens and potatoes with broth.", "Fried rice may be added at the end."], "pork bone soup potato greens mustard sauce", "뼈는 어디에 두면 되나요?", "Where should I put the bones?"),
+      simpleDish("samgyetang", "🍗", "삼계탕", "Samgyetang", "Whole young chicken soup with ginseng, rice, garlic, and jujube.", ["Chicken soup", "Rice inside"], ["Open the chicken gently with a spoon or chopsticks.", "Eat the rice stuffed inside.", "Season your own bowl with salt.", "Sip the broth as you eat."], "ginseng chicken soup rice garlic jujube", "소금을 넣어서 먹나요?", "Should I season this with salt?"),
+      simpleDish("seolleongtang", "🍲", "설렁탕", "Seolleongtang", "Milky beef bone soup served plain so you season it yourself.", ["Beef soup", "Season yourself"], ["Add salt and pepper to your bowl.", "Add chopped green onion if served.", "Eat beef and noodles with rice.", "Kimchi pairs strongly with the mild broth."], "beef bone soup milky salt pepper green onion", "소금은 얼마나 넣나요?", "How much salt should I add?"),
+      simpleDish("galbitang", "🍖", "갈비탕", "Galbitang", "Clear beef short rib soup with glass noodles and radish.", ["Beef rib soup", "Bones"], ["Taste broth before seasoning.", "Pull beef from the rib bones.", "Eat noodles before they get too soft.", "Use a side plate for bones."], "beef rib soup clear glass noodles radish", "뼈 접시는 있나요?", "Is there a plate for the bones?"),
+      simpleDish("tteokbokki", "🌶️", "떡볶이", "Tteokbokki", "Chewy rice cakes in spicy-sweet gochujang sauce.", ["Street food", "Spicy"], ["Check the heat before biting because rice cakes stay hot.", "Eat rice cakes with fish cake or egg.", "Dip fried snacks in the sauce.", "Add cheese or noodles only if you want a heavier meal."], "spicy rice cake street food fish cake egg", "많이 매운가요?", "Is it very spicy?"),
+      simpleDish("gimbap", "🍙", "김밥", "Gimbap", "Seaweed rice rolls filled with vegetables, egg, and meat or tuna.", ["Rice roll", "Easy"], ["Pick up one slice with chopsticks.", "Eat in one bite so it does not fall apart.", "Dip only if a sauce is provided.", "Check filling if you avoid meat or seafood."], "seaweed rice roll vegetable egg tuna ham", "고기가 들어가나요?", "Does this contain meat?"),
+      simpleDish("japchae", "🍜", "잡채", "Japchae", "Stir-fried glass noodles with vegetables and soy-sesame flavor.", ["Glass noodles", "Shared side"], ["Mix lightly if noodles are clumped.", "Eat as a side dish or with rice.", "Look for beef if you avoid meat.", "It can be eaten warm or room temperature."], "glass noodles sweet potato noodle sesame soy vegetables", "고기가 들어가나요?", "Does this contain meat?"),
+      simpleDish("pajeon", "🥞", "파전", "Pajeon", "Savory green onion pancake, often dipped in soy-vinegar sauce.", ["Pancake", "Dip"], ["Tear or cut a piece.", "Dip the edge in soy-vinegar sauce.", "Eat while crisp and hot.", "Share from the center plate."], "green onion pancake soy vinegar jeon", "이 소스에 찍어 먹나요?", "Should I dip it in this sauce?"),
+      simpleDish("haemulpajeon", "🥞", "해물파전", "Haemul pajeon", "Seafood and green onion pancake.", ["Seafood", "Pancake"], ["Cut a piece with chopsticks or scissors.", "Dip lightly in soy-vinegar sauce.", "Eat while the edges are crisp.", "Ask about shellfish if allergic."], "seafood pancake green onion shellfish shrimp squid", "조개류가 들어가나요?", "Does this contain shellfish?"),
+      simpleDish("mandu", "🥟", "만두", "Mandu", "Korean dumplings, steamed, boiled, pan-fried, or in soup.", ["Dumpling", "Filling"], ["Bite carefully because the inside can be hot.", "Dip in soy-vinegar sauce if served.", "Check if filling is pork, kimchi, or vegetables.", "For soup, eat dumplings with broth."], "dumpling pork kimchi vegetable soy vinegar", "만두 속에 돼지고기가 들어가나요?", "Does the dumpling filling contain pork?"),
+      simpleDish("kalguksu", "🍜", "칼국수", "Kalguksu", "Knife-cut noodle soup, often with chicken, clams, or anchovy broth.", ["Noodles", "Hot soup"], ["Stir noodles apart before eating.", "Eat noodles while they are chewy.", "Taste broth before adding kimchi.", "Ask about clam broth if allergic."], "knife cut noodle soup chicken clam anchovy", "조개 육수인가요?", "Is this made with clam broth?"),
+      simpleDish("makguksu", "🍜", "막국수", "Makguksu", "Buckwheat noodles, usually spicy and cool.", ["Buckwheat noodles", "Mix"], ["Cut noodles if they are long.", "Mix sauce from the bottom well.", "Add vinegar or mustard gradually.", "Eat with grilled meat if served together."], "buckwheat noodles spicy cold vinegar mustard", "식초를 넣어 먹나요?", "Should I add vinegar?"),
+      simpleDish("kongguksu", "🍜", "콩국수", "Kongguksu", "Cold noodles in creamy soybean broth.", ["Cold noodles", "Mild"], ["Taste the soybean broth first.", "Add salt or sugar only to your own bowl.", "Mix noodles before eating.", "Eat kimchi alongside for contrast."], "cold soybean noodle soup salt sugar summer", "소금이나 설탕을 넣나요?", "Should I add salt or sugar?"),
+      simpleDish("jajangmyeon", "🍜", "짜장면", "Jajangmyeon", "Noodles topped with black bean sauce.", ["Noodles", "Mix"], ["Mix the black bean sauce into the noodles fully.", "Use scissors only if noodles are too long.", "Eat pickled radish between bites.", "Be careful: the sauce can stain clothes."], "black bean noodles chinese korean pickled radish", "다 비벼서 먹나요?", "Do I mix all of it before eating?"),
+      simpleDish("jjamppong", "🍜", "짬뽕", "Jjamppong", "Spicy seafood noodle soup.", ["Seafood", "Spicy soup"], ["Taste broth carefully because it is hot and spicy.", "Eat noodles first before they soften.", "Use shell bowl for shells if provided.", "Ask about seafood if allergic."], "spicy seafood noodle soup shellfish squid mussel", "많이 매운가요?", "Is it very spicy?"),
+      simpleDish("ganjanggejang", "🦀", "간장게장", "Ganjang gejang", "Raw crab marinated in soy sauce, famous for mixing rice in the shell.", ["Raw crab", "Soy marinade"], ["Pull crab meat from the shell with chopsticks.", "Mix rice into the crab shell if you want.", "Use gloves if provided.", "Eat slowly because shells are sharp."], "raw crab soy sauce marinated rice shell", "게딱지에 밥을 비벼 먹나요?", "Should I mix rice in the crab shell?"),
+      simpleDish("yangnyeomgejang", "🦀", "양념게장", "Yangnyeom gejang", "Raw crab marinated in spicy red sauce.", ["Raw crab", "Spicy"], ["Wear gloves if provided.", "Suck or pull meat carefully from shell pieces.", "Eat with rice because it is salty and spicy.", "Watch for sharp shell edges."], "spicy raw crab marinated sauce rice", "장갑을 끼고 먹나요?", "Should I use gloves to eat this?"),
+      simpleDish("jangeogui", "🐟", "장어구이", "Jangeo gui", "Grilled eel with sweet soy sauce or salt.", ["Grilled eel", "Sauce"], ["Eat a small piece first with salt or sauce.", "Add ginger if served.", "Wrap with perilla leaf if you like.", "It is usually fully cooked before serving."], "grilled eel sweet soy sauce ginger perilla", "생강을 올려 먹나요?", "Should I eat it with ginger?"),
+      simpleDish("jogaegui", "🦪", "조개구이", "Jogae gui", "Grilled shellfish cooked at the table.", ["Shellfish", "Cook fully"], ["Wait until shells open and flesh is cooked.", "Use tongs; shells are very hot.", "Dip in chili sauce or butter sauce if served.", "Discard empty shells in the shell bucket."], "grilled shellfish clam oyster scallop butter", "이 조개는 다 익었나요?", "Is this shellfish fully cooked?"),
+      simpleDish("maeuntang", "🍲", "매운탕", "Maeuntang", "Spicy fish stew often served after sashimi.", ["Fish stew", "Bones"], ["Let it boil before eating.", "Eat fish carefully because there are bones.", "Scoop broth and vegetables over rice.", "Add noodles only if ordered."], "spicy fish stew bones sashimi after soup", "가시가 많나요?", "Does it have many bones?"),
+      simpleDish("agujjim", "🐟", "아구찜", "Agujjim", "Spicy braised monkfish with bean sprouts.", ["Spicy seafood", "Bones"], ["Mix fish and bean sprouts with sauce.", "Eat fish carefully around bones.", "Use rice to balance the spicy sauce.", "Fried rice may be made with leftover sauce."], "spicy braised monkfish bean sprouts seafood", "밥을 같이 먹으면 되나요?", "Should I eat this with rice?"),
+      simpleDish("nakjibokkeum", "🐙", "낙지볶음", "Nakji bokkeum", "Spicy stir-fried octopus.", ["Octopus", "Spicy"], ["Mix octopus with vegetables and sauce.", "Eat with rice to reduce the heat.", "Use scissors if pieces are large.", "Ask spice level before ordering if sensitive."], "spicy stir fried octopus rice", "얼마나 매운가요?", "How spicy is this?"),
+      simpleDish("yukhoe", "🥩", "육회", "Yukhoe", "Seasoned raw beef, often served with pear and egg yolk.", ["Raw beef", "Egg yolk"], ["Mix lightly with egg yolk if served.", "Eat beef with pear slices.", "Add pine nuts or sauce if provided.", "Eat soon while cold and fresh."], "raw beef tartare pear egg yolk sesame", "노른자를 섞어 먹나요?", "Should I mix in the egg yolk?"),
+      simpleDish("sundaeguk", "🍲", "순대국", "Sundaeguk", "Korean blood sausage soup with pork broth.", ["Pork soup", "Season yourself"], ["Add salt, pepper, or salted shrimp to your bowl.", "Add perilla powder if you like a nutty flavor.", "Eat sundae pieces with rice.", "Ask if you want less offal."], "blood sausage soup pork offal perilla powder", "새우젓을 넣어 먹나요?", "Should I add salted shrimp?"),
+      simpleDish("haejangguk", "🍲", "해장국", "Haejangguk", "Hearty hangover soup, often spicy with beef, cabbage, or bones.", ["Hot soup", "Hearty"], ["Taste broth first because recipes vary.", "Add seasoning paste gradually.", "Eat meat and cabbage with rice.", "Use side plate for bones if present."], "hangover soup beef cabbage bones spicy", "양념장을 넣어 먹나요?", "Should I add the seasoning paste?"),
+      simpleDish("sujebi", "🍜", "수제비", "Sujebi", "Hand-pulled dough flakes in hot broth.", ["Hot soup", "Dough"], ["Stir gently so dough pieces separate.", "Eat dough flakes with spoon or chopsticks.", "Add kimchi for stronger flavor.", "Let it cool before big bites."], "hand pulled dough soup potato anchovy broth", "김치와 같이 먹나요?", "Should I eat this with kimchi?"),
+      simpleDish("hotteok", "🥞", "호떡", "Hotteok", "Sweet filled pancake with hot sugar syrup inside.", ["Street snack", "Very hot"], ["Wait a moment before biting.", "Hold with the paper cup or napkin.", "Bite carefully because syrup is hot.", "Eat while warm and crisp."], "sweet pancake street food sugar syrup cinnamon", "안이 뜨거운가요?", "Is the inside very hot?"),
+      simpleDish("odeng", "🍢", "어묵", "Eomuk", "Fish cake skewers served with warm broth.", ["Street food", "Fish cake"], ["Pick a skewer from the broth.", "Dip in soy sauce if available.", "Drink the warm broth from a cup.", "Count skewers for payment."], "fish cake skewer eomuk odeng broth soy", "국물도 마셔도 되나요?", "Can I drink the broth too?"),
+      simpleDish("bingsu", "🍧", "빙수", "Bingsu", "Shaved ice dessert with toppings such as red bean, fruit, or milk.", ["Dessert", "Share"], ["Mix only part of it first if you want texture.", "Spoon toppings with shaved ice.", "Share from the bowl with clean spoons.", "Eat before it melts too much."], "shaved ice dessert red bean milk fruit", "섞어서 먹나요?", "Should I mix it before eating?")
+    );
+
     const rules = [
       { keys: ["fully cooked", "cooked", "ready", "luto", "suk", "สุก", "chín", "火が通", "熟了", "熟嗎"], ko: "이거 다 익었나요?", meaning: { en: "Is this fully cooked?", ja: "これは火が通っていますか？", zhCN: "这个熟了吗？", zhTW: "這個熟了嗎？", fil: "Luto na ba ito nang husto?", th: "สุกทั่วแล้วหรือยัง?", vi: "Món này đã chín kỹ chưa?" } },
       { keys: ["egg", "itlog", "ไข่", "trứng", "卵", "鸡蛋", "雞蛋"], ko: "계란은 지금 넣으면 되나요?", meaning: { en: "Should I put the egg in now?", ja: "卵は今入れればいいですか？", zhCN: "鸡蛋现在放进去可以吗？", zhTW: "雞蛋現在放進去可以嗎？", fil: "Ilalagay ko na ba ang itlog ngayon?", th: "ใส่ไข่ตอนนี้ได้ไหม?", vi: "Bây giờ tôi cho trứng vào được không?" } },
@@ -683,11 +798,24 @@ const html = String.raw`<!doctype html>
       { keys: ["allergy", "sesame", "nut", "allergy", "mani", "งา", "ถั่ว", "dị ứng", "mè", "đậu phộng", "アレルギー", "过敏", "過敏"], ko: "알레르기가 있는데 이 음식에 들어가나요?", meaning: { en: "I have an allergy. Is it in this food?", ja: "アレルギーがあります。この料理に入っていますか？", zhCN: "我有过敏。这个菜里有吗？", zhTW: "我有過敏。這個菜裡有嗎？", fil: "May allergy ako. Kasama ba ito sa pagkain?", th: "ฉันแพ้อาหาร สิ่งนี้อยู่ในจานนี้ไหม?", vi: "Tôi bị dị ứng. Món này có thành phần đó không?" } }
     ];
 
-    const state = { lang: "en", query: "", selected: null, scanned: null };
+    const state = { lang: "en", query: "", selected: null, scanned: null, cameraReady: false };
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-    const t = (key) => ui[state.lang][key] || ui.en[key] || "";
-    const local = (dish) => dish.text[state.lang];
+    const langLabels = { en: "English", ja: "Japanese", zhCN: "简体中文", zhTW: "繁體中文", fil: "Filipino", th: "Thai", vi: "Vietnamese" };
+    const searchSuggestions = [
+      ["bbq", "BBQ"],
+      ["soup", "Soup"],
+      ["raw fish", "Raw fish"],
+      ["noodles", "Noodles"],
+      ["spicy", "Spicy"],
+      ["no pork", "No pork"],
+      ["wrap", "Wrap"],
+      ["egg", "Egg"]
+    ];
+    const t = (key) => (ui[state.lang] && ui[state.lang][key]) || ui.en[key] || "";
+    const local = (dish) => dish.text[state.lang] || dish.text.en;
+    const meaningFor = (dish) => (dish.meaning && (dish.meaning[state.lang] || dish.meaning.en)) || "";
+    const ruleMeaning = (rule) => (rule.meaning && (rule.meaning[state.lang] || rule.meaning.en)) || "";
 
     function setScreen(id) {
       $$(".screen").forEach(s => s.classList.toggle("active", s.id === id));
@@ -703,7 +831,7 @@ const html = String.raw`<!doctype html>
       const input = (value || "").trim().toLowerCase();
       if (!input) return { ko: fallbackKo, meaning: fallbackMeaning };
       const found = rules.find(rule => rule.keys.some(k => input.includes(k.toLowerCase())));
-      if (found) return { ko: found.ko, meaning: found.meaning[state.lang] };
+      if (found) return { ko: found.ko, meaning: ruleMeaning(found) };
       return { ko: "이걸 어떻게 먹으면 돼요?", meaning: input };
     }
     function renderDetail(target, dish) {
@@ -723,21 +851,31 @@ const html = String.raw`<!doctype html>
           '<div class="askline"><input data-question placeholder="' + t("askPlaceholder") + '"><button class="primary-btn" data-translate>' + t("translate") + '</button></div>' +
           '<p class="muted">' + t("suggestion") + '</p>' +
           '<p class="korean" data-korean>' + dish.phrase + '</p>' +
-          '<p class="meaning" data-meaning>' + dish.meaning[state.lang] + '</p>' +
+          '<p class="meaning" data-meaning>' + meaningFor(dish) + '</p>' +
+          '<p class="muted">' + t("quickQuestions") + '</p>' +
+          '<div class="phrase-grid">' + rules.slice(0, 6).map((rule, i) => '<button class="phrase-chip" type="button" data-rule="' + i + '">' + ruleMeaning(rule) + '</button>').join("") + '</div>' +
           '<button class="primary-btn" data-speak>' + t("play") + '</button>' +
         '</section>';
       const korean = target.querySelector("[data-korean]");
       const meaning = target.querySelector("[data-meaning]");
       const input = target.querySelector("[data-question]");
       target.querySelector("[data-translate]").onclick = () => {
-        const translated = translateQuestion(input.value, dish.phrase, dish.meaning[state.lang]);
+        const translated = translateQuestion(input.value, dish.phrase, meaningFor(dish));
         korean.textContent = translated.ko;
         meaning.textContent = translated.meaning;
       };
+      target.querySelectorAll("[data-rule]").forEach(btn => {
+        btn.onclick = () => {
+          const rule = rules[Number(btn.dataset.rule)];
+          input.value = ruleMeaning(rule);
+          korean.textContent = rule.ko;
+          meaning.textContent = ruleMeaning(rule);
+        };
+      });
       target.querySelector("[data-speak]").onclick = () => speak(korean.textContent);
       input.onkeydown = (event) => {
         if (event.key === "Enter") {
-          const translated = translateQuestion(input.value, dish.phrase, dish.meaning[state.lang]);
+          const translated = translateQuestion(input.value, dish.phrase, meaningFor(dish));
           korean.textContent = translated.ko;
           meaning.textContent = translated.meaning;
           speak(korean.textContent);
@@ -747,6 +885,7 @@ const html = String.raw`<!doctype html>
     function renderResults() {
       const q = state.query.toLowerCase();
       const rows = dishes.filter(d => !q || (d.search + " " + local(d)[0] + " " + d.ko).toLowerCase().includes(q));
+      $("#resultCount").textContent = rows.length + " " + t("resultsFound");
       $("#results").innerHTML = rows.map(d => {
         const text = local(d);
         return '<button class="dish-row ' + (state.selected === d.id ? "active" : "") + '" data-dish="' + d.id + '"><span class="food-img">' + d.emoji + '</span><span><strong>' + text[0] + '</strong><span class="sub">' + d.ko + '</span></span></button>';
@@ -758,9 +897,28 @@ const html = String.raw`<!doctype html>
         renderDetail($("#searchDetail"), dish);
       });
     }
+    function renderLanguageChips() {
+      $("#langPicks").innerHTML = Object.keys(langLabels).map(code => '<button class="lang-chip ' + (state.lang === code ? "active" : "") + '" type="button" data-lang-chip="' + code + '">' + langLabels[code] + '</button>').join("");
+      $$("[data-lang-chip]").forEach(btn => btn.onclick = () => {
+        state.lang = btn.dataset.langChip;
+        $("#lang").value = state.lang;
+        renderText();
+      });
+    }
+    function renderSearchChips() {
+      $("#searchChips").innerHTML = searchSuggestions.map(item => '<button class="suggestion-chip" type="button" data-search-chip="' + item[0] + '">' + item[1] + '</button>').join("");
+      $$("[data-search-chip]").forEach(btn => btn.onclick = () => {
+        state.query = btn.dataset.searchChip;
+        $("#query").value = state.query;
+        renderResults();
+        $("#query").focus();
+      });
+    }
     function renderText() {
       $$("[data-i]").forEach(el => el.textContent = t(el.dataset.i));
       $("#query").placeholder = t("searchPlaceholder");
+      renderLanguageChips();
+      renderSearchChips();
       renderResults();
       if (state.selected) renderDetail($("#searchDetail"), dishes.find(d => d.id === state.selected));
       if (state.scanned) renderDetail($("#scanDetail"), dishes.find(d => d.id === state.scanned));
@@ -782,17 +940,25 @@ const html = String.raw`<!doctype html>
         $("#video").classList.add("active");
         $("#cameraPlaceholder").style.display = "none";
         await $("#video").play();
+        state.cameraReady = true;
+        $("#detectBtn").disabled = false;
         $("#scanStatus").textContent = t("scanCopy");
       } catch {
+        state.cameraReady = false;
+        $("#detectBtn").disabled = true;
         $("#scanStatus").textContent = t("cameraBlocked");
       }
     }
     function detectFood() {
+      if (!state.cameraReady) {
+        $("#scanStatus").textContent = t("scanNeedsCamera");
+        return;
+      }
       $("#scanStatus").textContent = t("analyzing");
       setTimeout(() => {
         const dish = dishes[Math.floor(Date.now() / 1000) % dishes.length];
         state.scanned = dish.id;
-        $("#scanStatus").textContent = t("detected") + ": " + local(dish)[0] + " / " + dish.ko;
+        $("#scanStatus").textContent = t("demoResult") + ": " + local(dish)[0] + " / " + dish.ko;
         renderDetail($("#scanDetail"), dish);
       }, 450);
     }
@@ -816,7 +982,11 @@ const html = String.raw`<!doctype html>
         handler(event);
       }, { passive: false });
     }
-    bindTap("#toSearch", () => setScreen("search"));
+    $("#detectBtn").disabled = true;
+    bindTap("#toSearch", () => {
+      setScreen("search");
+      setTimeout(() => $("#query").focus(), 80);
+    });
     bindTap("#toScan", () => { setScreen("scan"); startCamera(); });
     $$("[data-home]").forEach(btn => bindTap(btn, () => setScreen("home")));
     $("#query").oninput = (e) => { state.query = e.target.value; renderResults(); };
@@ -860,7 +1030,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v7";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v8";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
