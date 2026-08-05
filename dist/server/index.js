@@ -764,7 +764,6 @@ const html = String.raw`<!doctype html>
       <div>
         <h2 data-i="homeTitle">Eat Korean food with confidence</h2>
         <p class="muted home-copy" data-i="homeSupport">Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.</p>
-        <div class="lang-picks" id="langPicks" aria-label="Language quick select"></div>
       </div>
       <div class="actions">
         <button class="action primary" id="toSearch" type="button">
@@ -1333,14 +1332,6 @@ const html = String.raw`<!doctype html>
         renderDetail($("#searchDetail"), dish);
       });
     }
-    function renderLanguageChips() {
-      $("#langPicks").innerHTML = Object.keys(langLabels).map(code => '<button class="lang-chip ' + (state.lang === code ? "active" : "") + '" type="button" data-lang-chip="' + code + '">' + langLabels[code] + '</button>').join("");
-      $$("[data-lang-chip]").forEach(btn => btn.onclick = () => {
-        state.lang = btn.dataset.langChip;
-        $("#lang").value = state.lang;
-        renderText();
-      });
-    }
     function renderSearchChips() {
       $("#searchChips").innerHTML = searchSuggestions.map(item => '<button class="suggestion-chip" type="button" data-search-chip="' + item[0] + '">' + item[1] + '</button>').join("");
       $$("[data-search-chip]").forEach(btn => btn.onclick = () => {
@@ -1413,7 +1404,6 @@ const html = String.raw`<!doctype html>
     function renderText() {
       $$("[data-i]").forEach(el => el.textContent = t(el.dataset.i));
       $("#query").placeholder = t("searchPlaceholder");
-      renderLanguageChips();
       renderSearchChips();
       renderResults();
       renderChallenge();
@@ -1541,7 +1531,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v13";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v14";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
