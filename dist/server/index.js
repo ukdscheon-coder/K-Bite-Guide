@@ -738,6 +738,7 @@ const html = String.raw`<!doctype html>
         <div class="brand"><span class="mark">🍽️</span><span>K-Bite</span></div>
         <select id="lang" aria-label="Language">
           <option value="en">English</option>
+          <option value="ko">한국어</option>
           <option value="ja">日本語</option>
           <option value="zhCN">简体中文</option>
           <option value="zhTW">繁體中文</option>
@@ -767,17 +768,6 @@ const html = String.raw`<!doctype html>
         <p class="muted home-copy" data-i="homeSupport">Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.</p>
         <div class="lang-picks" id="langPicks" aria-label="Language quick select"></div>
       </div>
-      <section class="campaign-card" aria-label="K-Bite challenge">
-        <span class="campaign-kicker" data-i="eventKicker">Monthly challenge</span>
-        <h2 class="campaign-title" data-i="eventTitle">Eat it Korean style. Create your own way. Share it to win.</h2>
-        <p class="campaign-note" data-i="eventCopy">Try the house sauce, make your own best bite, and share it with K-Bite. The most useful and delicious idea becomes a featured winning bite.</p>
-        <div class="campaign-steps">
-          <span class="campaign-step"><strong data-i="eventStep1Title">Taste</strong><span data-i="eventStep1">Start with the restaurant's recommended sauce or product pairing.</span></span>
-          <span class="campaign-step"><strong data-i="eventStep2Title">Create</strong><span data-i="eventStep2">Build your own bite: wrap, dip, mix, crunch, or pair.</span></span>
-          <span class="campaign-step"><strong data-i="eventStep3Title">Share</strong><span data-i="eventStep3">Post your method. Best bite wins a feature and local rewards.</span></span>
-        </div>
-        <button class="primary-btn" id="toChallenge" type="button" data-i="eventButton">Find a bite to remix</button>
-      </section>
       <div class="actions">
         <button class="action primary" id="toSearch" type="button">
           <span class="action-icon">🔎</span>
@@ -835,6 +825,7 @@ const html = String.raw`<!doctype html>
       </section>
       <section class="sponsor-card">
         <span class="sponsor-kicker" data-i="leaderKicker">Vote board</span>
+        <div class="theme-card" id="currentWinner"></div>
         <div class="vote-list" id="challengeEntries"></div>
       </section>
       <section class="sponsor-card">
@@ -914,6 +905,103 @@ const html = String.raw`<!doctype html>
       vi: { homeCopy: "Tìm món Hàn trước mặt bạn, rồi xem chính xác cách ăn.", homeTitle: "Tự tin ăn món Hàn", homeSupport: "Tìm theo tên món hoặc quét món ăn để xem các bước, nước chấm và câu hỏi tiếng Hàn.", searchFood: "Tìm món ăn", searchSub: "Tìm theo món, sốt, nguyên liệu hoặc cách ăn", scanMenu: "Quét món ăn", scanSub: "Dùng camera để nhận diện món và mở hướng dẫn", home: "Trang chủ", foodSearch: "Tìm món", foodScan: "Quét món", scanCopy: "Hướng camera vào món ăn. Sau khi nhận diện, tên món và cách ăn sẽ hiện bên dưới.", cameraHint: "Khung xem camera sẽ hiện ở đây", startCamera: "Mở camera", detectFood: "Nhận diện món", cameraBlocked: "Quyền camera đang bị chặn. Trên iPhone, mở liên kết HTTPS bằng Safari và cho phép camera.", analyzing: "Đang phân tích hình ảnh camera...", detected: "Đã nhận diện", how: "Cách ăn", ask: "Hỏi nhân viên bằng tiếng Hàn", askPlaceholder: "Nhập câu hỏi, ví dụ: Món này chín chưa?", translate: "Dịch", play: "Phát tiếng Hàn", suggestion: "Câu gợi ý", searchPlaceholder: "Thử tìm thịt ba chỉ, trứng, cá sống, đậu phụ...", installTitle: "Cài vào điện thoại", installIOS: "iPhone: mở bằng Safari, chạm Chia sẻ, rồi Thêm vào Màn hình chính.", installAndroid: "Android: mở bằng Chrome, chạm Cài đặt ứng dụng hoặc Thêm vào màn hình chính.", installOther: "Dùng như ứng dụng web di động trên iPhone Safari hoặc Android Chrome.", installButton: "Cài ứng dụng" }
     };
 
+    ui.ko = {
+      homeCopy: "앞에 있는 한국 음식을 찾고, 한국식으로 먹는 정확한 방법을 배워보세요.",
+      homeTitle: "한국 음식을 자신 있게 먹기",
+      homeSupport: "음식 이름을 검색하거나 촬영해서 먹는 순서, 소스, 직원에게 물어볼 한국어 표현을 확인하세요.",
+      searchFood: "음식 검색",
+      searchSub: "음식, 소스, 재료, 먹는 행동으로 검색",
+      scanMenu: "음식 스캔",
+      scanSub: "카메라로 음식을 인식하고 가이드를 엽니다",
+      home: "홈",
+      foodSearch: "음식 검색",
+      foodScan: "음식 스캔",
+      scanCopy: "카메라를 음식에 맞추세요. 인식 후 음식 이름과 먹는 법이 아래에 표시됩니다.",
+      cameraHint: "카메라 미리보기가 여기에 표시됩니다",
+      startCamera: "카메라 시작",
+      detectFood: "음식 인식",
+      cameraBlocked: "카메라 권한이 차단되었습니다. iPhone에서는 HTTPS 링크를 Safari로 열고 카메라 접근을 허용하세요.",
+      analyzing: "카메라 화면을 분석하는 중...",
+      detected: "인식됨",
+      how: "한국식으로 먹는 방법",
+      ask: "직원에게 한국어로 묻기",
+      askPlaceholder: "질문을 입력하세요. 예: 이거 다 익었나요?",
+      translate: "번역",
+      play: "한국어 재생",
+      suggestion: "추천 표현",
+      searchPlaceholder: "삼겹살, 계란, 회, 두부처럼 입력해보세요...",
+      installTitle: "휴대폰에 설치",
+      installIOS: "iPhone: Safari에서 열고 공유 버튼을 누른 뒤 홈 화면에 추가하세요.",
+      installAndroid: "Android: Chrome에서 열고 앱 설치 또는 홈 화면에 추가를 누르세요.",
+      installOther: "iPhone Safari 또는 Android Chrome에서 모바일 웹앱처럼 사용할 수 있습니다.",
+      installButton: "앱 설치",
+      adLabel: "광고 공간",
+      chooseLanguage: "언어 선택",
+      quickSearch: "빠른 검색",
+      resultsFound: "개 음식",
+      quickQuestions: "빠른 질문",
+      scanNeedsCamera: "먼저 카메라를 시작한 뒤 음식을 인식하세요.",
+      demoResult: "데모 결과",
+      demoNote: "이 미리보기의 카메라 인식은 데모입니다. 실제 AI 음식 인식은 운영 버전에서 연결할 수 있습니다.",
+      eventKicker: "월간 챌린지",
+      eventTitle: "한국식으로 먹고, 나만의 조합을 만들고, 공유해서 우승하세요.",
+      eventCopy: "먼저 한국식 기본 방법을 배운 뒤, 소스·쌈·식감·사이드 조합을 바꿔 나만의 한입을 올려보세요.",
+      eventStep1Title: "맛보기",
+      eventStep1: "식당 추천 소스나 기본 조합부터 시작하세요.",
+      eventStep2Title: "만들기",
+      eventStep2: "쌈, 찍먹, 비빔, 바삭함, 페어링 중 하나를 바꿔보세요.",
+      eventStep3Title: "공유",
+      eventStep3: "방법을 올리고 반응을 받아 우승 조합에 도전하세요.",
+      eventButton: "나만의 조합 만들기",
+      sponsorKicker: "광고/파트너 공간",
+      sponsorTitle: "이 음식의 추천 로컬 방식",
+      sponsorCopy: "식당과 식품 브랜드는 이 위치에 실제 하우스 소스, 대표 조합, 한정 보상을 노출할 수 있습니다.",
+      sponsorAsk: "질문: 이 식당만의 가장 맛있는 소스나 특별한 먹는 법은 무엇인가요?",
+      searchIdle: "검색어를 입력하면 음식 목록이 자동으로 나타납니다.",
+      searchAdKicker: "광고 공간",
+      searchAdTitle: "손님이 음식을 고르기 전 첫 화면을 선점하세요.",
+      searchAdCopy: "식당은 하우스 소스나 대표 한입을, 식품 브랜드는 검색 전 페어링 챌린지를 노출할 수 있습니다.",
+      searchAdTag1: "하우스 소스",
+      searchAdTag2: "한정 보상",
+      searchAdTag3: "브랜드 조합",
+      challengeChip: "한입 챌린지",
+      challengeKicker: "이달의 주제",
+      challengeTheme: "최고의 삼겹살 한입 쌈",
+      challengeIntro: "한국식 기본 방법을 먼저 배운 뒤 나만의 소스, 쌈, 식감, 페어링 아이디어를 올리세요. 우승은 단순 인기보다 유용한 반응으로 결정됩니다.",
+      challengeRule1Title: "1. 한국식 먼저",
+      challengeRule1: "가이드의 기본 먹는 법을 출발점으로 사용합니다.",
+      challengeRule2Title: "2. 한 가지만 변형",
+      challengeRule2: "소스, 쌈, 사이드, 식감, 마지막 한입 중 하나를 바꿉니다.",
+      challengeRule3Title: "3. 반응으로 우승",
+      challengeRule3: "맛, 따라하기 쉬움, 한국식 적합성, 창의성 기준으로 반응을 받습니다.",
+      submitKicker: "내 조합 올리기",
+      submitDish: "음식 또는 제품",
+      submitName: "조합 이름",
+      submitMethod: "먹는 방법",
+      submitButton: "투표 보드에 올리기",
+      voteCriteriaTitle: "투표 기준",
+      criteriaTaste: "맛",
+      criteriaTasteCopy: "한입 더 먹고 싶게 만드는가?",
+      criteriaEasy: "따라하기 쉬움",
+      criteriaEasyCopy: "여행자가 식탁에서 바로 따라할 수 있는가?",
+      criteriaKorean: "한국식 적합성",
+      criteriaKoreanCopy: "원래 먹는 법을 존중하는가?",
+      criteriaCreative: "창의성",
+      criteriaCreativeCopy: "기억에 남는 변형이 있는가?",
+      leaderKicker: "투표 보드",
+      winnerKicker: "현재 우승 후보",
+      winnerCopy: "리뷰 반응과 투표가 가장 높은 조합입니다.",
+      brandKicker: "파트너 제안",
+      brandTitle: "배너가 아니라 주제를 후원하세요.",
+      brandCopy: "식당은 하우스 소스 챌린지를, 식품업체는 고추장·김치·면·스낵·냉동식품 조합 챌린지를 후원하고 우승자에게 보상을 제공할 수 있습니다.",
+      brandTag1: "월간 주제",
+      brandTag2: "우승 한입",
+      brandTag3: "보상 쿠폰",
+      voteUseful: "유용해요",
+      voteCreative: "창의적이에요",
+      noEntries: "아직 조합이 없습니다. 첫 조합을 올려보세요."
+    };
+
     Object.assign(ui.en, {
       chooseLanguage: "Choose your language",
       quickSearch: "Quick search",
@@ -968,6 +1056,8 @@ const html = String.raw`<!doctype html>
       criteriaCreative: "Creative",
       criteriaCreativeCopy: "Does it add a memorable twist?",
       leaderKicker: "Vote board",
+      winnerKicker: "Current winner",
+      winnerCopy: "This bite has the strongest review reaction and vote response so far.",
       brandKicker: "For partners",
       brandTitle: "Sponsor a theme, not just a banner.",
       brandCopy: "A restaurant can own a house-sauce challenge. A food company can sponsor a gochujang, kimchi, noodle, snack, or frozen-food pairing and reward the winning bite.",
@@ -1102,7 +1192,7 @@ const html = String.raw`<!doctype html>
     const state = { lang: "en", query: "", selected: null, scanned: null, cameraReady: false, challengeEntries: loadChallengeEntries() };
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-    const langLabels = { en: "English", ja: "Japanese", zhCN: "简体中文", zhTW: "繁體中文", fil: "Filipino", th: "Thai", vi: "Vietnamese" };
+    const langLabels = { en: "English", ko: "한국어", ja: "Japanese", zhCN: "简体中文", zhTW: "繁體中文", fil: "Filipino", th: "Thai", vi: "Vietnamese" };
     const searchSuggestions = [
       ["bbq", "BBQ"],
       ["soup", "Soup"],
@@ -1172,6 +1262,12 @@ const html = String.raw`<!doctype html>
           '<div class="sponsor-tags">' + partner[1].map(tag => '<span class="sponsor-tag">' + tag + '</span>').join("") + '</div>' +
           '<p class="campaign-note">' + t("sponsorAsk") + '</p>' +
         '</section>' +
+        '<section class="campaign-card">' +
+          '<span class="campaign-kicker">' + t("eventKicker") + '</span>' +
+          '<h3>' + t("eventTitle") + '</h3>' +
+          '<p class="campaign-note">' + t("eventCopy") + '</p>' +
+          '<button class="primary-btn" type="button" data-open-challenge="' + dish.id + '">' + t("eventButton") + '</button>' +
+        '</section>' +
         '<section class="ask">' +
           '<h3>' + t("ask") + '</h3>' +
           '<div class="askline"><input data-question placeholder="' + t("askPlaceholder") + '"><button class="primary-btn" data-translate>' + t("translate") + '</button></div>' +
@@ -1199,6 +1295,7 @@ const html = String.raw`<!doctype html>
         };
       });
       target.querySelector("[data-speak]").onclick = () => speak(korean.textContent);
+      target.querySelector("[data-open-challenge]").onclick = () => openChallengeForDish(dish);
       input.onkeydown = (event) => {
         if (event.key === "Enter") {
           const translated = translateQuestion(input.value, dish.phrase, meaningFor(dish));
@@ -1256,6 +1353,10 @@ const html = String.raw`<!doctype html>
       const board = $("#challengeEntries");
       if (!board) return;
       const entries = state.challengeEntries.slice().sort((a, b) => b.votes - a.votes);
+      const winner = entries[0];
+      $("#currentWinner").innerHTML = winner
+        ? '<span class="campaign-kicker">' + t("winnerKicker") + '</span><h3>' + esc(winner.name) + '</h3><p class="sponsor-copy">' + esc(winner.method) + '</p><p class="campaign-note">' + t("winnerCopy") + ' ' + Number(winner.votes || 0) + ' reactions.</p>'
+        : '<span class="campaign-kicker">' + t("winnerKicker") + '</span><p class="campaign-note">' + t("noEntries") + '</p>';
       board.innerHTML = entries.length ? entries.map(entry =>
         '<article class="vote-card">' +
           '<div class="vote-head"><div><h3>' + esc(entry.name) + '</h3><p class="muted">' + esc(entry.dish) + '</p></div><span class="vote-score">' + Number(entry.votes || 0) + '</span></div>' +
@@ -1294,6 +1395,15 @@ const html = String.raw`<!doctype html>
       $("#challengeMethod").value = "";
       saveChallengeEntries();
       renderChallenge();
+    }
+    function openChallengeForDish(dish) {
+      const name = local(dish)[0];
+      $("#challengeDish").value = name + " / " + dish.ko;
+      $("#challengeName").value = "";
+      $("#challengeMethod").value = "";
+      setScreen("challenge");
+      renderChallenge();
+      setTimeout(() => $("#challengeName").focus(), 80);
     }
     function renderText() {
       $$("[data-i]").forEach(el => el.textContent = t(el.dataset.i));
@@ -1417,7 +1527,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v11";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v12";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
