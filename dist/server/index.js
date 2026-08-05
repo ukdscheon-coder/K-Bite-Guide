@@ -543,17 +543,15 @@ const html = String.raw`<!doctype html>
     }
     .dish-row {
       width: 100%;
-      min-height: 64px;
-      display: grid;
-      grid-template-columns: 50px 1fr;
-      gap: 12px;
+      min-height: 48px;
+      display: block;
       align-items: center;
       text-align: left;
       border: 1px solid var(--line);
       background: var(--panel);
       color: var(--text);
-      border-radius: 18px;
-      padding: 10px;
+      border-radius: 14px;
+      padding: 12px 13px;
     }
     .dish-row.active {
       background: var(--primary);
@@ -1308,19 +1306,25 @@ const html = String.raw`<!doctype html>
     function renderResults() {
       const q = state.query.trim().toLowerCase();
       if (!q) {
-        $("#resultCount").textContent = t("searchIdle");
+        $("#resultCount").textContent = "";
         $("#results").innerHTML = "";
         $("#searchEmpty").classList.remove("hidden");
         $("#searchDetail").classList.remove("active");
         $("#searchDetail").innerHTML = "";
         return;
       }
-      $("#searchEmpty").classList.add("hidden");
+      if (state.selected) {
+        $("#resultCount").textContent = "";
+        $("#results").innerHTML = "";
+        $("#searchEmpty").classList.add("hidden");
+        return;
+      }
+      $("#resultCount").textContent = "";
+      $("#searchEmpty").classList.remove("hidden");
       const rows = dishes.filter(d => (d.search + " " + local(d)[0] + " " + d.ko).toLowerCase().includes(q));
-      $("#resultCount").textContent = rows.length + " " + t("resultsFound");
       $("#results").innerHTML = rows.map(d => {
         const text = local(d);
-        return '<button class="dish-row ' + (state.selected === d.id ? "active" : "") + '" data-dish="' + d.id + '"><span class="food-img">' + d.emoji + '</span><span><strong>' + text[0] + '</strong><span class="sub">' + d.ko + '</span></span></button>';
+        return '<button class="dish-row" data-dish="' + d.id + '"><strong>' + text[0] + '</strong><span class="sub">' + d.ko + '</span></button>';
       }).join("");
       $$("#results [data-dish]").forEach(btn => btn.onclick = () => {
         const dish = dishes.find(d => d.id === btn.dataset.dish);
@@ -1341,6 +1345,7 @@ const html = String.raw`<!doctype html>
       $("#searchChips").innerHTML = searchSuggestions.map(item => '<button class="suggestion-chip" type="button" data-search-chip="' + item[0] + '">' + item[1] + '</button>').join("");
       $$("[data-search-chip]").forEach(btn => btn.onclick = () => {
         state.query = btn.dataset.searchChip;
+        state.selected = null;
         $("#query").value = state.query;
         renderResults();
         $("#query").focus();
@@ -1485,8 +1490,17 @@ const html = String.raw`<!doctype html>
     });
     bindTap("#toScan", () => { setScreen("scan"); startCamera(); });
     $$("[data-home]").forEach(btn => bindTap(btn, () => setScreen("home")));
-    $("#query").oninput = (e) => { state.query = e.target.value; renderResults(); };
-    $("#clear").onclick = () => { state.query = ""; $("#query").value = ""; renderResults(); };
+    $("#query").oninput = (e) => {
+      state.query = e.target.value;
+      state.selected = null;
+      renderResults();
+    };
+    $("#clear").onclick = () => {
+      state.query = "";
+      state.selected = null;
+      $("#query").value = "";
+      renderResults();
+    };
     bindTap("#cameraBtn", startCamera);
     bindTap("#detectBtn", detectFood);
     bindTap("#submitChallenge", submitChallengeEntry);
@@ -1527,7 +1541,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v12";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v13";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
