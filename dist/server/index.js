@@ -306,6 +306,86 @@ const html = String.raw`<!doctype html>
     .search-empty.hidden {
       display: none;
     }
+    .challenge-grid, .submit-form, .vote-list {
+      display: grid;
+      gap: 10px;
+    }
+    .theme-card {
+      border: 1px solid rgba(244,208,111,.28);
+      border-radius: 18px;
+      background: rgba(244,208,111,.09);
+      padding: 13px;
+    }
+    .field {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      max-width: none;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #10161d;
+      color: var(--text);
+      padding: 11px 12px;
+    }
+    .field textarea {
+      min-height: 86px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+    .criteria-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .criteria-pill {
+      min-height: 58px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      background: rgba(255,255,255,.045);
+      padding: 9px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .criteria-pill strong {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .vote-card {
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: rgba(255,255,255,.04);
+      padding: 12px;
+    }
+    .vote-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .vote-score {
+      min-width: 48px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: var(--primary-text);
+      padding: 6px 9px;
+      text-align: center;
+      font-weight: 850;
+      font-size: 13px;
+    }
+    .vote-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
     .platform {
       display: none;
       color: var(--muted);
@@ -635,6 +715,7 @@ const html = String.raw`<!doctype html>
       .app { padding-left: 12px; padding-right: 12px; }
       .askline, .scan-actions { grid-template-columns: 1fr; }
       .campaign-steps { grid-template-columns: 1fr; }
+      .criteria-grid, .vote-actions { grid-template-columns: 1fr; }
     }
     @media (min-width: 700px) {
       body {
@@ -717,6 +798,55 @@ const html = String.raw`<!doctype html>
       <div class="ad-slot" data-ad-slot>
         <span data-i="adLabel">Ad space reserved</span>
       </div>
+    </section>
+
+    <section class="screen" id="challenge">
+      <div class="navline">
+        <button class="back" data-home>??<span data-i="home"></span></button>
+        <span class="chip" data-i="challengeChip">Bite challenge</span>
+      </div>
+      <section class="campaign-card">
+        <span class="campaign-kicker" data-i="challengeKicker">This month's theme</span>
+        <h2 class="campaign-title" data-i="challengeTheme">Best samgyeopsal one-bite wrap</h2>
+        <p class="campaign-note" data-i="challengeIntro">Learn the Korean method first, then submit your own sauce, wrap, crunch, or pairing idea. The winner is chosen by useful votes, not only popularity.</p>
+        <div class="campaign-steps">
+          <span class="campaign-step"><strong data-i="challengeRule1Title">1. Start Korean</strong><span data-i="challengeRule1">Use the guide's classic eating method as the base.</span></span>
+          <span class="campaign-step"><strong data-i="challengeRule2Title">2. Remix one thing</strong><span data-i="challengeRule2">Change the sauce, wrap, side, texture, or final bite.</span></span>
+          <span class="campaign-step"><strong data-i="challengeRule3Title">3. Win by votes</strong><span data-i="challengeRule3">Users vote for taste, ease, Korean fit, and creativity.</span></span>
+        </div>
+      </section>
+      <section class="sponsor-card">
+        <span class="sponsor-kicker" data-i="submitKicker">Create your bite</span>
+        <div class="submit-form">
+          <label class="field"><span data-i="submitDish">Dish or product</span><input id="challengeDish" type="text" autocomplete="off" placeholder="Samgyeopsal, bibimbap, tteokbokki..."></label>
+          <label class="field"><span data-i="submitName">Bite name</span><input id="challengeName" type="text" autocomplete="off" placeholder="Kimchi crunch ssam"></label>
+          <label class="field"><span data-i="submitMethod">Your method</span><textarea id="challengeMethod" placeholder="Use ssamjang, grilled kimchi, garlic, and one small crisp side. Eat in one bite."></textarea></label>
+          <button class="primary-btn" id="submitChallenge" type="button" data-i="submitButton">Submit to the vote board</button>
+        </div>
+      </section>
+      <section class="theme-card">
+        <h3 data-i="voteCriteriaTitle">Voting criteria</h3>
+        <div class="criteria-grid">
+          <span class="criteria-pill"><strong data-i="criteriaTaste">Taste</strong><span data-i="criteriaTasteCopy">Would people want another bite?</span></span>
+          <span class="criteria-pill"><strong data-i="criteriaEasy">Easy to try</strong><span data-i="criteriaEasyCopy">Can a traveler copy it at the table?</span></span>
+          <span class="criteria-pill"><strong data-i="criteriaKorean">Korean fit</strong><span data-i="criteriaKoreanCopy">Does it respect the original way?</span></span>
+          <span class="criteria-pill"><strong data-i="criteriaCreative">Creative</strong><span data-i="criteriaCreativeCopy">Does it add a memorable twist?</span></span>
+        </div>
+      </section>
+      <section class="sponsor-card">
+        <span class="sponsor-kicker" data-i="leaderKicker">Vote board</span>
+        <div class="vote-list" id="challengeEntries"></div>
+      </section>
+      <section class="sponsor-card">
+        <span class="sponsor-kicker" data-i="brandKicker">For partners</span>
+        <h3 data-i="brandTitle">Sponsor a theme, not just a banner.</h3>
+        <p class="sponsor-copy" data-i="brandCopy">A restaurant can own a house-sauce challenge. A food company can sponsor a gochujang, kimchi, noodle, snack, or frozen-food pairing and reward the winning bite.</p>
+        <div class="sponsor-tags">
+          <span class="sponsor-tag" data-i="brandTag1">Monthly theme</span>
+          <span class="sponsor-tag" data-i="brandTag2">Winning bite</span>
+          <span class="sponsor-tag" data-i="brandTag3">Reward coupon</span>
+        </div>
+      </section>
     </section>
 
     <section class="screen" id="search">
@@ -812,7 +942,41 @@ const html = String.raw`<!doctype html>
       searchAdCopy: "Restaurants can feature a house sauce or signature bite here. Food brands can sponsor a pairing challenge before visitors search.",
       searchAdTag1: "House sauce",
       searchAdTag2: "Limited reward",
-      searchAdTag3: "Brand pairing"
+      searchAdTag3: "Brand pairing",
+      challengeChip: "Bite challenge",
+      challengeKicker: "This month's theme",
+      challengeTheme: "Best samgyeopsal one-bite wrap",
+      challengeIntro: "Learn the Korean method first, then submit your own sauce, wrap, crunch, or pairing idea. The winner is chosen by useful votes, not only popularity.",
+      challengeRule1Title: "1. Start Korean",
+      challengeRule1: "Use the guide's classic eating method as the base.",
+      challengeRule2Title: "2. Remix one thing",
+      challengeRule2: "Change the sauce, wrap, side, texture, or final bite.",
+      challengeRule3Title: "3. Win by votes",
+      challengeRule3: "Users vote for taste, ease, Korean fit, and creativity.",
+      submitKicker: "Create your bite",
+      submitDish: "Dish or product",
+      submitName: "Bite name",
+      submitMethod: "Your method",
+      submitButton: "Submit to the vote board",
+      voteCriteriaTitle: "Voting criteria",
+      criteriaTaste: "Taste",
+      criteriaTasteCopy: "Would people want another bite?",
+      criteriaEasy: "Easy to try",
+      criteriaEasyCopy: "Can a traveler copy it at the table?",
+      criteriaKorean: "Korean fit",
+      criteriaKoreanCopy: "Does it respect the original way?",
+      criteriaCreative: "Creative",
+      criteriaCreativeCopy: "Does it add a memorable twist?",
+      leaderKicker: "Vote board",
+      brandKicker: "For partners",
+      brandTitle: "Sponsor a theme, not just a banner.",
+      brandCopy: "A restaurant can own a house-sauce challenge. A food company can sponsor a gochujang, kimchi, noodle, snack, or frozen-food pairing and reward the winning bite.",
+      brandTag1: "Monthly theme",
+      brandTag2: "Winning bite",
+      brandTag3: "Reward coupon",
+      voteUseful: "Useful",
+      voteCreative: "Creative",
+      noEntries: "No bites yet. Submit the first remix."
     });
 
     const dishes = [
@@ -922,7 +1086,20 @@ const html = String.raw`<!doctype html>
       { keys: ["allergy", "sesame", "nut", "allergy", "mani", "งา", "ถั่ว", "dị ứng", "mè", "đậu phộng", "アレルギー", "过敏", "過敏"], ko: "알레르기가 있는데 이 음식에 들어가나요?", meaning: { en: "I have an allergy. Is it in this food?", ja: "アレルギーがあります。この料理に入っていますか？", zhCN: "我有过敏。这个菜里有吗？", zhTW: "我有過敏。這個菜裡有嗎？", fil: "May allergy ako. Kasama ba ito sa pagkain?", th: "ฉันแพ้อาหาร สิ่งนี้อยู่ในจานนี้ไหม?", vi: "Tôi bị dị ứng. Món này có thành phần đó không?" } }
     ];
 
-    const state = { lang: "en", query: "", selected: null, scanned: null, cameraReady: false };
+    const defaultChallengeEntries = [
+      { id: "classic-ssam", dish: "Samgyeopsal", name: "Classic ssam first bite", method: "Lettuce, pork, ssamjang, garlic, and grilled kimchi. This is the baseline Korean-style bite.", votes: 18 },
+      { id: "kimchi-crunch", dish: "Samgyeopsal", name: "Kimchi crunch ssam", method: "Use less sauce, add grilled kimchi, and finish with one crisp side for texture.", votes: 13 },
+      { id: "chojang-flight", dish: "Korean raw fish", name: "Chojang flight", method: "Taste one slice with soy-wasabi, one with chojang, then vote for the sauce that fits the fish best.", votes: 9 }
+    ];
+    function loadChallengeEntries() {
+      try {
+        const saved = JSON.parse(localStorage.getItem("kbiteChallengeEntries") || "null");
+        return Array.isArray(saved) && saved.length ? saved : defaultChallengeEntries.slice();
+      } catch {
+        return defaultChallengeEntries.slice();
+      }
+    }
+    const state = { lang: "en", query: "", selected: null, scanned: null, cameraReady: false, challengeEntries: loadChallengeEntries() };
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
     const langLabels = { en: "English", ja: "Japanese", zhCN: "简体中文", zhTW: "繁體中文", fil: "Filipino", th: "Thai", vi: "Vietnamese" };
@@ -940,6 +1117,7 @@ const html = String.raw`<!doctype html>
     const local = (dish) => dish.text[state.lang] || dish.text.en;
     const meaningFor = (dish) => (dish.meaning && (dish.meaning[state.lang] || dish.meaning.en)) || "";
     const ruleMeaning = (rule) => (rule.meaning && (rule.meaning[state.lang] || rule.meaning.en)) || "";
+    const esc = (value = "") => String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
 
     function setScreen(id) {
       $$(".screen").forEach(s => s.classList.toggle("active", s.id === id));
@@ -1071,12 +1249,59 @@ const html = String.raw`<!doctype html>
         $("#query").focus();
       });
     }
+    function saveChallengeEntries() {
+      try { localStorage.setItem("kbiteChallengeEntries", JSON.stringify(state.challengeEntries)); } catch {}
+    }
+    function renderChallenge() {
+      const board = $("#challengeEntries");
+      if (!board) return;
+      const entries = state.challengeEntries.slice().sort((a, b) => b.votes - a.votes);
+      board.innerHTML = entries.length ? entries.map(entry =>
+        '<article class="vote-card">' +
+          '<div class="vote-head"><div><h3>' + esc(entry.name) + '</h3><p class="muted">' + esc(entry.dish) + '</p></div><span class="vote-score">' + Number(entry.votes || 0) + '</span></div>' +
+          '<p class="sponsor-copy">' + esc(entry.method) + '</p>' +
+          '<div class="vote-actions">' +
+            '<button class="small-btn" type="button" data-vote="' + esc(entry.id) + '">' + t("voteUseful") + '</button>' +
+            '<button class="small-btn" type="button" data-vote="' + esc(entry.id) + '">' + t("voteCreative") + '</button>' +
+          '</div>' +
+        '</article>'
+      ).join("") : '<p class="muted">' + t("noEntries") + '</p>';
+      $$("[data-vote]").forEach(btn => btn.onclick = () => {
+        const entry = state.challengeEntries.find(item => item.id === btn.dataset.vote);
+        if (!entry) return;
+        entry.votes = Number(entry.votes || 0) + 1;
+        saveChallengeEntries();
+        renderChallenge();
+      });
+    }
+    function submitChallengeEntry() {
+      const dish = $("#challengeDish").value.trim() || "Korean food";
+      const name = $("#challengeName").value.trim() || "My K-Bite remix";
+      const method = $("#challengeMethod").value.trim();
+      if (!method) {
+        $("#challengeMethod").focus();
+        return;
+      }
+      state.challengeEntries.unshift({
+        id: "entry-" + Date.now(),
+        dish,
+        name,
+        method,
+        votes: 1
+      });
+      $("#challengeDish").value = "";
+      $("#challengeName").value = "";
+      $("#challengeMethod").value = "";
+      saveChallengeEntries();
+      renderChallenge();
+    }
     function renderText() {
       $$("[data-i]").forEach(el => el.textContent = t(el.dataset.i));
       $("#query").placeholder = t("searchPlaceholder");
       renderLanguageChips();
       renderSearchChips();
       renderResults();
+      renderChallenge();
       if (state.selected) renderDetail($("#searchDetail"), dishes.find(d => d.id === state.selected));
       if (state.scanned) renderDetail($("#scanDetail"), dishes.find(d => d.id === state.scanned));
     }
@@ -1145,11 +1370,8 @@ const html = String.raw`<!doctype html>
       setTimeout(() => $("#query").focus(), 80);
     });
     bindTap("#toChallenge", () => {
-      state.query = "sauce";
-      $("#query").value = state.query;
-      setScreen("search");
-      renderResults();
-      setTimeout(() => $("#query").focus(), 80);
+      setScreen("challenge");
+      renderChallenge();
     });
     bindTap("#toScan", () => { setScreen("scan"); startCamera(); });
     $$("[data-home]").forEach(btn => bindTap(btn, () => setScreen("home")));
@@ -1157,6 +1379,7 @@ const html = String.raw`<!doctype html>
     $("#clear").onclick = () => { state.query = ""; $("#query").value = ""; renderResults(); };
     bindTap("#cameraBtn", startCamera);
     bindTap("#detectBtn", detectFood);
+    bindTap("#submitChallenge", submitChallengeEntry);
     bindTap("#installBtn", async () => {
       if (!deferredInstallPrompt) return;
       deferredInstallPrompt.prompt();
@@ -1194,7 +1417,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v10";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v11";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
