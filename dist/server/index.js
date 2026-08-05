@@ -8,7 +8,7 @@ const html = String.raw`<!doctype html>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="K-Bite">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Free mobile guide for foreign visitors learning how to eat Korean food, search dishes, scan food, and ask restaurant staff in Korean.">
+  <meta name="description" content="Free mobile guide for foreign visitors learning how to eat Korean food, remix local sauces, share their own Korean-style bite, and ask restaurant staff in Korean.">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icon.svg">
@@ -224,6 +224,80 @@ const html = String.raw`<!doctype html>
     }
     .install-card strong {
       font-size: 14px;
+    }
+    .campaign-card, .sponsor-card {
+      display: grid;
+      gap: 12px;
+      border: 1px solid rgba(244,208,111,.24);
+      border-radius: 20px;
+      background:
+        linear-gradient(135deg, rgba(244,208,111,.12), rgba(25,77,71,.18)),
+        rgba(36,26,19,.82);
+      padding: 14px;
+    }
+    .campaign-card {
+      margin-top: 2px;
+    }
+    .campaign-kicker, .sponsor-kicker {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .campaign-title {
+      font-size: 19px;
+      line-height: 1.18;
+      font-weight: 850;
+    }
+    .campaign-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .campaign-step {
+      min-height: 74px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 15px;
+      background: rgba(255,255,255,.045);
+      padding: 9px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .campaign-step strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .campaign-note, .sponsor-copy {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .sponsor-card {
+      border-color: rgba(159,189,168,.34);
+      background:
+        linear-gradient(135deg, rgba(159,189,168,.14), rgba(185,74,54,.12)),
+        rgba(16,22,29,.9);
+    }
+    .sponsor-name {
+      font-weight: 850;
+      line-height: 1.2;
+    }
+    .sponsor-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .sponsor-tag {
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      padding: 6px 8px;
+      color: var(--text);
+      background: rgba(255,255,255,.05);
+      font-size: 12px;
     }
     .platform {
       display: none;
@@ -553,6 +627,7 @@ const html = String.raw`<!doctype html>
       h1 { font-size: 35px; }
       .app { padding-left: 12px; padding-right: 12px; }
       .askline, .scan-actions { grid-template-columns: 1fr; }
+      .campaign-steps { grid-template-columns: 1fr; }
     }
     @media (min-width: 700px) {
       body {
@@ -604,6 +679,17 @@ const html = String.raw`<!doctype html>
         <p class="muted home-copy" data-i="homeSupport">Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.</p>
         <div class="lang-picks" id="langPicks" aria-label="Language quick select"></div>
       </div>
+      <section class="campaign-card" aria-label="K-Bite challenge">
+        <span class="campaign-kicker" data-i="eventKicker">Monthly challenge</span>
+        <h2 class="campaign-title" data-i="eventTitle">Eat it Korean style. Create your own way. Share it to win.</h2>
+        <p class="campaign-note" data-i="eventCopy">Try the house sauce, make your own best bite, and share it with K-Bite. The most useful and delicious idea becomes a featured winning bite.</p>
+        <div class="campaign-steps">
+          <span class="campaign-step"><strong data-i="eventStep1Title">Taste</strong><span data-i="eventStep1">Start with the restaurant's recommended sauce or product pairing.</span></span>
+          <span class="campaign-step"><strong data-i="eventStep2Title">Create</strong><span data-i="eventStep2">Build your own bite: wrap, dip, mix, crunch, or pair.</span></span>
+          <span class="campaign-step"><strong data-i="eventStep3Title">Share</strong><span data-i="eventStep3">Post your method. Best bite wins a feature and local rewards.</span></span>
+        </div>
+        <button class="primary-btn" id="toChallenge" type="button" data-i="eventButton">Find a bite to remix</button>
+      </section>
       <div class="actions">
         <button class="action primary" id="toSearch" type="button">
           <span class="action-icon">🔎</span>
@@ -688,7 +774,21 @@ const html = String.raw`<!doctype html>
       quickQuestions: "Quick questions",
       scanNeedsCamera: "Start the camera first, then detect the food.",
       demoResult: "Demo result",
-      demoNote: "Camera recognition is a guided demo in this preview. Real AI food recognition can be connected for production."
+      demoNote: "Camera recognition is a guided demo in this preview. Real AI food recognition can be connected for production.",
+      eventKicker: "Monthly challenge",
+      eventTitle: "Eat it Korean style. Create your own way. Share it to win.",
+      eventCopy: "Try the house sauce, make your own best bite, and share it with K-Bite. The most useful and delicious idea becomes a featured winning bite.",
+      eventStep1Title: "Taste",
+      eventStep1: "Start with the restaurant's recommended sauce or product pairing.",
+      eventStep2Title: "Create",
+      eventStep2: "Build your own bite: wrap, dip, mix, crunch, or pair.",
+      eventStep3Title: "Share",
+      eventStep3: "Post your method. Best bite wins a feature and local rewards.",
+      eventButton: "Find a bite to remix",
+      sponsorKicker: "Partner bite",
+      sponsorTitle: "Featured local method",
+      sponsorCopy: "Restaurants and food brands can sponsor this spot with a real house sauce, signature pairing, or limited challenge reward.",
+      sponsorAsk: "Ask: What is this restaurant's best sauce or special way to eat it?"
     });
 
     const dishes = [
@@ -834,8 +934,25 @@ const html = String.raw`<!doctype html>
       if (found) return { ko: found.ko, meaning: ruleMeaning(found) };
       return { ko: "이걸 어떻게 먹으면 돼요?", meaning: input };
     }
+    function partnerBiteFor(dish) {
+      const title = local(dish)[0];
+      const recipes = {
+        samgyeopsal: ["House ssamjang + grilled kimchi bite", ["House sauce", "BBQ", "One-bite wrap"], "A barbecue restaurant can show its exact ssamjang, garlic, kimchi, and lettuce ratio, then invite guests to remix it."],
+        hoe: ["Chojang vs soy-wasabi tasting bite", ["Sauce flight", "Seafood", "Local market"], "Raw fish restaurants can turn sauce choice into a guided tasting instead of a confusing decision."],
+        bibimbap: ["Signature gochujang mixing ratio", ["Gochujang", "Rice bowl", "Mixing"], "Gochujang makers or bibimbap restaurants can teach a sauce amount that tastes balanced for visitors."],
+        sundubu: ["Egg timing + house chili oil finish", ["Hot stew", "Egg", "Chili oil"], "Tofu houses can make their spicy base memorable by naming the right egg timing and final spoonful."],
+        dakgalbi: ["Final fried rice challenge bite", ["Fried rice", "Cheese", "Sharing"], "Dakgalbi shops can sponsor the end-of-meal move visitors remember and post."],
+        tteokbokki: ["Sauce dip for fries, egg, and fish cake", ["Street food", "Spicy sauce", "Snack brand"], "Street food brands can make the sauce the hero and invite users to invent the best dip combo."],
+        bossam: ["Kimchi + saeujeot balance bite", ["Kimchi", "Salted shrimp", "Pork"], "Bossam shops can explain their kimchi's age, spice, or fermented seafood note as the signature."],
+        jokbal: ["Garlic, chili, and saeujeot wrap", ["Late-night food", "Wrap", "House dip"], "Jokbal restaurants can promote a house dip or delivery set through a practical eating method."],
+        naengmyeon: ["Vinegar and mustard control test", ["Cold noodles", "Vinegar", "Mustard"], "Noodle brands can teach visitors how to season gradually, then compare their own preferred ratio."],
+        gimbap: ["One-bite roll pairing", ["Picnic food", "Sauce", "Convenience"], "Gimbap shops and convenience food brands can sponsor easy pairing ideas for travelers on the move."]
+      };
+      return recipes[dish.id] || [title + " house-special bite", ["House sauce", "Local method", "Remix"], "A restaurant or food brand can sponsor this dish with its own sauce, pairing, or table ritual, then collect user-created bite ideas."];
+    }
     function renderDetail(target, dish) {
       const text = local(dish);
+      const partner = partnerBiteFor(dish);
       target.classList.add("active");
       target.innerHTML =
         '<div class="dish-head">' +
@@ -846,6 +963,13 @@ const html = String.raw`<!doctype html>
         '<section><h3>' + t("how") + '</h3><ol>' +
           text[3].map((s,i) => '<li class="step"><span class="num">' + (i + 1) + '</span><span>' + s + '</span></li>').join("") +
         '</ol></section>' +
+        '<section class="sponsor-card">' +
+          '<span class="sponsor-kicker">' + t("sponsorKicker") + '</span>' +
+          '<div><h3>' + t("sponsorTitle") + '</h3><p class="sponsor-name">' + partner[0] + '</p></div>' +
+          '<p class="sponsor-copy">' + partner[2] + '</p>' +
+          '<div class="sponsor-tags">' + partner[1].map(tag => '<span class="sponsor-tag">' + tag + '</span>').join("") + '</div>' +
+          '<p class="campaign-note">' + t("sponsorAsk") + '</p>' +
+        '</section>' +
         '<section class="ask">' +
           '<h3>' + t("ask") + '</h3>' +
           '<div class="askline"><input data-question placeholder="' + t("askPlaceholder") + '"><button class="primary-btn" data-translate>' + t("translate") + '</button></div>' +
@@ -987,6 +1111,13 @@ const html = String.raw`<!doctype html>
       setScreen("search");
       setTimeout(() => $("#query").focus(), 80);
     });
+    bindTap("#toChallenge", () => {
+      state.query = "sauce";
+      $("#query").value = state.query;
+      setScreen("search");
+      renderResults();
+      setTimeout(() => $("#query").focus(), 80);
+    });
     bindTap("#toScan", () => { setScreen("scan"); startCamera(); });
     $$("[data-home]").forEach(btn => bindTap(btn, () => setScreen("home")));
     $("#query").oninput = (e) => { state.query = e.target.value; renderResults(); };
@@ -1009,7 +1140,7 @@ const html = String.raw`<!doctype html>
 const manifest = {
   name: "K-Bite Guide",
   short_name: "K-Bite",
-  description: "Mobile guide for eating Korean food with search, camera scan flow, and Korean staff phrases.",
+  description: "Mobile guide for eating Korean food with search, camera scan flow, Korean staff phrases, and monthly Korean-style bite challenges.",
   start_url: "/",
   scope: "/",
   display: "standalone",
@@ -1030,7 +1161,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v8";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v9";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -1088,6 +1219,7 @@ const pages = {
   "/about": legalPage("About", String.raw`
     <p>K-Bite Guide is a free mobile guide for foreign visitors in Korea. It helps travelers search Korean dishes, scan food, learn table customs, and ask restaurant staff simple questions in Korean.</p>
     <p>The guide focuses on practical eating steps: how to grill meat, wrap ssam, mix bibimbap, add an egg to sundubu jjigae, and choose sauces for raw fish or barbecue.</p>
+    <p>The monthly bite challenge invites users to eat a dish Korean style first, create their own best bite, and share it. Restaurants and food brands can sponsor a featured local method by highlighting a real house sauce, product pairing, or limited reward.</p>
     <p>K-Bite Guide is designed for iPhone Safari and Android Chrome as an installable mobile web app.</p>
   `),
   "/privacy": legalPage("Privacy Policy", String.raw`
@@ -1102,7 +1234,7 @@ const pages = {
     <p>For privacy questions, contact the site owner through the contact page.</p>
   `),
   "/contact": legalPage("Contact", String.raw`
-    <p>For feedback, food corrections, language suggestions, restaurant partnerships, or advertising inquiries, contact the K-Bite Guide owner.</p>
+    <p>For feedback, food corrections, language suggestions, restaurant partnerships, challenge sponsorships, or advertising inquiries, contact the K-Bite Guide owner.</p>
     <p>Email: <a href="mailto:uk.dscheon@gmail.com">uk.dscheon@gmail.com</a></p>
   `),
 };
