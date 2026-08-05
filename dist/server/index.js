@@ -414,24 +414,18 @@ const html = String.raw`<!doctype html>
       font-size: 12px;
       text-align: center;
     }
-    .lang-picks, .suggestions, .phrase-grid {
+    .suggestions, .phrase-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
-    .lang-chip, .suggestion-chip, .phrase-chip {
+    .suggestion-chip, .phrase-chip {
       border: 1px solid var(--line);
       color: var(--text);
       background: rgba(255,255,255,.055);
       border-radius: 999px;
       padding: 8px 10px;
       font-size: 13px;
-    }
-    .lang-chip.active {
-      background: var(--primary);
-      color: var(--primary-text);
-      border-color: transparent;
-      font-weight: 800;
     }
     .phrase-chip {
       border-radius: 14px;
@@ -443,9 +437,6 @@ const html = String.raw`<!doctype html>
       font-size: 12px;
       line-height: 1.4;
       margin: 0;
-    }
-    .lang-picks {
-      margin-top: 12px;
     }
     .suggestions {
       margin-top: -4px;
@@ -1531,7 +1522,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v14";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v15";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
