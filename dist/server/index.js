@@ -299,6 +299,13 @@ const html = String.raw`<!doctype html>
       background: rgba(255,255,255,.05);
       font-size: 12px;
     }
+    .search-empty {
+      min-height: 220px;
+      align-content: center;
+    }
+    .search-empty.hidden {
+      display: none;
+    }
     .platform {
       display: none;
       color: var(--muted);
@@ -724,6 +731,16 @@ const html = String.raw`<!doctype html>
       </div>
       <div class="suggestions" id="searchChips"></div>
       <p class="result-count" id="resultCount"></p>
+      <section class="search-empty sponsor-card" id="searchEmpty" aria-label="Restaurant and food brand advertising">
+        <span class="sponsor-kicker" data-i="searchAdKicker">Sponsor space</span>
+        <h2 class="campaign-title" data-i="searchAdTitle">Own the first empty moment before guests choose a dish.</h2>
+        <p class="sponsor-copy" data-i="searchAdCopy">Restaurants can feature a house sauce or signature bite here. Food brands can sponsor a pairing challenge before visitors search.</p>
+        <div class="sponsor-tags">
+          <span class="sponsor-tag" data-i="searchAdTag1">House sauce</span>
+          <span class="sponsor-tag" data-i="searchAdTag2">Limited reward</span>
+          <span class="sponsor-tag" data-i="searchAdTag3">Brand pairing</span>
+        </div>
+      </section>
       <div class="list" id="results"></div>
       <article class="detail" id="searchDetail"></article>
     </section>
@@ -788,7 +805,14 @@ const html = String.raw`<!doctype html>
       sponsorKicker: "Partner bite",
       sponsorTitle: "Featured local method",
       sponsorCopy: "Restaurants and food brands can sponsor this spot with a real house sauce, signature pairing, or limited challenge reward.",
-      sponsorAsk: "Ask: What is this restaurant's best sauce or special way to eat it?"
+      sponsorAsk: "Ask: What is this restaurant's best sauce or special way to eat it?",
+      searchIdle: "Start typing to search dishes automatically.",
+      searchAdKicker: "Sponsor space",
+      searchAdTitle: "Own the first empty moment before guests choose a dish.",
+      searchAdCopy: "Restaurants can feature a house sauce or signature bite here. Food brands can sponsor a pairing challenge before visitors search.",
+      searchAdTag1: "House sauce",
+      searchAdTag2: "Limited reward",
+      searchAdTag3: "Brand pairing"
     });
 
     const dishes = [
@@ -1007,8 +1031,17 @@ const html = String.raw`<!doctype html>
       };
     }
     function renderResults() {
-      const q = state.query.toLowerCase();
-      const rows = dishes.filter(d => !q || (d.search + " " + local(d)[0] + " " + d.ko).toLowerCase().includes(q));
+      const q = state.query.trim().toLowerCase();
+      if (!q) {
+        $("#resultCount").textContent = t("searchIdle");
+        $("#results").innerHTML = "";
+        $("#searchEmpty").classList.remove("hidden");
+        $("#searchDetail").classList.remove("active");
+        $("#searchDetail").innerHTML = "";
+        return;
+      }
+      $("#searchEmpty").classList.add("hidden");
+      const rows = dishes.filter(d => (d.search + " " + local(d)[0] + " " + d.ko).toLowerCase().includes(q));
       $("#resultCount").textContent = rows.length + " " + t("resultsFound");
       $("#results").innerHTML = rows.map(d => {
         const text = local(d);
@@ -1161,7 +1194,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v9";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v10";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
