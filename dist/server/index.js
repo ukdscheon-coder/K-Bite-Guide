@@ -225,6 +225,31 @@ const html = String.raw`<!doctype html>
     .install-card strong {
       font-size: 14px;
     }
+    .source-card {
+      display: grid;
+      gap: 7px;
+      margin-top: 2px;
+      border: 1px solid rgba(111, 196, 190, .24);
+      border-radius: 16px;
+      background: rgba(20, 33, 34, .62);
+      padding: 12px 13px;
+    }
+    .source-card strong {
+      font-size: 13px;
+      color: var(--text);
+    }
+    .source-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+    .source-card a {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
     .campaign-card, .sponsor-card {
       display: grid;
       gap: 12px;
@@ -900,6 +925,11 @@ const html = String.raw`<!doctype html>
       <div class="ad-slot" data-ad-slot>
         <span data-i="adLabel">Ad space reserved</span>
       </div>
+      <section class="source-card">
+        <strong data-i="sourceTitle">Official Korean food references</strong>
+        <p data-i="sourceCopy">The menu is expanded with public Hansik, KF, KTO, and Korean Culture food references. Free photo sources are linked separately for safe use.</p>
+        <a href="/sources" data-i="sourceCta">View source and free photo links</a>
+      </section>
     </section>
 
     <section class="screen" id="challenge">
@@ -1005,13 +1035,14 @@ const html = String.raw`<!doctype html>
       <a href="/about">About</a>
       <a href="/privacy">Privacy</a>
       <a href="/partners">Partners</a>
+      <a href="/sources">Sources</a>
       <a href="/contact">Contact</a>
     </footer>
   </main>
 
   <script>
     const ui = {
-      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", homeTitle: "Eat Korean food with confidence", homeSupport: "Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan food", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu...", installTitle: "Install on your phone", installIOS: "iPhone: open in Safari, tap Share, then Add to Home Screen.", installAndroid: "Android: open in Chrome, tap Install app or Add to Home screen.", installOther: "Use this as a mobile web app on iPhone Safari or Android Chrome.", installButton: "Install app", adLabel: "Ad space reserved" },
+      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", homeTitle: "Eat Korean food with confidence", homeSupport: "Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan food", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu...", installTitle: "Install on your phone", installIOS: "iPhone: open in Safari, tap Share, then Add to Home Screen.", installAndroid: "Android: open in Chrome, tap Install app or Add to Home screen.", installOther: "Use this as a mobile web app on iPhone Safari or Android Chrome.", installButton: "Install app", adLabel: "Ad space reserved", sourceTitle: "Official Korean food references", sourceCopy: "The menu is expanded with public Hansik, KF, KTO, and Korean Culture food references. Free photo sources are linked separately for safe use.", sourceCta: "View source and free photo links" },
       ja: { homeCopy: "目の前の韓国料理を見つけて、正しい食べ方を確認できます。", homeTitle: "韓国料理を安心して楽しむ", homeSupport: "料理名で検索、または料理をスキャンして、食べ方・ソース・韓国語フレーズを確認できます。", searchFood: "料理を検索", searchSub: "料理名、ソース、食材、食べ方で検索", scanMenu: "料理をスキャン", scanSub: "カメラで料理を認識してガイドを表示", home: "ホーム", foodSearch: "料理検索", foodScan: "料理スキャン", scanCopy: "料理にカメラを向けます。認識後、料理名と食べ方が下に表示されます。", cameraHint: "ここにカメラ画面が表示されます", startCamera: "カメラ開始", detectFood: "料理を認識", cameraBlocked: "この環境ではカメラ許可がブロックされています。iPhoneではHTTPSリンクをSafariで開いて許可してください。", analyzing: "カメラ画像を解析中...", detected: "認識結果", how: "食べ方", ask: "韓国語で店員に質問", askPlaceholder: "質問を入力。例：これは火が通っていますか？", translate: "翻訳", play: "韓国語を再生", suggestion: "おすすめ文", searchPlaceholder: "豚バラ、卵、刺身、豆腐など", installTitle: "スマートフォンにインストール", installIOS: "iPhone: Safariで開き、共有からホーム画面に追加します。", installAndroid: "Android: Chromeで開き、アプリをインストールまたはホーム画面に追加します。", installOther: "iPhone SafariまたはAndroid Chromeでモバイルアプリとして使えます。", installButton: "アプリをインストール" },
       zhCN: { homeCopy: "找到眼前的韩国料理，并学习正确吃法。", homeTitle: "放心享受韩国料理", homeSupport: "按名称搜索或扫描食物，查看正确步骤、酱料和韩语店员用语。", searchFood: "搜索菜品", searchSub: "按菜名、酱料、食材或吃法搜索", scanMenu: "扫描食物", scanSub: "用相机识别食物并打开指南", home: "首页", foodSearch: "菜品搜索", foodScan: "食物扫描", scanCopy: "把镜头对准食物。识别后，菜名和吃法会显示在下方。", cameraHint: "相机画面会显示在这里", startCamera: "开启相机", detectFood: "识别食物", cameraBlocked: "此环境可能阻止相机权限。在 iPhone 上请用 Safari 打开 HTTPS 链接并允许相机。", analyzing: "正在分析相机画面...", detected: "识别结果", how: "怎么吃", ask: "用韩语问店员", askPlaceholder: "输入问题，例如：这个熟了吗？", translate: "翻译", play: "播放韩语", suggestion: "推荐句", searchPlaceholder: "试试五花肉、鸡蛋、生鱼片、豆腐", installTitle: "安装到手机", installIOS: "iPhone：用 Safari 打开，点分享，然后添加到主屏幕。", installAndroid: "Android：用 Chrome 打开，点安装应用或添加到主屏幕。", installOther: "可在 iPhone Safari 或 Android Chrome 上作为手机网页应用使用。", installButton: "安装应用" },
       zhTW: { homeCopy: "找到眼前的韓國料理，並學習正確吃法。", homeTitle: "放心享受韓國料理", homeSupport: "按名稱搜尋或掃描食物，查看正確步驟、醬料和韓語店員用語。", searchFood: "搜尋菜色", searchSub: "按菜名、醬料、食材或吃法搜尋", scanMenu: "掃描食物", scanSub: "用相機辨識食物並開啟指南", home: "首頁", foodSearch: "菜色搜尋", foodScan: "食物掃描", scanCopy: "把鏡頭對準食物。辨識後，菜名和吃法會顯示在下方。", cameraHint: "相機畫面會顯示在這裡", startCamera: "開啟相機", detectFood: "辨識食物", cameraBlocked: "此環境可能阻止相機權限。在 iPhone 上請用 Safari 開啟 HTTPS 連結並允許相機。", analyzing: "正在分析相機畫面...", detected: "辨識結果", how: "怎麼吃", ask: "用韓語問店員", askPlaceholder: "輸入問題，例如：這個熟了嗎？", translate: "翻譯", play: "播放韓語", suggestion: "推薦句", searchPlaceholder: "試試五花肉、雞蛋、生魚片、豆腐", installTitle: "安裝到手機", installIOS: "iPhone：用 Safari 開啟，點分享，然後加入主畫面。", installAndroid: "Android：用 Chrome 開啟，點安裝應用程式或加入主畫面。", installOther: "可在 iPhone Safari 或 Android Chrome 上作為手機網頁應用使用。", installButton: "安裝應用程式" },
@@ -1192,6 +1223,9 @@ const html = String.raw`<!doctype html>
     });
 
     Object.assign(ui.ko, {
+      sourceTitle: "공식 한식 자료",
+      sourceCopy: "한식포털, KF, 한국관광공사, 한국문화원 자료를 참고해 메뉴를 확장했습니다. 무료 이미지 출처는 안전한 사용을 위해 별도 링크로 제공합니다.",
+      sourceCta: "출처와 무료 이미지 링크 보기",
       eventKicker: "월간 챌린지",
       eventTitle: "한국식으로 먹고, 나만의 방식으로 만들고, 공유해서 우승하세요.",
       eventCopy: "먼저 한국식 기본 방법을 배운 뒤 소스, 쌈, 식감, 사이드 조합을 바꿔 나만의 한입을 올려보세요.",
@@ -1340,7 +1374,34 @@ const html = String.raw`<!doctype html>
       simpleDish("tteokgalbi", "🥩", "떡갈비", "Tteokgalbi", "Grilled minced short rib patties with sweet soy flavor.", ["Beef patty", "Sweet soy"], ["Cut a small piece first.", "Eat with rice or lettuce if served.", "Dip only lightly because it is already seasoned.", "Pair with kimchi to balance sweetness."], "short rib patty grilled beef tteokgalbi", "이미 양념이 되어 있나요?", "Is it already seasoned?"),
       simpleDish("kkanpunggi", "🍗", "깐풍기", "Kkanpunggi", "Crispy fried chicken tossed in a spicy garlic sauce.", ["Fried chicken", "Spicy"], ["Eat while crisp before sauce softens it.", "Try one piece first to check spice.", "Share from the center plate.", "Eat with pickled radish between bites."], "korean chinese fried chicken spicy garlic", "많이 매운가요?", "Is it very spicy?"),
       simpleDish("yubuchobap", "🍚", "유부초밥", "Yubu chobap", "Sweet tofu pockets filled with seasoned rice.", ["Tofu pocket", "Rice"], ["Pick up one piece carefully.", "Eat in one bite if possible.", "Dip only if sauce is served.", "Check toppings if you avoid seafood."], "tofu pocket rice yubu chobap inari korean", "한입에 먹나요?", "Should I eat it in one bite?"),
-      simpleDish("patjuk", "🥣", "팥죽", "Patjuk", "Red bean porridge, sometimes served with small rice balls.", ["Porridge", "Red bean"], ["Stir before eating because it is thick.", "Let rice balls cool slightly.", "Add sugar or salt only to your own bowl.", "Eat slowly; it stays hot."], "red bean porridge rice balls patjuk", "설탕을 넣어 먹나요?", "Should I add sugar?")
+      simpleDish("patjuk", "🥣", "팥죽", "Patjuk", "Red bean porridge, sometimes served with small rice balls.", ["Porridge", "Red bean"], ["Stir before eating because it is thick.", "Let rice balls cool slightly.", "Add sugar or salt only to your own bowl.", "Eat slowly; it stays hot."], "red bean porridge rice balls patjuk", "설탕을 넣어 먹나요?", "Should I add sugar?"),
+      simpleDish("bungeoppang", "🐟", "붕어빵", "Bungeoppang", "Fish-shaped pastry filled with sweet red bean, custard, or other fillings.", ["Street snack", "Hot filling"], ["Break it open first to release steam.", "Check the filling because it can be very hot.", "Eat from the head or tail as you like.", "Share different fillings if buying a bag."], "fish shaped pastry red bean custard street snack wooltari", "속이 많이 뜨거운가요?", "Is the filling very hot?"),
+      simpleDish("samgyeopsal_bbq", "🥓", "삼겹살구이", "Samgyeopsal gui", "Grilled pork belly served with lettuce, garlic, ssamjang, and kimchi.", ["Pork BBQ", "Wrap"], ["Grill until browned and cooked through.", "Cut into one-bite pieces.", "Dip lightly in salt oil or ssamjang.", "Wrap with lettuce, garlic, and kimchi."], "pork belly bbq samgyeopsal gui lettuce ssam kimchi", "쌈에 무엇을 넣으면 좋나요?", "What should I put in the wrap?"),
+      simpleDish("la_galbi", "🥩", "LA갈비", "LA galbi", "Thin cross-cut beef short ribs marinated in sweet soy sauce.", ["Beef BBQ", "Sweet soy"], ["Grill both sides until caramelized.", "Cut around the bone if needed.", "Eat with rice, lettuce, or kimchi.", "Use a bone plate for rib pieces."], "la galbi beef short rib soy marinade grill wooltari", "뼈는 어디에 두면 되나요?", "Where should I put the bones?"),
+      simpleDish("deunggalbi", "🍖", "등갈비", "Deunggalbi", "Pork back ribs, grilled or braised, often sweet, smoky, or spicy.", ["Pork ribs", "Hands okay"], ["Pick up the rib if gloves or napkins are provided.", "Eat meat from the bone carefully.", "Use rice or pickles to balance sauce.", "Put bones on the side plate."], "pork back ribs deunggalbi grilled braised spicy", "손으로 먹어도 되나요?", "Can I eat this with my hands?"),
+      simpleDish("maeun_deunggalbi_jjim", "🌶️", "매운등갈비찜", "Maeun deunggalbi jjim", "Spicy braised pork back ribs often served with rice cakes or cheese.", ["Spicy ribs", "Braised"], ["Let it cool slightly because sauce is hot.", "Pull rib meat from the bone.", "Eat with rice to soften the heat.", "Ask before adding cheese or noodles."], "spicy braised pork ribs deunggalbi jjim rice cake cheese", "치즈를 추가해서 먹나요?", "Should I add cheese?"),
+      simpleDish("kimchijeon", "🥞", "김치전", "Kimchi jeon", "Crisp savory pancake made with kimchi batter.", ["Pancake", "Kimchi"], ["Tear or cut one piece.", "Dip only lightly because kimchi is already seasoned.", "Eat while the edge is crisp.", "Pair with makgeolli if desired."], "kimchi pancake jeon crisp soy vinegar", "간장에 찍어 먹나요?", "Should I dip it in soy sauce?"),
+      simpleDish("bibim_guksu", "🍜", "비빔국수", "Bibim guksu", "Cold noodles mixed with spicy-sweet gochujang sauce.", ["Cold noodles", "Mix"], ["Mix from the bottom until sauce coats noodles.", "Cut noodles if they are too long.", "Add egg or cucumber to cool the spice.", "Eat soon before noodles soften."], "spicy mixed noodles bibim guksu gochujang cold", "다 비벼서 먹나요?", "Do I mix all of it?"),
+      simpleDish("janchi_guksu", "🍜", "잔치국수", "Janchi guksu", "Warm banquet noodles in light anchovy broth with garnish.", ["Warm noodles", "Light broth"], ["Taste the broth first.", "Mix garnish into the noodles.", "Add seasoning sauce gradually.", "Eat kimchi between bites."], "banquet noodles anchovy broth janchi guksu garnish", "양념장을 넣어 먹나요?", "Should I add the seasoning sauce?"),
+      simpleDish("soondae", "🌭", "순대", "Soondae", "Korean blood sausage often eaten with salt, tteokbokki sauce, or liver.", ["Street food", "Dip"], ["Dip lightly in salt or regional sauce.", "Eat with liver or lung if served.", "Try dipping in tteokbokki sauce.", "Ask what parts are included if unsure."], "korean blood sausage sundae soondae salt tteokbokki sauce", "어떤 소스에 찍어 먹나요?", "Which sauce should I use?"),
+      simpleDish("dakgangjeong", "🍗", "닭강정", "Dakgangjeong", "Crispy bite-sized fried chicken coated in sweet spicy glaze.", ["Fried chicken", "Sweet spicy"], ["Eat while the coating is crisp.", "Use toothpicks or chopsticks if served.", "Balance with pickled radish.", "Share because the glaze is rich."], "sweet spicy fried chicken dakgangjeong snack", "무와 같이 먹나요?", "Should I eat it with pickled radish?"),
+      simpleDish("yangnyeom_chicken", "🍗", "양념치킨", "Yangnyeom chicken", "Korean fried chicken coated with sweet-spicy red sauce.", ["Fried chicken", "Sauced"], ["Eat soon before the crust softens.", "Use pickled radish between bites.", "Try plain and sauced pieces together if ordered half-half.", "Use gloves if provided."], "korean fried chicken yangnyeom sauce chimaek pickled radish", "치킨무와 같이 먹나요?", "Should I eat it with pickled radish?"),
+      simpleDish("sotteok_sotteok", "🍢", "소떡소떡", "Sotteok sotteok", "Street skewer alternating sausage and rice cake with sweet spicy sauce.", ["Skewer", "Street food"], ["Eat one sausage and one rice cake together.", "Check heat before biting the rice cake.", "Hold the stick from the bottom.", "Use napkins because sauce is sticky."], "sausage rice cake skewer sotteok street snack", "떡과 소시지를 같이 먹나요?", "Should I eat sausage and rice cake together?"),
+      simpleDish("tteokkochi", "🍢", "떡꼬치", "Tteokkochi", "Skewered rice cakes grilled or fried with sweet spicy sauce.", ["Rice cake", "Skewer"], ["Let it cool before the first bite.", "Bite one rice cake at a time.", "Use the stick carefully.", "Expect a chewy texture."], "rice cake skewer tteokkochi sweet spicy sauce", "많이 뜨거운가요?", "Is it very hot?"),
+      simpleDish("eomuk_tang", "🍲", "어묵탕", "Eomuk tang", "Warm fish cake soup with skewers, radish, and broth.", ["Fish cake soup", "Broth"], ["Take a skewer or bowl piece.", "Sip the broth while hot.", "Dip fish cake in soy sauce if served.", "Count skewers if paying street-style."], "fish cake soup eomuk tang odeng broth skewer", "국물도 마셔도 되나요?", "Can I drink the broth too?"),
+      simpleDish("chueotang", "🍲", "추어탕", "Chueotang", "Nutty loach soup with greens, perilla, and peppery seasoning.", ["Fish soup", "Strong flavor"], ["Taste first before adding spice.", "Add perilla powder if you like nuttiness.", "Eat with rice and kimchi.", "Ask if bones are ground into the soup."], "loach soup chueotang perilla greens fish", "들깨가루를 넣어 먹나요?", "Should I add perilla powder?"),
+      simpleDish("godeungeogui", "🐟", "고등어구이", "Godeungeo gui", "Grilled mackerel served with rice and side dishes.", ["Grilled fish", "Bones"], ["Separate flesh from bones carefully.", "Eat with rice because it is salty and rich.", "Try with radish or kimchi.", "Use a side plate for bones."], "grilled mackerel godeungeo gui fish rice bones", "가시를 조심해야 하나요?", "Should I watch for bones?"),
+      simpleDish("jeonbokjuk", "🥣", "전복죽", "Jeonbokjuk", "Abalone rice porridge with a gentle seafood flavor.", ["Porridge", "Seafood"], ["Stir before eating.", "Let it cool because thick porridge stays hot.", "Eat with kimchi or salted side dishes.", "Ask about shellfish if allergic."], "abalone porridge jeonbokjuk seafood rice", "조개류 알레르기가 있으면 피해야 하나요?", "Should I avoid it with shellfish allergy?"),
+      simpleDish("hobakjuk", "🥣", "호박죽", "Hobakjuk", "Sweet pumpkin porridge, sometimes with rice balls or beans.", ["Porridge", "Sweet"], ["Stir before eating.", "Let rice balls cool slightly.", "Add salt only if provided.", "Eat slowly because it stays hot."], "pumpkin porridge hobakjuk sweet rice balls", "새알심이 뜨거운가요?", "Are the rice balls hot?"),
+      simpleDish("cheonggukjang", "🍲", "청국장", "Cheonggukjang", "Strong fermented soybean stew with tofu and vegetables.", ["Fermented stew", "Strong aroma"], ["Expect a strong fermented aroma.", "Scoop tofu, beans, and broth over rice.", "Eat with kimchi and side dishes.", "Ask about meat or seafood broth if needed."], "fermented soybean stew cheonggukjang tofu strong aroma", "냄새가 강한 음식인가요?", "Does this have a strong aroma?"),
+      simpleDish("gondeure_bap", "🍚", "곤드레밥", "Gondeure bap", "Rice cooked with seasoned thistle greens and mixed with soy sauce.", ["Vegetable rice", "Mix"], ["Add soy seasoning little by little.", "Mix the greens and rice evenly.", "Eat with stew or side dishes.", "Try seaweed if served."], "thistle greens rice gondeure bap soy seasoning", "양념장을 얼마나 넣나요?", "How much seasoning sauce should I add?"),
+      simpleDish("baekban", "🍱", "백반", "Baekban", "Korean set meal with rice, soup, and many small side dishes.", ["Set meal", "Banchan"], ["Start with rice and soup.", "Try side dishes one by one.", "Refill side dishes only if the restaurant offers it.", "Ask which dishes are spicy or contain seafood."], "korean set meal baekban rice soup banchan", "반찬 리필이 되나요?", "Can I refill the side dishes?"),
+      simpleDish("nurungji", "🍚", "누룽지", "Nurungji", "Scorched rice eaten crispy or softened with hot water.", ["Scorched rice", "Finish"], ["Eat dry pieces as a crunchy snack.", "Pour hot water if served for a warm finish.", "Let it soften before spooning.", "Pair with salty side dishes."], "scorched rice nurungji hot water crispy", "뜨거운 물을 부어 먹나요?", "Do I pour hot water over it?"),
+      simpleDish("chungmu_gimbap", "김", "충무김밥", "Chungmu gimbap", "Small plain seaweed rice rolls served with spicy squid and radish kimchi.", ["Rice roll", "Spicy side"], ["Eat a plain rice roll with spicy side dish.", "Do not expect fillings inside the roll.", "Balance squid, radish, and rice in one bite.", "Ask about seafood if allergic."], "chungmu gimbap seaweed rice roll squid radish kimchi", "김밥 안에 속이 없나요?", "Is there no filling inside the roll?"),
+      simpleDish("kkoma_gimbap", "김", "꼬마김밥", "Kkoma gimbap", "Small bite-sized gimbap rolls, often dipped in mustard soy sauce.", ["Rice roll", "Snack"], ["Pick up one small roll.", "Dip lightly in mustard soy sauce if served.", "Eat in one bite.", "Check fillings if you avoid ham, egg, or fish cake."], "mini gimbap kkoma gimbap mustard soy snack", "겨자소스에 찍어 먹나요?", "Should I dip it in mustard sauce?"),
+      simpleDish("yakgwa", "🍯", "약과", "Yakgwa", "Traditional honey cookie with a dense fried texture.", ["Dessert", "Honey"], ["Take small bites because it is dense.", "Pair with tea or coffee.", "Expect a sweet honey-ginger flavor.", "Share if served as a dessert plate."], "traditional korean honey cookie yakgwa dessert", "차와 같이 먹나요?", "Should I eat it with tea?"),
+      simpleDish("injeolmi", "🍡", "인절미", "Injeolmi", "Soft rice cake coated with roasted soybean powder.", ["Rice cake", "Soybean powder"], ["Take small bites because rice cake is chewy.", "Use a fork or toothpick if provided.", "Expect powder to fall, so lean over the plate.", "Pair with tea."], "rice cake soybean powder injeolmi tteok dessert", "가루가 떨어지니 조심해야 하나요?", "Should I be careful with the powder?"),
+      simpleDish("sikhye", "🥤", "식혜", "Sikhye", "Sweet rice punch served cold, often after a meal.", ["Drink", "Dessert"], ["Drink cold after the meal.", "Eat the rice grains if you like.", "Shake or stir gently if grains settle.", "Pair with traditional snacks."], "sweet rice punch sikhye korean dessert drink", "밥알도 먹어도 되나요?", "Can I eat the rice grains too?")
     );
 
     const rules = [
@@ -1718,7 +1779,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v22";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v23";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -1786,6 +1847,24 @@ const pages = {
     <p>The guide focuses on practical eating steps: how to grill meat, wrap ssam, mix bibimbap, add an egg to sundubu jjigae, and choose sauces for raw fish or barbecue.</p>
     <p>The monthly bite challenge invites users to eat a dish Korean style first, create their own best bite, and share it. Restaurants and food brands can sponsor a featured local method by highlighting a real house sauce, product pairing, or limited reward.</p>
     <p>K-Bite Guide is designed for iPhone Safari and Android Chrome as an installable mobile web app.</p>
+  `),
+  "/sources": legalPage("한식 자료와 무료 이미지 출처", String.raw`
+    <p>K-Bite Guide의 메뉴 확장은 한식포털, 한국국제교류재단, 한국관광공사 및 한국문화원 자료, 그리고 사용자가 제시한 K-food 커머스 트렌드를 참고했습니다.</p>
+    <p>앱 내부 음식명과 먹는 방법은 여행자가 식당에서 바로 이해할 수 있도록 재구성했습니다. 사진은 각 제공처의 이용 조건을 확인한 뒤 다운로드해 광고 배너, 음식 상세, 파트너 소개에 연결하는 방식으로 운영하는 것이 안전합니다.</p>
+    <h2>공식 한식 자료</h2>
+    <ul>
+      <li><a href="https://www.hansik.or.kr/main/main.do">한식포털 The Taste of Korea HANSIK</a> - 한식 레시피, 사진자료, 한식메뉴 외국어 표기법</li>
+      <li><a href="https://www.hansik.or.kr/bookSearch/main">한식포털 자료 검색</a> - 한식 관련 발간자료와 메뉴 자료 검색</li>
+      <li><a href="https://www.kf.or.kr/kfNewsletter/mgzinSubViewPage.do?mgzinSubSn=10721&langTy=KOR">한국국제교류재단 KF 한식 관심도 자료</a> - 외국인의 한식 관심과 대표 메뉴 참고</li>
+      <li><a href="https://www.korean-culture.org/koreanet/view.do?seq=2362">한국문화원/KTO 한식책자 자료</a> - 외국인을 위한 한식 소개 자료 참고</li>
+      <li><a href="https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do;ksessionid=uno5duCii5lYao0cX69iJiL_u8fBr78RPixmd1H0.wiws01?cbIdx=1603&bcIdx=311&cateCont=&searchKey=&searchKey2=&tgtTypeCd=&searchKey1=&searchKey3=">한국관광 데이터랩</a> - 관광 데이터와 K-food 관심 흐름 참고</li>
+    </ul>
+    <h2>이미지와 커머스 참고</h2>
+    <ul>
+      <li><a href="https://m.blog.naver.com/PostView.naver?blogId=bbtreecorporation&logNo=223752945652&proxyReferer=&noTrackingCode=true">한국관광공사 무료이미지 안내</a> - 한식 무료 이미지 다운로드 후보</li>
+      <li><a href="https://wooltariusa.com/collections/regretprice?_kx=qYpUNE6Hq_1gqejd9JyPoOS1YfSo7amnVmDUnjjXrCc.Ts3SYU">울타리 K-food 인기 상품 모음</a> - 붕어빵, 갈비, 삼겹살, 등갈비 등 해외 소비 트렌드 참고</li>
+    </ul>
+    <p class="note">상업몰 이미지와 제3자 블로그 이미지는 앱에 직접 복제하지 않았습니다. 실제 사진 삽입은 제공처의 다운로드 약관과 상업적 이용 가능 여부를 확인한 뒤 적용하는 것을 권장합니다.</p>
   `),
   "/privacy": legalPage("Privacy Policy", String.raw`
     <p>Last updated: August 2, 2026</p>
