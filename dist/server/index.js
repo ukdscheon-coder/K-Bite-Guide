@@ -282,6 +282,39 @@ const html = String.raw`<!doctype html>
         linear-gradient(135deg, rgba(159,189,168,.14), rgba(185,74,54,.12)),
         rgba(16,22,29,.9);
     }
+    .sponsor-banner {
+      gap: 8px;
+      border-radius: 14px;
+      padding: 11px 12px;
+      background: rgba(28,32,29,.78);
+    }
+    .sponsor-banner .sponsor-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+    .sponsor-banner .sponsor-name {
+      font-size: 13px;
+    }
+    .sponsor-banner .sponsor-copy,
+    .sponsor-banner .campaign-note {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .sponsor-banner .sponsor-tags {
+      gap: 5px;
+    }
+    .sponsor-banner .sponsor-tag {
+      padding: 4px 7px;
+      font-size: 11px;
+    }
+    .sponsor-banner .partner-cta {
+      width: auto;
+      min-height: 34px;
+      padding: 8px 10px;
+      white-space: nowrap;
+    }
     .sponsor-name {
       font-weight: 850;
       line-height: 1.2;
@@ -726,6 +759,8 @@ const html = String.raw`<!doctype html>
       h1 { font-size: 35px; }
       .app { padding-left: 12px; padding-right: 12px; }
       .askline, .scan-actions { grid-template-columns: 1fr; }
+      .sponsor-banner .sponsor-row { grid-template-columns: 1fr; }
+      .sponsor-banner .partner-cta { width: 100%; }
       .campaign-steps { grid-template-columns: 1fr; }
       .criteria-grid, .vote-actions { grid-template-columns: 1fr; }
     }
@@ -1032,8 +1067,8 @@ const html = String.raw`<!doctype html>
       eventStep3Title: "Share",
       eventStep3: "Post your method. Best bite wins a feature and local rewards.",
       eventButton: "Find a bite to remix",
-      sponsorKicker: "Partner bite",
-      sponsorTitle: "Featured local method",
+      sponsorKicker: "Sponsored bite",
+      sponsorTitle: "Local sauce or brand pairing",
       sponsorCopy: "Restaurants and food brands can sponsor this spot with a real house sauce, signature pairing, or limited challenge reward.",
       sponsorAsk: "Ask: What is this restaurant's best sauce or special way to eat it?",
       searchIdle: "Start typing to search dishes automatically.",
@@ -1260,19 +1295,19 @@ const html = String.raw`<!doctype html>
         '<section><h3>' + t("how") + '</h3><ol>' +
           text[3].map((s,i) => '<li class="step"><span class="num">' + (i + 1) + '</span><span>' + s + '</span></li>').join("") +
         '</ol></section>' +
-        '<section class="sponsor-card">' +
-          '<span class="sponsor-kicker">' + t("sponsorKicker") + '</span>' +
-          '<div><h3>' + t("sponsorTitle") + '</h3><p class="sponsor-name">' + partner[0] + '</p></div>' +
-          '<p class="sponsor-copy">' + partner[2] + '</p>' +
-          '<div class="sponsor-tags">' + partner[1].map(tag => '<span class="sponsor-tag">' + tag + '</span>').join("") + '</div>' +
-          '<p class="campaign-note">' + t("sponsorAsk") + '</p>' +
-          '<a class="primary-btn partner-cta" href="/partners">' + t("sponsorCta") + '</a>' +
-        '</section>' +
         '<section class="ask">' +
           '<h3>' + t("ask") + '</h3>' +
           '<div class="askline"><input data-question placeholder="' + t("askPlaceholder") + '"><button class="primary-btn" data-translate>' + t("translate") + '</button></div>' +
           '<div class="translation-card"><div><p class="korean" data-korean>' + dish.phrase + '</p><p class="meaning" data-meaning>' + meaningFor(dish) + '</p></div><button class="small-btn" type="button" data-speak>' + t("play") + '</button></div>' +
           '<div class="phrase-grid">' + rules.slice(0, 4).map((rule, i) => '<button class="phrase-chip" type="button" data-rule="' + i + '">' + ruleMeaning(rule) + '</button>').join("") + '</div>' +
+        '</section>' +
+        '<section class="sponsor-card sponsor-banner" aria-label="Sponsored local method">' +
+          '<div class="sponsor-row"><div>' +
+            '<span class="sponsor-kicker">' + t("sponsorKicker") + '</span>' +
+            '<p class="sponsor-name">' + t("sponsorTitle") + ': ' + partner[0] + '</p>' +
+          '</div><a class="primary-btn partner-cta" href="/partners">' + t("sponsorCta") + '</a></div>' +
+          '<p class="sponsor-copy">' + partner[2] + '</p>' +
+          '<div class="sponsor-tags">' + partner[1].slice(0, 3).map(tag => '<span class="sponsor-tag">' + tag + '</span>').join("") + '</div>' +
         '</section>' +
         '<section class="campaign-card">' +
           '<span class="campaign-kicker">' + t("eventKicker") + '</span>' +
@@ -1526,7 +1561,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v18";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v19";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
