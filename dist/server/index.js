@@ -340,8 +340,22 @@ const html = String.raw`<!doctype html>
       text-decoration: none;
     }
     .search-empty {
-      min-height: 220px;
+      min-height: 156px;
+      margin-top: clamp(56px, 16vh, 118px);
       align-content: center;
+    }
+    .search-empty.active-search {
+      min-height: 104px;
+      margin-top: 8px;
+      padding: 11px 12px;
+      gap: 8px;
+    }
+    .search-empty.active-search .campaign-title {
+      font-size: 16px;
+    }
+    .search-empty.active-search .sponsor-copy,
+    .search-empty.active-search .sponsor-tags {
+      display: none;
     }
     .search-empty.hidden {
       display: none;
@@ -349,6 +363,58 @@ const html = String.raw`<!doctype html>
     .challenge-grid, .submit-form, .vote-list {
       display: grid;
       gap: 10px;
+    }
+    #challenge {
+      gap: 10px;
+    }
+    .challenge-hero {
+      gap: 9px;
+      padding: 12px;
+    }
+    .challenge-hero .campaign-title {
+      font-size: 18px;
+    }
+    .challenge-hero .campaign-note {
+      font-size: 12px;
+    }
+    .challenge-hero .campaign-steps {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .challenge-hero .campaign-step {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px;
+      padding: 7px 8px;
+    }
+    .challenge-hero .campaign-step strong {
+      margin: 0;
+      white-space: nowrap;
+    }
+    .challenge-submit {
+      padding: 12px;
+    }
+    .challenge-submit .submit-form {
+      gap: 8px;
+    }
+    .challenge-submit .field textarea {
+      min-height: 66px;
+    }
+    .challenge-meta {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .challenge-meta .theme-card,
+    .challenge-meta .sponsor-card {
+      padding: 11px;
+    }
+    .challenge-partner {
+      gap: 8px;
+    }
+    .challenge-partner h3 {
+      font-size: 16px;
     }
     .theme-card {
       border: 1px solid rgba(244,208,111,.28);
@@ -379,23 +445,23 @@ const html = String.raw`<!doctype html>
     }
     .criteria-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
     }
     .criteria-pill {
-      min-height: 58px;
+      min-height: 0;
       border: 1px solid rgba(255,255,255,.12);
-      border-radius: 14px;
+      border-radius: 12px;
       background: rgba(255,255,255,.045);
-      padding: 9px;
+      padding: 7px;
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
+      font-size: 11px;
+      line-height: 1.25;
     }
     .criteria-pill strong {
       display: block;
       color: var(--text);
-      font-size: 13px;
+      font-size: 12px;
     }
     .vote-card {
       display: grid;
@@ -841,7 +907,7 @@ const html = String.raw`<!doctype html>
         <button class="back" data-home>??<span data-i="home"></span></button>
         <span class="chip" data-i="challengeChip">Bite challenge</span>
       </div>
-      <section class="campaign-card">
+      <section class="campaign-card challenge-hero">
         <span class="campaign-kicker" data-i="challengeKicker">This month's theme</span>
         <h2 class="campaign-title" data-i="challengeTheme">Best samgyeopsal one-bite wrap</h2>
         <p class="campaign-note" data-i="challengeIntro">Learn the Korean method first, then submit your own sauce, wrap, crunch, or pairing idea. The winner is chosen by useful votes, not only popularity.</p>
@@ -851,7 +917,7 @@ const html = String.raw`<!doctype html>
           <span class="campaign-step"><strong data-i="challengeRule3Title">3. Win by votes</strong><span data-i="challengeRule3">Users vote for taste, ease, Korean fit, and creativity.</span></span>
         </div>
       </section>
-      <section class="sponsor-card">
+      <section class="sponsor-card challenge-submit">
         <span class="sponsor-kicker" data-i="submitKicker">Create your bite</span>
         <div class="submit-form">
           <label class="field"><span data-i="submitDish">Dish or product</span><input id="challengeDish" type="text" autocomplete="off" placeholder="Samgyeopsal, bibimbap, tteokbokki..."></label>
@@ -860,29 +926,31 @@ const html = String.raw`<!doctype html>
           <button class="primary-btn" id="submitChallenge" type="button" data-i="submitButton">Submit to the vote board</button>
         </div>
       </section>
-      <section class="theme-card">
-        <h3 data-i="voteCriteriaTitle">Voting criteria</h3>
-        <div class="criteria-grid">
-          <span class="criteria-pill"><strong data-i="criteriaTaste">Taste</strong><span data-i="criteriaTasteCopy">Would people want another bite?</span></span>
-          <span class="criteria-pill"><strong data-i="criteriaEasy">Easy to try</strong><span data-i="criteriaEasyCopy">Can a traveler copy it at the table?</span></span>
-          <span class="criteria-pill"><strong data-i="criteriaKorean">Korean fit</strong><span data-i="criteriaKoreanCopy">Does it respect the original way?</span></span>
-          <span class="criteria-pill"><strong data-i="criteriaCreative">Creative</strong><span data-i="criteriaCreativeCopy">Does it add a memorable twist?</span></span>
-        </div>
-      </section>
+      <div class="challenge-meta">
+        <section class="theme-card">
+          <h3 data-i="voteCriteriaTitle">Voting criteria</h3>
+          <div class="criteria-grid">
+            <span class="criteria-pill"><strong data-i="criteriaTaste">Taste</strong><span data-i="criteriaTasteCopy">Would people want another bite?</span></span>
+            <span class="criteria-pill"><strong data-i="criteriaEasy">Easy to try</strong><span data-i="criteriaEasyCopy">Can a traveler copy it at the table?</span></span>
+            <span class="criteria-pill"><strong data-i="criteriaKorean">Korean fit</strong><span data-i="criteriaKoreanCopy">Does it respect the original way?</span></span>
+            <span class="criteria-pill"><strong data-i="criteriaCreative">Creative</strong><span data-i="criteriaCreativeCopy">Does it add a memorable twist?</span></span>
+          </div>
+        </section>
+        <section class="sponsor-card challenge-partner">
+          <span class="sponsor-kicker" data-i="brandKicker">For partners</span>
+          <h3 data-i="brandTitle">Sponsor a theme, not just a banner.</h3>
+          <p class="sponsor-copy" data-i="brandCopy">A restaurant can own a house-sauce challenge. A food company can sponsor a gochujang, kimchi, noodle, snack, or frozen-food pairing and reward the winning bite.</p>
+          <div class="sponsor-tags">
+            <span class="sponsor-tag" data-i="brandTag1">Monthly theme</span>
+            <span class="sponsor-tag" data-i="brandTag2">Winning bite</span>
+            <span class="sponsor-tag" data-i="brandTag3">Reward coupon</span>
+          </div>
+        </section>
+      </div>
       <section class="sponsor-card">
         <span class="sponsor-kicker" data-i="leaderKicker">Vote board</span>
         <div class="theme-card" id="currentWinner"></div>
         <div class="vote-list" id="challengeEntries"></div>
-      </section>
-      <section class="sponsor-card">
-        <span class="sponsor-kicker" data-i="brandKicker">For partners</span>
-        <h3 data-i="brandTitle">Sponsor a theme, not just a banner.</h3>
-        <p class="sponsor-copy" data-i="brandCopy">A restaurant can own a house-sauce challenge. A food company can sponsor a gochujang, kimchi, noodle, snack, or frozen-food pairing and reward the winning bite.</p>
-        <div class="sponsor-tags">
-          <span class="sponsor-tag" data-i="brandTag1">Monthly theme</span>
-          <span class="sponsor-tag" data-i="brandTag2">Winning bite</span>
-          <span class="sponsor-tag" data-i="brandTag3">Reward coupon</span>
-        </div>
       </section>
     </section>
 
@@ -897,6 +965,7 @@ const html = String.raw`<!doctype html>
         <button class="ghost" id="clear" aria-label="Clear">×</button>
       </div>
       <p class="result-count" id="resultCount"></p>
+      <div class="list" id="results"></div>
       <section class="search-empty sponsor-card" id="searchEmpty" aria-label="Restaurant and food brand advertising">
         <span class="sponsor-kicker" data-i="searchAdKicker">Sponsor space</span>
         <h2 class="campaign-title" data-i="searchAdTitle">Own the first empty moment before guests choose a dish.</h2>
@@ -908,7 +977,6 @@ const html = String.raw`<!doctype html>
         </div>
         <a class="primary-btn partner-cta" href="/partners" data-i="partnerCta">Partner with K-Bite</a>
       </section>
-      <div class="list" id="results"></div>
       <article class="detail" id="searchDetail"></article>
     </section>
 
@@ -1349,6 +1417,7 @@ const html = String.raw`<!doctype html>
         $("#resultCount").textContent = "";
         $("#results").innerHTML = "";
         $("#searchEmpty").classList.remove("hidden");
+        $("#searchEmpty").classList.remove("active-search");
         $("#searchDetail").classList.remove("active");
         $("#searchDetail").innerHTML = "";
         return;
@@ -1357,10 +1426,12 @@ const html = String.raw`<!doctype html>
         $("#resultCount").textContent = "";
         $("#results").innerHTML = "";
         $("#searchEmpty").classList.add("hidden");
+        $("#searchEmpty").classList.remove("active-search");
         return;
       }
       $("#resultCount").textContent = "";
       $("#searchEmpty").classList.remove("hidden");
+      $("#searchEmpty").classList.add("active-search");
       const rows = dishes.filter(d => (d.search + " " + local(d)[0] + " " + d.ko).toLowerCase().includes(q));
       $("#results").innerHTML = rows.map(d => {
         const text = local(d);
@@ -1561,7 +1632,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v19";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v20";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
