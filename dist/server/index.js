@@ -414,12 +414,12 @@ const html = String.raw`<!doctype html>
       font-size: 12px;
       text-align: center;
     }
-    .suggestions, .phrase-grid {
+    .phrase-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
-    .suggestion-chip, .phrase-chip {
+    .phrase-chip {
       border: 1px solid var(--line);
       color: var(--text);
       background: rgba(255,255,255,.055);
@@ -437,9 +437,6 @@ const html = String.raw`<!doctype html>
       font-size: 12px;
       line-height: 1.4;
       margin: 0;
-    }
-    .suggestions {
-      margin-top: -4px;
     }
     .action {
       min-height: 90px;
@@ -615,7 +612,7 @@ const html = String.raw`<!doctype html>
     }
     .ask {
       display: grid;
-      gap: 9px;
+      gap: 8px;
       border-top: 1px solid var(--line);
       padding-top: 12px;
     }
@@ -631,6 +628,25 @@ const html = String.raw`<!doctype html>
       padding: 11px 12px;
       background: #10161d;
       color: var(--text);
+    }
+    .translation-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      background: #10161d;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .translation-card .korean {
+      border: 0;
+      background: transparent;
+      padding: 0;
+    }
+    .translation-card .meaning {
+      margin-top: 3px;
+      font-size: 13px;
     }
     .primary-btn {
       border: 0;
@@ -838,7 +854,6 @@ const html = String.raw`<!doctype html>
         <input id="query" type="search" autocomplete="off">
         <button class="ghost" id="clear" aria-label="Clear">×</button>
       </div>
-      <div class="suggestions" id="searchChips"></div>
       <p class="result-count" id="resultCount"></p>
       <section class="search-empty sponsor-card" id="searchEmpty" aria-label="Restaurant and food brand advertising">
         <span class="sponsor-kicker" data-i="searchAdKicker">Sponsor space</span>
@@ -1181,16 +1196,6 @@ const html = String.raw`<!doctype html>
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
     const langLabels = { en: "English", ko: "한국어", ja: "Japanese", zhCN: "简体中文", zhTW: "繁體中文", fil: "Filipino", th: "Thai", vi: "Vietnamese" };
-    const searchSuggestions = [
-      ["bbq", "BBQ"],
-      ["soup", "Soup"],
-      ["raw fish", "Raw fish"],
-      ["noodles", "Noodles"],
-      ["spicy", "Spicy"],
-      ["no pork", "No pork"],
-      ["wrap", "Wrap"],
-      ["egg", "Egg"]
-    ];
     const t = (key) => (ui[state.lang] && ui[state.lang][key]) || ui.en[key] || "";
     const local = (dish) => dish.text[state.lang] || dish.text.en;
     const meaningFor = (dish) => (dish.meaning && (dish.meaning[state.lang] || dish.meaning.en)) || "";
@@ -1250,21 +1255,17 @@ const html = String.raw`<!doctype html>
           '<div class="sponsor-tags">' + partner[1].map(tag => '<span class="sponsor-tag">' + tag + '</span>').join("") + '</div>' +
           '<p class="campaign-note">' + t("sponsorAsk") + '</p>' +
         '</section>' +
+        '<section class="ask">' +
+          '<h3>' + t("ask") + '</h3>' +
+          '<div class="askline"><input data-question placeholder="' + t("askPlaceholder") + '"><button class="primary-btn" data-translate>' + t("translate") + '</button></div>' +
+          '<div class="translation-card"><div><p class="korean" data-korean>' + dish.phrase + '</p><p class="meaning" data-meaning>' + meaningFor(dish) + '</p></div><button class="small-btn" type="button" data-speak>' + t("play") + '</button></div>' +
+          '<div class="phrase-grid">' + rules.slice(0, 4).map((rule, i) => '<button class="phrase-chip" type="button" data-rule="' + i + '">' + ruleMeaning(rule) + '</button>').join("") + '</div>' +
+        '</section>' +
         '<section class="campaign-card">' +
           '<span class="campaign-kicker">' + t("eventKicker") + '</span>' +
           '<h3>' + t("eventTitle") + '</h3>' +
           '<p class="campaign-note">' + t("eventCopy") + '</p>' +
           '<button class="primary-btn" type="button" data-open-challenge="' + dish.id + '">' + t("eventButton") + '</button>' +
-        '</section>' +
-        '<section class="ask">' +
-          '<h3>' + t("ask") + '</h3>' +
-          '<div class="askline"><input data-question placeholder="' + t("askPlaceholder") + '"><button class="primary-btn" data-translate>' + t("translate") + '</button></div>' +
-          '<p class="muted">' + t("suggestion") + '</p>' +
-          '<p class="korean" data-korean>' + dish.phrase + '</p>' +
-          '<p class="meaning" data-meaning>' + meaningFor(dish) + '</p>' +
-          '<p class="muted">' + t("quickQuestions") + '</p>' +
-          '<div class="phrase-grid">' + rules.slice(0, 6).map((rule, i) => '<button class="phrase-chip" type="button" data-rule="' + i + '">' + ruleMeaning(rule) + '</button>').join("") + '</div>' +
-          '<button class="primary-btn" data-speak>' + t("play") + '</button>' +
         '</section>';
       const korean = target.querySelector("[data-korean]");
       const meaning = target.querySelector("[data-meaning]");
@@ -1321,16 +1322,6 @@ const html = String.raw`<!doctype html>
         state.selected = dish.id;
         renderResults();
         renderDetail($("#searchDetail"), dish);
-      });
-    }
-    function renderSearchChips() {
-      $("#searchChips").innerHTML = searchSuggestions.map(item => '<button class="suggestion-chip" type="button" data-search-chip="' + item[0] + '">' + item[1] + '</button>').join("");
-      $$("[data-search-chip]").forEach(btn => btn.onclick = () => {
-        state.query = btn.dataset.searchChip;
-        state.selected = null;
-        $("#query").value = state.query;
-        renderResults();
-        $("#query").focus();
       });
     }
     function saveChallengeEntries() {
@@ -1395,7 +1386,6 @@ const html = String.raw`<!doctype html>
     function renderText() {
       $$("[data-i]").forEach(el => el.textContent = t(el.dataset.i));
       $("#query").placeholder = t("searchPlaceholder");
-      renderSearchChips();
       renderResults();
       renderChallenge();
       if (state.selected) renderDetail($("#searchDetail"), dishes.find(d => d.id === state.selected));
@@ -1522,7 +1512,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v15";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v16";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
