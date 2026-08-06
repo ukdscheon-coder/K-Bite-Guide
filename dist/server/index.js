@@ -1139,6 +1139,10 @@ const html = String.raw`<!doctype html>
       sponsorTitle: "Local sauce or brand pairing",
       sponsorCopy: "Restaurants and food brands can sponsor this spot with a real house sauce, signature pairing, or limited challenge reward.",
       sponsorAsk: "Ask: What is this restaurant's best sauce or special way to eat it?",
+      sponsorBiteName: "{dish} house-special bite",
+      sponsorTagHouse: "House sauce",
+      sponsorTagLocal: "Local method",
+      sponsorTagRemix: "Remix",
       searchIdle: "Start typing to search dishes automatically.",
       searchAdKicker: "Sponsor space",
       searchAdTitle: "Own the first empty moment before guests choose a dish.",
@@ -1186,6 +1190,47 @@ const html = String.raw`<!doctype html>
       voteCreative: "Creative",
       noEntries: "No bites yet. Submit the first remix."
     });
+
+    Object.assign(ui.ko, {
+      eventKicker: "월간 챌린지",
+      eventTitle: "한국식으로 먹고, 나만의 방식으로 만들고, 공유해서 우승하세요.",
+      eventCopy: "먼저 한국식 기본 방법을 배운 뒤 소스, 쌈, 식감, 사이드 조합을 바꿔 나만의 한입을 올려보세요.",
+      eventButton: "나만의 조합 만들기",
+      sponsorKicker: "스폰서 한입",
+      sponsorTitle: "로컬 소스 또는 브랜드 페어링",
+      sponsorCopy: "식당과 식품 브랜드는 이 위치에 실제 하우스 소스, 대표 조합, 한정 보상을 자연스럽게 노출할 수 있습니다.",
+      sponsorBiteName: "{dish} 하우스 스페셜 한입",
+      sponsorTagHouse: "하우스 소스",
+      sponsorTagLocal: "로컬 방식",
+      sponsorTagRemix: "리믹스",
+      sponsorCta: "이 음식 스폰서 구매",
+      challengeSponsorCta: "챌린지 스폰서 구매",
+      challengeChip: "한입 챌린지",
+      challengeKicker: "이달의 주제",
+      challengeTheme: "최고의 삼겹살 한입 쌈",
+      challengeIntro: "한국식 기본 방법을 먼저 배운 뒤 나만의 소스, 쌈, 식감, 페어링 아이디어를 올리세요. 우승은 유용한 반응과 투표로 결정됩니다.",
+      submitKicker: "내 조합 올리기",
+      submitDish: "음식 또는 제품",
+      submitName: "조합 이름",
+      submitMethod: "먹는 방법",
+      submitButton: "투표 보드에 올리기",
+      voteCriteriaTitle: "투표 기준",
+      leaderKicker: "투표 보드",
+      winnerKicker: "현재 우승 후보",
+      winnerCopy: "현재 가장 강한 리뷰 반응과 투표를 받은 조합입니다.",
+      brandKicker: "파트너 제안",
+      brandTitle: "배너가 아니라 주제를 후원하세요.",
+      brandCopy: "식당은 하우스 소스 챌린지를, 식품 업체는 고추장, 김치, 면, 스낵, 간편식 조합 챌린지를 후원하고 우승자에게 보상을 제공할 수 있습니다.",
+      voteUseful: "유용해요",
+      voteCreative: "창의적이에요",
+      noEntries: "아직 조합이 없습니다. 첫 리믹스를 올려보세요."
+    });
+    Object.assign(ui.ja, { eventKicker: "月間チャレンジ", eventTitle: "韓国式で食べて、自分流に作り、共有して勝ちましょう。", eventCopy: "まず韓国式の基本を学び、ソース、包み方、食感、サイドの組み合わせを変えて自分だけの一口を投稿しましょう。", eventButton: "自分の組み合わせを作る", sponsorKicker: "スポンサー一口", sponsorTitle: "ローカルソースまたはブランドペアリング", sponsorCopy: "飲食店や食品ブランドは、ここで実際のハウスソース、代表的な組み合わせ、限定特典を自然に紹介できます。", sponsorBiteName: "{dish} ハウススペシャル一口", sponsorTagHouse: "ハウスソース", sponsorTagLocal: "ローカル方式", sponsorTagRemix: "リミックス", sponsorCta: "この料理をスポンサー", challengeSponsorCta: "テーマをスポンサー", challengeChip: "一口チャレンジ", challengeKicker: "今月のテーマ", challengeTheme: "最高のサムギョプサル一口包み", challengeIntro: "韓国式の基本を学んでから、自分のソース、包み方、食感、ペアリングを投稿しましょう。", submitKicker: "自分の一口を投稿", submitDish: "料理または商品", submitName: "一口の名前", submitMethod: "食べ方", submitButton: "投票ボードへ投稿", voteCriteriaTitle: "投票基準", leaderKicker: "投票ボード", winnerKicker: "現在の優勝候補", winnerCopy: "今もっとも反応と投票が強い一口です。", brandKicker: "パートナー向け", brandTitle: "バナーではなくテーマをスポンサーしましょう。", brandCopy: "飲食店はハウスソースチャレンジを、食品会社は韓国食品の組み合わせチャレンジをスポンサーできます。", voteUseful: "役に立つ", voteCreative: "創造的", noEntries: "まだ投稿がありません。最初のリミックスを投稿しましょう。" });
+    Object.assign(ui.zhCN, { eventKicker: "每月挑战", eventTitle: "先按韩国方式吃，再创造自己的吃法，分享赢奖。", eventCopy: "先学习韩国基本吃法，再改变酱料、包法、口感或配菜，提交你的最佳一口。", eventButton: "创建我的组合", sponsorKicker: "赞助一口", sponsorTitle: "本地酱料或品牌搭配", sponsorCopy: "餐厅和食品品牌可以在这里自然展示招牌酱料、代表组合或限量奖励。", sponsorBiteName: "{dish} 招牌特别一口", sponsorTagHouse: "招牌酱料", sponsorTagLocal: "本地吃法", sponsorTagRemix: "改编", sponsorCta: "赞助这道菜", challengeSponsorCta: "赞助挑战主题", challengeChip: "一口挑战", challengeKicker: "本月主题", challengeTheme: "最佳五花肉一口包", challengeIntro: "先学习韩国基本吃法，再提交自己的酱料、包法、口感或搭配。", submitKicker: "提交我的组合", submitDish: "菜品或产品", submitName: "组合名称", submitMethod: "吃法", submitButton: "提交到投票板", voteCriteriaTitle: "投票标准", leaderKicker: "投票板", winnerKicker: "当前优胜候选", winnerCopy: "这是目前评论反应和投票最强的组合。", brandKicker: "合作伙伴", brandTitle: "赞助一个主题，而不只是横幅。", brandCopy: "餐厅可以赞助招牌酱挑战，食品公司可以赞助韩食搭配挑战并奖励获胜者。", voteUseful: "有用", voteCreative: "有创意", noEntries: "还没有组合。提交第一个改编吧。" });
+    Object.assign(ui.zhTW, { eventKicker: "每月挑戰", eventTitle: "先按韓國方式吃，再創造自己的吃法，分享贏獎。", eventCopy: "先學習韓國基本吃法，再改變醬料、包法、口感或配菜，提交你的最佳一口。", eventButton: "建立我的組合", sponsorKicker: "贊助一口", sponsorTitle: "在地醬料或品牌搭配", sponsorCopy: "餐廳和食品品牌可以在這裡自然展示招牌醬料、代表組合或限定獎勵。", sponsorBiteName: "{dish} 招牌特別一口", sponsorTagHouse: "招牌醬料", sponsorTagLocal: "在地吃法", sponsorTagRemix: "改編", sponsorCta: "贊助這道菜", challengeSponsorCta: "贊助挑戰主題", challengeChip: "一口挑戰", challengeKicker: "本月主題", challengeTheme: "最佳五花肉一口包", challengeIntro: "先學習韓國基本吃法，再提交自己的醬料、包法、口感或搭配。", submitKicker: "提交我的組合", submitDish: "菜色或產品", submitName: "組合名稱", submitMethod: "吃法", submitButton: "提交到投票板", voteCriteriaTitle: "投票標準", leaderKicker: "投票板", winnerKicker: "目前優勝候選", winnerCopy: "這是目前評論反應和投票最強的組合。", brandKicker: "合作夥伴", brandTitle: "贊助一個主題，而不只是橫幅。", brandCopy: "餐廳可以贊助招牌醬挑戰，食品公司可以贊助韓食搭配挑戰並獎勵獲勝者。", voteUseful: "有用", voteCreative: "有創意", noEntries: "還沒有組合。提交第一個改編吧。" });
+    Object.assign(ui.fil, { eventKicker: "Monthly challenge", eventTitle: "Kainin muna sa Korean style. Gumawa ng sariling paraan. I-share para manalo.", eventCopy: "Alamin muna ang classic Korean method, pagkatapos baguhin ang sauce, wrap, texture, o pairing para sa sarili mong best bite.", eventButton: "Gumawa ng sariling combo", sponsorKicker: "Sponsored bite", sponsorTitle: "Local sauce o brand pairing", sponsorCopy: "Maaaring ipakita ng restaurant o food brand ang tunay na house sauce, signature pairing, o limited reward dito.", sponsorBiteName: "{dish} house-special bite", sponsorTagHouse: "House sauce", sponsorTagLocal: "Local method", sponsorTagRemix: "Remix", sponsorCta: "I-sponsor ang dish", challengeSponsorCta: "I-sponsor ang theme", challengeChip: "Bite challenge", challengeKicker: "Theme ngayong buwan", challengeTheme: "Best samgyeopsal one-bite wrap", challengeIntro: "Matuto muna ng Korean method, pagkatapos i-submit ang sarili mong sauce, wrap, crunch, o pairing idea.", submitKicker: "Gumawa ng bite", submitDish: "Dish o product", submitName: "Pangalan ng bite", submitMethod: "Paraan mo", submitButton: "I-submit sa vote board", voteCriteriaTitle: "Pamantayan ng boto", leaderKicker: "Vote board", winnerKicker: "Kasalukuyang winner", winnerCopy: "Ito ang bite na may pinakamalakas na review reaction at boto.", brandKicker: "Para sa partners", brandTitle: "Mag-sponsor ng theme, hindi lang banner.", brandCopy: "Puwedeng angkinin ng restaurant ang house-sauce challenge. Puwede ring mag-sponsor ang food company ng K-food pairing challenge.", voteUseful: "Useful", voteCreative: "Creative", noEntries: "Wala pang bite. I-submit ang unang remix." });
+    Object.assign(ui.th, { eventKicker: "ชาเลนจ์รายเดือน", eventTitle: "กินแบบเกาหลีก่อน แล้วสร้างวิธีของคุณ แชร์เพื่อชนะ", eventCopy: "เรียนรู้วิธีกินแบบเกาหลีพื้นฐานก่อน แล้วปรับซอส การห่อ เนื้อสัมผัส หรือเครื่องเคียงให้เป็นคำที่ดีที่สุดของคุณ", eventButton: "สร้างคอมโบของฉัน", sponsorKicker: "คำที่ได้รับการสนับสนุน", sponsorTitle: "ซอสท้องถิ่นหรือการจับคู่แบรนด์", sponsorCopy: "ร้านอาหารและแบรนด์อาหารสามารถแสดงซอสประจำร้าน การจับคู่เด่น หรือรางวัลจำกัดได้อย่างเป็นธรรมชาติ", sponsorBiteName: "{dish} คำพิเศษของร้าน", sponsorTagHouse: "ซอสประจำร้าน", sponsorTagLocal: "วิธีท้องถิ่น", sponsorTagRemix: "รีมิกซ์", sponsorCta: "สนับสนุนเมนูนี้", challengeSponsorCta: "สนับสนุนธีมชาเลนจ์", challengeChip: "Bite challenge", challengeKicker: "ธีมเดือนนี้", challengeTheme: "ห่อหมูสามชั้นคำเดียวที่ดีที่สุด", challengeIntro: "เรียนรู้วิธีเกาหลีพื้นฐานก่อน แล้วส่งไอเดียซอส การห่อ ความกรอบ หรือการจับคู่ของคุณ", submitKicker: "ส่งคำของคุณ", submitDish: "อาหารหรือสินค้า", submitName: "ชื่อคำ", submitMethod: "วิธีกิน", submitButton: "ส่งไปยังกระดานโหวต", voteCriteriaTitle: "เกณฑ์โหวต", leaderKicker: "กระดานโหวต", winnerKicker: "ผู้ชนะปัจจุบัน", winnerCopy: "คำนี้มีรีวิวและคะแนนโหวตแข็งแรงที่สุดตอนนี้", brandKicker: "สำหรับพาร์ทเนอร์", brandTitle: "สนับสนุนธีม ไม่ใช่แค่แบนเนอร์", brandCopy: "ร้านอาหารสนับสนุนชาเลนจ์ซอสประจำร้านได้ และแบรนด์อาหารสนับสนุนชาเลนจ์การจับคู่ K-food ได้", voteUseful: "มีประโยชน์", voteCreative: "สร้างสรรค์", noEntries: "ยังไม่มีคำ ส่งรีมิกซ์แรกได้เลย" });
+    Object.assign(ui.vi, { eventKicker: "Thử thách hàng tháng", eventTitle: "Ăn kiểu Hàn trước, tạo cách của bạn, chia sẻ để thắng.", eventCopy: "Học cách ăn kiểu Hàn cơ bản trước, rồi đổi sốt, cuốn, độ giòn hoặc món ăn kèm để tạo miếng ngon nhất của bạn.", eventButton: "Tạo combo của tôi", sponsorKicker: "Miếng ăn được tài trợ", sponsorTitle: "Sốt địa phương hoặc kết hợp thương hiệu", sponsorCopy: "Nhà hàng và thương hiệu thực phẩm có thể giới thiệu sốt riêng, cách kết hợp đặc trưng hoặc phần thưởng giới hạn tại đây.", sponsorBiteName: "{dish} miếng đặc biệt của quán", sponsorTagHouse: "Sốt riêng", sponsorTagLocal: "Cách địa phương", sponsorTagRemix: "Remix", sponsorCta: "Tài trợ món này", challengeSponsorCta: "Tài trợ chủ đề", challengeChip: "Bite challenge", challengeKicker: "Chủ đề tháng này", challengeTheme: "Cuốn samgyeopsal một miếng ngon nhất", challengeIntro: "Học cách Hàn trước, rồi gửi ý tưởng sốt, cuốn, độ giòn hoặc kết hợp của bạn.", submitKicker: "Tạo miếng của bạn", submitDish: "Món hoặc sản phẩm", submitName: "Tên miếng ăn", submitMethod: "Cách ăn", submitButton: "Gửi lên bảng bình chọn", voteCriteriaTitle: "Tiêu chí bình chọn", leaderKicker: "Bảng bình chọn", winnerKicker: "Ứng viên thắng hiện tại", winnerCopy: "Miếng này đang có phản ứng đánh giá và lượt bình chọn mạnh nhất.", brandKicker: "Cho đối tác", brandTitle: "Tài trợ một chủ đề, không chỉ một banner.", brandCopy: "Nhà hàng có thể sở hữu thử thách sốt riêng. Công ty thực phẩm có thể tài trợ thử thách kết hợp K-food và thưởng cho người thắng.", voteUseful: "Hữu ích", voteCreative: "Sáng tạo", noEntries: "Chưa có miếng nào. Hãy gửi remix đầu tiên." });
 
     const dishes = [
       { id: "samgyeopsal", emoji: "🥓", ko: "삼겹살", search: "pork belly samgyeopsal bbq ssam lettuce 삼겹살 五花肉 豚バラ liempo หมูสามชั้น thịt ba chỉ", phrase: "이거 다 익었나요?", meaning: { en: "Is this fully cooked?", ja: "これは火が通っていますか？", zhCN: "这个熟了吗？", zhTW: "這個熟了嗎？", fil: "Luto na ba ito nang husto?", th: "สุกทั่วแล้วหรือยัง?", vi: "Món này đã chín kỹ chưa?" }, text: {
@@ -1299,6 +1344,35 @@ const html = String.raw`<!doctype html>
       { id: "kimchi-crunch", dish: "Samgyeopsal", name: "Kimchi crunch ssam", method: "Use less sauce, add grilled kimchi, and finish with one crisp side for texture.", votes: 13 },
       { id: "chojang-flight", dish: "Korean raw fish", name: "Chojang flight", method: "Taste one slice with soy-wasabi, one with chojang, then vote for the sauce that fits the fish best.", votes: 9 }
     ];
+    const challengeEntryText = {
+      "classic-ssam": {
+        ko: ["삼겹살", "클래식 쌈 첫 한입", "상추, 돼지고기, 쌈장, 마늘, 구운 김치. 한국식 한입의 기본 조합입니다."],
+        ja: ["サムギョプサル", "クラシック包みの最初の一口", "レタス、豚肉、サムジャン、にんにく、焼きキムチ。韓国式一口の基本です。"],
+        zhCN: ["五花肉", "经典包菜第一口", "生菜、猪肉、包饭酱、蒜和烤泡菜。这是韩国式一口的基础组合。"],
+        zhTW: ["五花肉", "經典包菜第一口", "生菜、豬肉、包飯醬、蒜和烤泡菜。這是韓國式一口的基礎組合。"],
+        fil: ["Samgyeopsal", "Classic ssam first bite", "Lettuce, pork, ssamjang, garlic, at grilled kimchi. Ito ang baseline Korean-style bite."],
+        th: ["ซัมกยอบซัล", "คำแรกแบบซัมคลาสสิก", "ผักกาด หมู ซัมจัง กระเทียม และกิมจิย่าง นี่คือคำพื้นฐานแบบเกาหลี"],
+        vi: ["Samgyeopsal", "Miếng ssam cổ điển đầu tiên", "Rau xà lách, thịt heo, ssamjang, tỏi và kimchi nướng. Đây là miếng cơ bản kiểu Hàn."]
+      },
+      "kimchi-crunch": {
+        ko: ["삼겹살", "김치 크런치 쌈", "소스는 줄이고 구운 김치를 더한 뒤, 바삭한 사이드 하나로 식감을 마무리합니다."],
+        ja: ["サムギョプサル", "キムチクランチ包み", "ソースを少なめにして焼きキムチを加え、カリッとしたサイドで食感を仕上げます。"],
+        zhCN: ["五花肉", "泡菜脆感包", "少放酱料，加入烤泡菜，再用一个酥脆配菜完成口感。"],
+        zhTW: ["五花肉", "泡菜脆感包", "少放醬料，加入烤泡菜，再用一個酥脆配菜完成口感。"],
+        fil: ["Samgyeopsal", "Kimchi crunch ssam", "Bawasan ang sauce, magdagdag ng grilled kimchi, at tapusin sa isang crisp side."],
+        th: ["ซัมกยอบซัล", "ซัมกิมจิกรอบ", "ใช้ซอสน้อยลง เพิ่มกิมจิย่าง แล้วปิดท้ายด้วยเครื่องเคียงกรอบ"],
+        vi: ["Samgyeopsal", "Ssam kimchi giòn", "Dùng ít sốt hơn, thêm kimchi nướng và kết thúc bằng một món giòn."]
+      },
+      "chojang-flight": {
+        ko: ["한국식 회", "초장 테이스팅", "한 점은 간장 와사비로, 한 점은 초장으로 맛본 뒤 생선에 더 맞는 소스에 투표합니다."],
+        ja: ["韓国式刺身", "チョジャン食べ比べ", "一切れは醤油わさびで、もう一切れはチョジャンで試し、魚に合うソースに投票します。"],
+        zhCN: ["韩国生鱼片", "초장试味", "一片蘸酱油芥末，一片蘸초장，然后投票选出最适合鱼的酱料。"],
+        zhTW: ["韓國生魚片", "초장試味", "一片蘸醬油芥末，一片蘸초장，然後投票選出最適合魚的醬料。"],
+        fil: ["Korean raw fish", "Chojang tasting", "Tikman ang isang slice sa soy-wasabi at isa sa chojang, pagkatapos bumoto sa mas bagay na sauce."],
+        th: ["ปลาดิบเกาหลี", "ชิมซอสโชจัง", "ชิมหนึ่งชิ้นกับซอยวาซาบิ อีกชิ้นกับโชจัง แล้วโหวตซอสที่เข้ากับปลาที่สุด"],
+        vi: ["Gỏi cá kiểu Hàn", "Thử vị chogochujang", "Nếm một lát với xì dầu-wasabi, một lát với chogochujang, rồi bình chọn loại sốt hợp cá nhất."]
+      }
+    };
     function loadChallengeEntries() {
       try {
         const saved = JSON.parse(localStorage.getItem("kbiteChallengeEntries") || "null");
@@ -1336,19 +1410,8 @@ const html = String.raw`<!doctype html>
     }
     function partnerBiteFor(dish) {
       const title = local(dish)[0];
-      const recipes = {
-        samgyeopsal: ["House ssamjang + grilled kimchi bite", ["House sauce", "BBQ", "One-bite wrap"], "A barbecue restaurant can show its exact ssamjang, garlic, kimchi, and lettuce ratio, then invite guests to remix it."],
-        hoe: ["Chojang vs soy-wasabi tasting bite", ["Sauce flight", "Seafood", "Local market"], "Raw fish restaurants can turn sauce choice into a guided tasting instead of a confusing decision."],
-        bibimbap: ["Signature gochujang mixing ratio", ["Gochujang", "Rice bowl", "Mixing"], "Gochujang makers or bibimbap restaurants can teach a sauce amount that tastes balanced for visitors."],
-        sundubu: ["Egg timing + house chili oil finish", ["Hot stew", "Egg", "Chili oil"], "Tofu houses can make their spicy base memorable by naming the right egg timing and final spoonful."],
-        dakgalbi: ["Final fried rice challenge bite", ["Fried rice", "Cheese", "Sharing"], "Dakgalbi shops can sponsor the end-of-meal move visitors remember and post."],
-        tteokbokki: ["Sauce dip for fries, egg, and fish cake", ["Street food", "Spicy sauce", "Snack brand"], "Street food brands can make the sauce the hero and invite users to invent the best dip combo."],
-        bossam: ["Kimchi + saeujeot balance bite", ["Kimchi", "Salted shrimp", "Pork"], "Bossam shops can explain their kimchi's age, spice, or fermented seafood note as the signature."],
-        jokbal: ["Garlic, chili, and saeujeot wrap", ["Late-night food", "Wrap", "House dip"], "Jokbal restaurants can promote a house dip or delivery set through a practical eating method."],
-        naengmyeon: ["Vinegar and mustard control test", ["Cold noodles", "Vinegar", "Mustard"], "Noodle brands can teach visitors how to season gradually, then compare their own preferred ratio."],
-        gimbap: ["One-bite roll pairing", ["Picnic food", "Sauce", "Convenience"], "Gimbap shops and convenience food brands can sponsor easy pairing ideas for travelers on the move."]
-      };
-      return recipes[dish.id] || [title + " house-special bite", ["House sauce", "Local method", "Remix"], "A restaurant or food brand can sponsor this dish with its own sauce, pairing, or table ritual, then collect user-created bite ideas."];
+      const name = t("sponsorBiteName").replace("{dish}", title);
+      return [name, [t("sponsorTagHouse"), t("sponsorTagLocal"), t("sponsorTagRemix")], t("sponsorCopy")];
     }
     function renderDetail(target, dish) {
       const text = local(dish);
@@ -1452,19 +1515,27 @@ const html = String.raw`<!doctype html>
       if (!board) return;
       const entries = state.challengeEntries.slice().sort((a, b) => b.votes - a.votes);
       const winner = entries[0];
+      const viewEntry = (entry) => {
+        const translated = challengeEntryText[entry.id] && challengeEntryText[entry.id][state.lang];
+        return translated ? { ...entry, dish: translated[0], name: translated[1], method: translated[2] } : entry;
+      };
+      const winnerView = winner ? viewEntry(winner) : null;
       $("#currentWinner").innerHTML = winner
-        ? '<span class="campaign-kicker">' + t("winnerKicker") + '</span><h3>' + esc(winner.name) + '</h3><p class="sponsor-copy">' + esc(winner.method) + '</p><p class="campaign-note">' + t("winnerCopy") + ' ' + Number(winner.votes || 0) + ' reactions.</p>'
+        ? '<span class="campaign-kicker">' + t("winnerKicker") + '</span><h3>' + esc(winnerView.name) + '</h3><p class="sponsor-copy">' + esc(winnerView.method) + '</p><p class="campaign-note">' + t("winnerCopy") + ' ' + Number(winner.votes || 0) + ' reactions.</p>'
         : '<span class="campaign-kicker">' + t("winnerKicker") + '</span><p class="campaign-note">' + t("noEntries") + '</p>';
-      board.innerHTML = entries.length ? entries.map(entry =>
+      board.innerHTML = entries.length ? entries.map(entry => {
+        const item = viewEntry(entry);
+        return (
         '<article class="vote-card">' +
-          '<div class="vote-head"><div><h3>' + esc(entry.name) + '</h3><p class="muted">' + esc(entry.dish) + '</p></div><span class="vote-score">' + Number(entry.votes || 0) + '</span></div>' +
-          '<p class="sponsor-copy">' + esc(entry.method) + '</p>' +
+          '<div class="vote-head"><div><h3>' + esc(item.name) + '</h3><p class="muted">' + esc(item.dish) + '</p></div><span class="vote-score">' + Number(entry.votes || 0) + '</span></div>' +
+          '<p class="sponsor-copy">' + esc(item.method) + '</p>' +
           '<div class="vote-actions">' +
             '<button class="small-btn" type="button" data-vote="' + esc(entry.id) + '">' + t("voteUseful") + '</button>' +
             '<button class="small-btn" type="button" data-vote="' + esc(entry.id) + '">' + t("voteCreative") + '</button>' +
           '</div>' +
         '</article>'
-      ).join("") : '<p class="muted">' + t("noEntries") + '</p>';
+        );
+      }).join("") : '<p class="muted">' + t("noEntries") + '</p>';
       $$("[data-vote]").forEach(btn => btn.onclick = () => {
         const entry = state.challengeEntries.find(item => item.id === btn.dataset.vote);
         if (!entry) return;
@@ -1632,7 +1703,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v20";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v21";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -1674,6 +1745,11 @@ function legalPage(title, body) {
     ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
     .price { color: #f4d06f; font-weight: 800; }
     .cta { display: inline-flex; justify-content: center; border-radius: 14px; background: #f4d06f; color: #20150a; padding: 12px 14px; text-decoration: none; font-weight: 800; }
+    .plans { display: grid; gap: 12px; }
+    .plan { display: grid; gap: 10px; border: 1px solid rgba(255,255,255,.12); border-radius: 16px; background: rgba(255,255,255,.04); padding: 14px; }
+    .plan h2 { margin: 0; }
+    .plan .cta { width: 100%; box-sizing: border-box; }
+    .note { font-size: 13px; color: #bda98d; }
     .back { display: inline-block; margin-bottom: 14px; text-decoration: none; }
   </style>
 </head>
@@ -1713,33 +1789,75 @@ const pages = {
   `),
   "/partners": legalPage("K-Bite 파트너 안내", String.raw`
     <p>K-Bite Guide는 외국인 방문자가 한국 음식을 검색하고, 한국식으로 먹는 법을 익힌 뒤, 관련 소스, 식당, 제품, 챌린지로 자연스럽게 이동하게 만드는 참여형 K-food 가이드입니다.</p>
-    <h2>1. 음식 상세 스폰서</h2>
-    <p><span class="price">파일럿: 음식 1개당 월 150,000원</span></p>
-    <ul>
-      <li>특정 음식 상세 화면에 식당의 하우스 소스, 대표 한입 조합, 제품 페어링을 노출합니다.</li>
-      <li>삼겹살집, 횟집, 면 전문점, 김치 브랜드, 소스 브랜드, 편의식 제품에 적합합니다.</li>
-    </ul>
-    <h2>2. 검색 화면 스폰서</h2>
-    <p><span class="price">파일럿: 카테고리 1개당 월 500,000원</span></p>
-    <ul>
-      <li>사용자가 음식을 확정하기 전 검색 화면의 광고 영역을 선점합니다.</li>
-      <li>지역 식당, 배달 브랜드, K-food 매장, 신제품 출시 캠페인에 적합합니다.</li>
-    </ul>
-    <h2>3. 월간 챌린지 스폰서</h2>
-    <p><span class="price">파일럿: 월 1,500,000원</span></p>
-    <ul>
-      <li>최고의 삼겹살 쌈, 고추장 비율, 떡볶이 찍먹, 편의점 K-food 조합 같은 월간 주제를 후원합니다.</li>
-      <li>우승 조합에 쿠폰, 시식 세트, 식사권, 브랜드 상품을 보상으로 제공할 수 있습니다.</li>
-    </ul>
-    <h2>런칭 제안</h2>
-    <p>초기 10개 파트너에게는 30일 파일럿을 운영하고, 클릭, 음식 검색, 챌린지 반응, 우승 조합 제출 데이터를 요약해 제공합니다.</p>
-    <a class="cta" href="mailto:uk.dscheon@gmail.com?subject=K-Bite%20%ED%8C%8C%ED%8A%B8%EB%84%88%20%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%EB%AC%B8%EC%9D%98">파트너 파일럿 문의하기</a>
+    <div class="plans">
+      <section class="plan">
+        <h2>1. 음식 상세 스폰서</h2>
+        <p><span class="price">파일럿: 음식 1개당 월 150,000원</span></p>
+        <p>특정 음식 상세 화면에 식당의 하우스 소스, 대표 한입 조합, 제품 페어링을 노출합니다.</p>
+        <a class="cta" href="/buy?plan=dish">음식 상세 스폰서 구매</a>
+      </section>
+      <section class="plan">
+        <h2>2. 검색 화면 스폰서</h2>
+        <p><span class="price">파일럿: 카테고리 1개당 월 500,000원</span></p>
+        <p>사용자가 음식을 확정하기 전 검색 화면의 광고 영역을 선점합니다.</p>
+        <a class="cta" href="/buy?plan=search">검색 화면 스폰서 구매</a>
+      </section>
+      <section class="plan">
+        <h2>3. 월간 챌린지 스폰서</h2>
+        <p><span class="price">파일럿: 월 1,500,000원</span></p>
+        <p>월간 주제를 후원하고, 우승 조합에 쿠폰, 시식 세트, 식사권, 브랜드 상품을 보상으로 제공할 수 있습니다.</p>
+        <a class="cta" href="/buy?plan=challenge">월간 챌린지 스폰서 구매</a>
+      </section>
+    </div>
+    <p class="note">결제는 Stripe Payment Links 또는 Polar Checkout Links 중 하나를 연결해 즉시 구매 방식으로 운영할 수 있습니다. 결제 링크가 연결되면 위 버튼이 바로 결제창으로 이동합니다.</p>
   `),
 };
+
+const paymentPlans = {
+  dish: {
+    title: "음식 상세 스폰서",
+    price: "월 150,000원",
+    envKey: "PAYMENT_DISH_SPONSOR_URL"
+  },
+  search: {
+    title: "검색 화면 스폰서",
+    price: "월 500,000원",
+    envKey: "PAYMENT_SEARCH_SPONSOR_URL"
+  },
+  challenge: {
+    title: "월간 챌린지 스폰서",
+    price: "월 1,500,000원",
+    envKey: "PAYMENT_CHALLENGE_SPONSOR_URL"
+  }
+};
+
+function paymentPage(plan) {
+  return legalPage("결제 링크 준비 중", String.raw`
+    <p><strong>${plan.title}</strong> 상품은 <span class="price">${plan.price}</span> 파일럿으로 판매됩니다.</p>
+    <p>직접 구매를 사용하려면 Stripe Payment Links 또는 Polar Checkout Links에서 상품별 결제 링크를 만든 뒤 Sites 환경변수에 연결하세요.</p>
+    <ul>
+      <li>${plan.envKey}: 이 상품의 결제 링크</li>
+      <li>결제 링크가 연결되면 구매 버튼이 바로 결제창으로 이동합니다.</li>
+      <li>문의 없이 바로 구매하는 구조를 유지하기 위해 메일 링크는 제거했습니다.</li>
+    </ul>
+    <a class="cta" href="/partners">파트너 상품으로 돌아가기</a>
+  `);
+}
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/buy") {
+      const plan = paymentPlans[url.searchParams.get("plan") || ""];
+      if (!plan) return Response.redirect(new URL("/partners", url).toString(), 302);
+      const link = env?.[plan.envKey] || "";
+      if (/^https:\/\/(buy\.stripe\.com|checkout\.polar\.sh)\//.test(link)) {
+        return Response.redirect(link, 302);
+      }
+      return new Response(paymentPage(plan), {
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    }
     if (pages[url.pathname]) {
       return new Response(pages[url.pathname], {
         headers: { "content-type": "text/html; charset=utf-8" },
