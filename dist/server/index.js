@@ -1526,7 +1526,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v17";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v18";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -1605,29 +1605,29 @@ const pages = {
     <p>For feedback, food corrections, language suggestions, restaurant partnerships, challenge sponsorships, or advertising inquiries, contact the K-Bite Guide owner.</p>
     <p>Email: <a href="mailto:uk.dscheon@gmail.com">uk.dscheon@gmail.com</a></p>
   `),
-  "/partners": legalPage("Partner With K-Bite", String.raw`
-    <p>K-Bite Guide turns Korean eating instructions into sponsored action: travelers search a dish, learn the Korean way, see a relevant sauce or local method, then join a bite challenge.</p>
-    <h2>1. Dish Sponsor</h2>
-    <p><span class="price">Pilot: KRW 150,000/month per dish</span></p>
+  "/partners": legalPage("K-Bite 파트너 안내", String.raw`
+    <p>K-Bite Guide는 외국인 방문자가 한국 음식을 검색하고, 한국식으로 먹는 법을 익힌 뒤, 관련 소스, 식당, 제품, 챌린지로 자연스럽게 이동하게 만드는 참여형 K-food 가이드입니다.</p>
+    <h2>1. 음식 상세 스폰서</h2>
+    <p><span class="price">파일럿: 음식 1개당 월 150,000원</span></p>
     <ul>
-      <li>Feature one restaurant sauce, house method, or product pairing inside a dish guide.</li>
-      <li>Best for barbecue shops, raw fish restaurants, noodle shops, kimchi brands, sauce brands, and convenience food products.</li>
+      <li>특정 음식 상세 화면에 식당의 하우스 소스, 대표 한입 조합, 제품 페어링을 노출합니다.</li>
+      <li>삼겹살집, 횟집, 면 전문점, 김치 브랜드, 소스 브랜드, 편의식 제품에 적합합니다.</li>
     </ul>
-    <h2>2. Search Sponsor</h2>
-    <p><span class="price">Pilot: KRW 500,000/month per category</span></p>
+    <h2>2. 검색 화면 스폰서</h2>
+    <p><span class="price">파일럿: 카테고리 1개당 월 500,000원</span></p>
     <ul>
-      <li>Own the empty search moment before visitors choose a dish.</li>
-      <li>Best for area restaurants, delivery brands, K-food stores, and product launches.</li>
+      <li>사용자가 음식을 확정하기 전 검색 화면의 광고 영역을 선점합니다.</li>
+      <li>지역 식당, 배달 브랜드, K-food 매장, 신제품 출시 캠페인에 적합합니다.</li>
     </ul>
-    <h2>3. Monthly Challenge Sponsor</h2>
-    <p><span class="price">Pilot: KRW 1,500,000/month</span></p>
+    <h2>3. 월간 챌린지 스폰서</h2>
+    <p><span class="price">파일럿: 월 1,500,000원</span></p>
     <ul>
-      <li>Sponsor the monthly theme, such as best samgyeopsal wrap, gochujang ratio, tteokbokki dip, or convenience-store K-food pairing.</li>
-      <li>Reward the winning bite with a coupon, tasting set, meal voucher, or featured brand prize.</li>
+      <li>최고의 삼겹살 쌈, 고추장 비율, 떡볶이 찍먹, 편의점 K-food 조합 같은 월간 주제를 후원합니다.</li>
+      <li>우승 조합에 쿠폰, 시식 세트, 식사권, 브랜드 상품을 보상으로 제공할 수 있습니다.</li>
     </ul>
-    <h2>Launch Offer</h2>
-    <p>For the first 10 partners, K-Bite can run a 30-day sponsored pilot and report clicks, dish searches, challenge reactions, and winning bite submissions.</p>
-    <a class="cta" href="mailto:uk.dscheon@gmail.com?subject=K-Bite%20Partner%20Pilot">Request partner pilot</a>
+    <h2>런칭 제안</h2>
+    <p>초기 10개 파트너에게는 30일 파일럿을 운영하고, 클릭, 음식 검색, 챌린지 반응, 우승 조합 제출 데이터를 요약해 제공합니다.</p>
+    <a class="cta" href="mailto:uk.dscheon@gmail.com?subject=K-Bite%20%ED%8C%8C%ED%8A%B8%EB%84%88%20%ED%8C%8C%EC%9D%BC%EB%9F%BF%20%EB%AC%B8%EC%9D%98">파트너 파일럿 문의하기</a>
   `),
 };
 
