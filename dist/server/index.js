@@ -299,6 +299,13 @@ const html = String.raw`<!doctype html>
       background: rgba(255,255,255,.05);
       font-size: 12px;
     }
+    .partner-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      text-decoration: none;
+    }
     .search-empty {
       min-height: 220px;
       align-content: center;
@@ -864,6 +871,7 @@ const html = String.raw`<!doctype html>
           <span class="sponsor-tag" data-i="searchAdTag2">Limited reward</span>
           <span class="sponsor-tag" data-i="searchAdTag3">Brand pairing</span>
         </div>
+        <a class="primary-btn partner-cta" href="/partners" data-i="partnerCta">Partner with K-Bite</a>
       </section>
       <div class="list" id="results"></div>
       <article class="detail" id="searchDetail"></article>
@@ -893,6 +901,7 @@ const html = String.raw`<!doctype html>
     <footer class="footer">
       <a href="/about">About</a>
       <a href="/privacy">Privacy</a>
+      <a href="/partners">Partners</a>
       <a href="/contact">Contact</a>
     </footer>
   </main>
@@ -1034,6 +1043,9 @@ const html = String.raw`<!doctype html>
       searchAdTag1: "House sauce",
       searchAdTag2: "Limited reward",
       searchAdTag3: "Brand pairing",
+      partnerCta: "Partner with K-Bite",
+      sponsorCta: "Sponsor this dish",
+      challengeSponsorCta: "Sponsor a challenge theme",
       challengeChip: "Bite challenge",
       challengeKicker: "This month's theme",
       challengeTheme: "Best samgyeopsal one-bite wrap",
@@ -1254,6 +1266,7 @@ const html = String.raw`<!doctype html>
           '<p class="sponsor-copy">' + partner[2] + '</p>' +
           '<div class="sponsor-tags">' + partner[1].map(tag => '<span class="sponsor-tag">' + tag + '</span>').join("") + '</div>' +
           '<p class="campaign-note">' + t("sponsorAsk") + '</p>' +
+          '<a class="primary-btn partner-cta" href="/partners">' + t("sponsorCta") + '</a>' +
         '</section>' +
         '<section class="ask">' +
           '<h3>' + t("ask") + '</h3>' +
@@ -1266,6 +1279,7 @@ const html = String.raw`<!doctype html>
           '<h3>' + t("eventTitle") + '</h3>' +
           '<p class="campaign-note">' + t("eventCopy") + '</p>' +
           '<button class="primary-btn" type="button" data-open-challenge="' + dish.id + '">' + t("eventButton") + '</button>' +
+          '<a class="partner-cta campaign-note" href="/partners">' + t("challengeSponsorCta") + '</a>' +
         '</section>';
       const korean = target.querySelector("[data-korean]");
       const meaning = target.querySelector("[data-meaning]");
@@ -1512,7 +1526,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v16";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v17";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -1551,6 +1565,9 @@ function legalPage(title, body) {
     h1 { margin: 0; font-size: 30px; line-height: 1.08; }
     h2 { margin: 10px 0 0; font-size: 18px; }
     p, li { color: #d8c3a5; line-height: 1.55; }
+    ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+    .price { color: #f4d06f; font-weight: 800; }
+    .cta { display: inline-flex; justify-content: center; border-radius: 14px; background: #f4d06f; color: #20150a; padding: 12px 14px; text-decoration: none; font-weight: 800; }
     .back { display: inline-block; margin-bottom: 14px; text-decoration: none; }
   </style>
 </head>
@@ -1587,6 +1604,30 @@ const pages = {
   "/contact": legalPage("Contact", String.raw`
     <p>For feedback, food corrections, language suggestions, restaurant partnerships, challenge sponsorships, or advertising inquiries, contact the K-Bite Guide owner.</p>
     <p>Email: <a href="mailto:uk.dscheon@gmail.com">uk.dscheon@gmail.com</a></p>
+  `),
+  "/partners": legalPage("Partner With K-Bite", String.raw`
+    <p>K-Bite Guide turns Korean eating instructions into sponsored action: travelers search a dish, learn the Korean way, see a relevant sauce or local method, then join a bite challenge.</p>
+    <h2>1. Dish Sponsor</h2>
+    <p><span class="price">Pilot: KRW 150,000/month per dish</span></p>
+    <ul>
+      <li>Feature one restaurant sauce, house method, or product pairing inside a dish guide.</li>
+      <li>Best for barbecue shops, raw fish restaurants, noodle shops, kimchi brands, sauce brands, and convenience food products.</li>
+    </ul>
+    <h2>2. Search Sponsor</h2>
+    <p><span class="price">Pilot: KRW 500,000/month per category</span></p>
+    <ul>
+      <li>Own the empty search moment before visitors choose a dish.</li>
+      <li>Best for area restaurants, delivery brands, K-food stores, and product launches.</li>
+    </ul>
+    <h2>3. Monthly Challenge Sponsor</h2>
+    <p><span class="price">Pilot: KRW 1,500,000/month</span></p>
+    <ul>
+      <li>Sponsor the monthly theme, such as best samgyeopsal wrap, gochujang ratio, tteokbokki dip, or convenience-store K-food pairing.</li>
+      <li>Reward the winning bite with a coupon, tasting set, meal voucher, or featured brand prize.</li>
+    </ul>
+    <h2>Launch Offer</h2>
+    <p>For the first 10 partners, K-Bite can run a 30-day sponsored pilot and report clicks, dish searches, challenge reactions, and winning bite submissions.</p>
+    <a class="cta" href="mailto:uk.dscheon@gmail.com?subject=K-Bite%20Partner%20Pilot">Request partner pilot</a>
   `),
 };
 
