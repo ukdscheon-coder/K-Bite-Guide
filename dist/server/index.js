@@ -225,31 +225,6 @@ const html = String.raw`<!doctype html>
     .install-card strong {
       font-size: 14px;
     }
-    .source-card {
-      display: grid;
-      gap: 7px;
-      margin-top: 2px;
-      border: 1px solid rgba(111, 196, 190, .24);
-      border-radius: 16px;
-      background: rgba(20, 33, 34, .62);
-      padding: 12px 13px;
-    }
-    .source-card strong {
-      font-size: 13px;
-      color: var(--text);
-    }
-    .source-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.38;
-    }
-    .source-card a {
-      color: var(--primary);
-      font-size: 12px;
-      font-weight: 800;
-      text-decoration: none;
-    }
     .campaign-card, .sponsor-card {
       display: grid;
       gap: 12px;
@@ -925,11 +900,6 @@ const html = String.raw`<!doctype html>
       <div class="ad-slot" data-ad-slot>
         <span data-i="adLabel">Ad space reserved</span>
       </div>
-      <section class="source-card">
-        <strong data-i="sourceTitle">Official Korean food references</strong>
-        <p data-i="sourceCopy">The menu is expanded with public Hansik, KF, KTO, and Korean Culture food references. Free photo sources are linked separately for safe use.</p>
-        <a href="/sources" data-i="sourceCta">View source and free photo links</a>
-      </section>
     </section>
 
     <section class="screen" id="challenge">
@@ -1035,14 +1005,13 @@ const html = String.raw`<!doctype html>
       <a href="/about">About</a>
       <a href="/privacy">Privacy</a>
       <a href="/partners">Partners</a>
-      <a href="/sources">Sources</a>
       <a href="/contact">Contact</a>
     </footer>
   </main>
 
   <script>
     const ui = {
-      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", homeTitle: "Eat Korean food with confidence", homeSupport: "Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan food", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu...", installTitle: "Install on your phone", installIOS: "iPhone: open in Safari, tap Share, then Add to Home Screen.", installAndroid: "Android: open in Chrome, tap Install app or Add to Home screen.", installOther: "Use this as a mobile web app on iPhone Safari or Android Chrome.", installButton: "Install app", adLabel: "Ad space reserved", sourceTitle: "Official Korean food references", sourceCopy: "The menu is expanded with public Hansik, KF, KTO, and Korean Culture food references. Free photo sources are linked separately for safe use.", sourceCta: "View source and free photo links" },
+      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", homeTitle: "Eat Korean food with confidence", homeSupport: "Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan food", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu...", installTitle: "Install on your phone", installIOS: "iPhone: open in Safari, tap Share, then Add to Home Screen.", installAndroid: "Android: open in Chrome, tap Install app or Add to Home screen.", installOther: "Use this as a mobile web app on iPhone Safari or Android Chrome.", installButton: "Install app", adLabel: "Ad space reserved" },
       ja: { homeCopy: "目の前の韓国料理を見つけて、正しい食べ方を確認できます。", homeTitle: "韓国料理を安心して楽しむ", homeSupport: "料理名で検索、または料理をスキャンして、食べ方・ソース・韓国語フレーズを確認できます。", searchFood: "料理を検索", searchSub: "料理名、ソース、食材、食べ方で検索", scanMenu: "料理をスキャン", scanSub: "カメラで料理を認識してガイドを表示", home: "ホーム", foodSearch: "料理検索", foodScan: "料理スキャン", scanCopy: "料理にカメラを向けます。認識後、料理名と食べ方が下に表示されます。", cameraHint: "ここにカメラ画面が表示されます", startCamera: "カメラ開始", detectFood: "料理を認識", cameraBlocked: "この環境ではカメラ許可がブロックされています。iPhoneではHTTPSリンクをSafariで開いて許可してください。", analyzing: "カメラ画像を解析中...", detected: "認識結果", how: "食べ方", ask: "韓国語で店員に質問", askPlaceholder: "質問を入力。例：これは火が通っていますか？", translate: "翻訳", play: "韓国語を再生", suggestion: "おすすめ文", searchPlaceholder: "豚バラ、卵、刺身、豆腐など", installTitle: "スマートフォンにインストール", installIOS: "iPhone: Safariで開き、共有からホーム画面に追加します。", installAndroid: "Android: Chromeで開き、アプリをインストールまたはホーム画面に追加します。", installOther: "iPhone SafariまたはAndroid Chromeでモバイルアプリとして使えます。", installButton: "アプリをインストール" },
       zhCN: { homeCopy: "找到眼前的韩国料理，并学习正确吃法。", homeTitle: "放心享受韩国料理", homeSupport: "按名称搜索或扫描食物，查看正确步骤、酱料和韩语店员用语。", searchFood: "搜索菜品", searchSub: "按菜名、酱料、食材或吃法搜索", scanMenu: "扫描食物", scanSub: "用相机识别食物并打开指南", home: "首页", foodSearch: "菜品搜索", foodScan: "食物扫描", scanCopy: "把镜头对准食物。识别后，菜名和吃法会显示在下方。", cameraHint: "相机画面会显示在这里", startCamera: "开启相机", detectFood: "识别食物", cameraBlocked: "此环境可能阻止相机权限。在 iPhone 上请用 Safari 打开 HTTPS 链接并允许相机。", analyzing: "正在分析相机画面...", detected: "识别结果", how: "怎么吃", ask: "用韩语问店员", askPlaceholder: "输入问题，例如：这个熟了吗？", translate: "翻译", play: "播放韩语", suggestion: "推荐句", searchPlaceholder: "试试五花肉、鸡蛋、生鱼片、豆腐", installTitle: "安装到手机", installIOS: "iPhone：用 Safari 打开，点分享，然后添加到主屏幕。", installAndroid: "Android：用 Chrome 打开，点安装应用或添加到主屏幕。", installOther: "可在 iPhone Safari 或 Android Chrome 上作为手机网页应用使用。", installButton: "安装应用" },
       zhTW: { homeCopy: "找到眼前的韓國料理，並學習正確吃法。", homeTitle: "放心享受韓國料理", homeSupport: "按名稱搜尋或掃描食物，查看正確步驟、醬料和韓語店員用語。", searchFood: "搜尋菜色", searchSub: "按菜名、醬料、食材或吃法搜尋", scanMenu: "掃描食物", scanSub: "用相機辨識食物並開啟指南", home: "首頁", foodSearch: "菜色搜尋", foodScan: "食物掃描", scanCopy: "把鏡頭對準食物。辨識後，菜名和吃法會顯示在下方。", cameraHint: "相機畫面會顯示在這裡", startCamera: "開啟相機", detectFood: "辨識食物", cameraBlocked: "此環境可能阻止相機權限。在 iPhone 上請用 Safari 開啟 HTTPS 連結並允許相機。", analyzing: "正在分析相機畫面...", detected: "辨識結果", how: "怎麼吃", ask: "用韓語問店員", askPlaceholder: "輸入問題，例如：這個熟了嗎？", translate: "翻譯", play: "播放韓語", suggestion: "推薦句", searchPlaceholder: "試試五花肉、雞蛋、生魚片、豆腐", installTitle: "安裝到手機", installIOS: "iPhone：用 Safari 開啟，點分享，然後加入主畫面。", installAndroid: "Android：用 Chrome 開啟，點安裝應用程式或加入主畫面。", installOther: "可在 iPhone Safari 或 Android Chrome 上作為手機網頁應用使用。", installButton: "安裝應用程式" },
@@ -1223,9 +1192,6 @@ const html = String.raw`<!doctype html>
     });
 
     Object.assign(ui.ko, {
-      sourceTitle: "공식 한식 자료",
-      sourceCopy: "한식포털, KF, 한국관광공사, 한국문화원 자료를 참고해 메뉴를 확장했습니다. 무료 이미지 출처는 안전한 사용을 위해 별도 링크로 제공합니다.",
-      sourceCta: "출처와 무료 이미지 링크 보기",
       eventKicker: "월간 챌린지",
       eventTitle: "한국식으로 먹고, 나만의 방식으로 만들고, 공유해서 우승하세요.",
       eventCopy: "먼저 한국식 기본 방법을 배운 뒤 소스, 쌈, 식감, 사이드 조합을 바꿔 나만의 한입을 올려보세요.",
@@ -1792,7 +1758,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v24";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v25";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -1860,24 +1826,6 @@ const pages = {
     <p>The guide focuses on practical eating steps: how to grill meat, wrap ssam, mix bibimbap, add an egg to sundubu jjigae, and choose sauces for raw fish or barbecue.</p>
     <p>The monthly bite challenge invites users to eat a dish Korean style first, create their own best bite, and share it. Restaurants and food brands can sponsor a featured local method by highlighting a real house sauce, product pairing, or limited reward.</p>
     <p>K-Bite Guide is designed for iPhone Safari and Android Chrome as an installable mobile web app.</p>
-  `),
-  "/sources": legalPage("한식 자료와 무료 이미지 출처", String.raw`
-    <p>K-Bite Guide의 메뉴 확장은 한식포털, 한국국제교류재단, 한국관광공사 및 한국문화원 자료, 그리고 사용자가 제시한 K-food 커머스 트렌드를 참고했습니다.</p>
-    <p>앱 내부 음식명과 먹는 방법은 여행자가 식당에서 바로 이해할 수 있도록 재구성했습니다. 사진은 각 제공처의 이용 조건을 확인한 뒤 다운로드해 광고 배너, 음식 상세, 파트너 소개에 연결하는 방식으로 운영하는 것이 안전합니다.</p>
-    <h2>공식 한식 자료</h2>
-    <ul>
-      <li><a href="https://www.hansik.or.kr/main/main.do">한식포털 The Taste of Korea HANSIK</a> - 한식 레시피, 사진자료, 한식메뉴 외국어 표기법</li>
-      <li><a href="https://www.hansik.or.kr/bookSearch/main">한식포털 자료 검색</a> - 한식 관련 발간자료와 메뉴 자료 검색</li>
-      <li><a href="https://www.kf.or.kr/kfNewsletter/mgzinSubViewPage.do?mgzinSubSn=10721&langTy=KOR">한국국제교류재단 KF 한식 관심도 자료</a> - 외국인의 한식 관심과 대표 메뉴 참고</li>
-      <li><a href="https://www.korean-culture.org/koreanet/view.do?seq=2362">한국문화원/KTO 한식책자 자료</a> - 외국인을 위한 한식 소개 자료 참고</li>
-      <li><a href="https://datalab.visitkorea.or.kr/site/portal/ex/bbs/View.do;ksessionid=uno5duCii5lYao0cX69iJiL_u8fBr78RPixmd1H0.wiws01?cbIdx=1603&bcIdx=311&cateCont=&searchKey=&searchKey2=&tgtTypeCd=&searchKey1=&searchKey3=">한국관광 데이터랩</a> - 관광 데이터와 K-food 관심 흐름 참고</li>
-    </ul>
-    <h2>이미지와 커머스 참고</h2>
-    <ul>
-      <li><a href="https://m.blog.naver.com/PostView.naver?blogId=bbtreecorporation&logNo=223752945652&proxyReferer=&noTrackingCode=true">한국관광공사 무료이미지 안내</a> - 한식 무료 이미지 다운로드 후보</li>
-      <li><a href="https://wooltariusa.com/collections/regretprice?_kx=qYpUNE6Hq_1gqejd9JyPoOS1YfSo7amnVmDUnjjXrCc.Ts3SYU">울타리 K-food 인기 상품 모음</a> - 붕어빵, 갈비, 삼겹살, 등갈비 등 해외 소비 트렌드 참고</li>
-    </ul>
-    <p class="note">상업몰 이미지와 제3자 블로그 이미지는 앱에 직접 복제하지 않았습니다. 실제 사진 삽입은 제공처의 다운로드 약관과 상업적 이용 가능 여부를 확인한 뒤 적용하는 것을 권장합니다.</p>
   `),
   "/privacy": legalPage("Privacy Policy", String.raw`
     <p>Last updated: August 2, 2026</p>
