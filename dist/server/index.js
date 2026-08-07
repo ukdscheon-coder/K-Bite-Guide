@@ -1457,7 +1457,15 @@ const html = String.raw`<!doctype html>
         return defaultChallengeEntries.slice();
       }
     }
-    const state = { lang: "en", query: "", selected: null, scanned: null, cameraReady: false, challengeEntries: loadChallengeEntries() };
+    function loadLanguage() {
+      try {
+        const saved = localStorage.getItem("kbiteLang");
+        return ui[saved] ? saved : "en";
+      } catch {
+        return "en";
+      }
+    }
+    const state = { lang: loadLanguage(), query: "", selected: null, scanned: null, cameraReady: false, challengeEntries: loadChallengeEntries() };
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
     const langLabels = { en: "English", ko: "한국어", ja: "Japanese", zhCN: "简体中文", zhTW: "繁體中文", fil: "Filipino", th: "Thai", vi: "Vietnamese" };
@@ -1512,7 +1520,7 @@ const html = String.raw`<!doctype html>
           '<div class="sponsor-row"><div>' +
             '<span class="sponsor-kicker">' + t("sponsorKicker") + '</span>' +
             '<p class="sponsor-name">' + t("sponsorTitle") + ': ' + partner[0] + '</p>' +
-          '</div><a class="primary-btn partner-cta" href="/buy?plan=adfree">' + t("sponsorCta") + '</a></div>' +
+          '</div><a class="primary-btn partner-cta" href="/buy?plan=adfree&lang=' + encodeURIComponent(state.lang) + '">' + t("sponsorCta") + '</a></div>' +
           '<p class="sponsor-copy">' + partner[2] + '</p>' +
           '<div class="sponsor-tags">' + partner[1].slice(0, 3).map(tag => '<span class="sponsor-tag">' + tag + '</span>').join("") + '</div>' +
         '</section>' +
@@ -1651,6 +1659,7 @@ const html = String.raw`<!doctype html>
       setTimeout(() => $("#challengeName").focus(), 80);
     }
     function renderText() {
+      $("#lang").value = state.lang;
       $$("[data-i]").forEach(el => el.textContent = t(el.dataset.i));
       $("#query").placeholder = t("searchPlaceholder");
       renderResults();
@@ -1707,7 +1716,11 @@ const html = String.raw`<!doctype html>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
     }
-    $("#lang").onchange = (e) => { state.lang = e.target.value; renderText(); };
+    $("#lang").onchange = (e) => {
+      state.lang = e.target.value;
+      try { localStorage.setItem("kbiteLang", state.lang); } catch {}
+      renderText();
+    };
     function bindTap(selector, handler) {
       const el = typeof selector === "string" ? $(selector) : selector;
       if (!el) return;
@@ -1779,7 +1792,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v23";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v24";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -1930,16 +1943,111 @@ const paymentPlans = {
   }
 };
 
-function paymentPage(plan) {
-  return legalPage("결제 링크 준비 중", String.raw`
-    <p><strong>${plan.title}</strong> 상품은 <span class="price">${plan.price}</span> 파일럿으로 판매됩니다.</p>
-    <p>직접 구매를 사용하려면 Stripe Payment Links 또는 Polar Checkout Links에서 상품별 결제 링크를 만든 뒤 Sites 환경변수에 연결하세요.</p>
+const paymentCopy = {
+  en: {
+    pending: "Payment link preparing",
+    adfreeTitle: "Remove ads for app users",
+    adfreePrice: "KRW 2,900 / month",
+    pilot: "is sold as a pilot plan.",
+    setup: "To enable direct purchase, create a Stripe Payment Link or Polar Checkout Link for this product, then connect it to the Sites environment variable.",
+    envSuffix: "payment link for this product",
+    ready: "Once the payment link is connected, the purchase button will open checkout directly.",
+    noMail: "Email links were removed to keep the purchase flow direct, without inquiry.",
+    back: "Back to partner products"
+  },
+  ko: {
+    pending: "결제 링크 준비 중",
+    adfreeTitle: "앱 사용자 광고 제거",
+    adfreePrice: "월 2,900원",
+    pilot: "파일럿으로 판매됩니다.",
+    setup: "직접 구매를 사용하려면 Stripe Payment Links 또는 Polar Checkout Links에서 상품별 결제 링크를 만든 뒤 Sites 환경변수에 연결하세요.",
+    envSuffix: "이 상품의 결제 링크",
+    ready: "결제 링크가 연결되면 구매 버튼이 바로 결제창으로 이동합니다.",
+    noMail: "문의 없이 바로 구매하는 구조를 유지하기 위해 메일 링크는 제거했습니다.",
+    back: "파트너 상품으로 돌아가기"
+  },
+  ja: {
+    pending: "決済リンク準備中",
+    adfreeTitle: "アプリ利用者向け広告削除",
+    adfreePrice: "月額2,900ウォン",
+    pilot: "パイロット商品として販売されます。",
+    setup: "直接購入を有効にするには、Stripe Payment Links または Polar Checkout Links で商品別の決済リンクを作成し、Sites の環境変数に接続してください。",
+    envSuffix: "この商品の決済リンク",
+    ready: "決済リンクが接続されると、購入ボタンはすぐに決済画面へ移動します。",
+    noMail: "問い合わせなしで直接購入できる構造を維持するため、メールリンクは削除しました。",
+    back: "パートナー商品に戻る"
+  },
+  zhCN: {
+    pending: "支付链接准备中",
+    adfreeTitle: "应用用户去除广告",
+    adfreePrice: "每月 2,900 韩元",
+    pilot: "作为试点方案销售。",
+    setup: "如需启用直接购买，请在 Stripe Payment Links 或 Polar Checkout Links 中为该商品创建支付链接，然后连接到 Sites 环境变量。",
+    envSuffix: "此商品的支付链接",
+    ready: "支付链接连接后，购买按钮会直接打开结账页面。",
+    noMail: "为保持无需咨询即可购买的流程，邮件链接已移除。",
+    back: "返回合作伙伴商品"
+  },
+  zhTW: {
+    pending: "付款連結準備中",
+    adfreeTitle: "移除應用程式使用者廣告",
+    adfreePrice: "每月 2,900 韓元",
+    pilot: "作為試行方案銷售。",
+    setup: "若要啟用直接購買，請在 Stripe Payment Links 或 Polar Checkout Links 中為此商品建立付款連結，然後連接到 Sites 環境變數。",
+    envSuffix: "此商品的付款連結",
+    ready: "付款連結連接後，購買按鈕會直接開啟結帳頁面。",
+    noMail: "為維持無需詢問即可直接購買的流程，已移除電子郵件連結。",
+    back: "返回合作夥伴商品"
+  },
+  fil: {
+    pending: "Inihahanda ang payment link",
+    adfreeTitle: "Alisin ang ads para sa app users",
+    adfreePrice: "KRW 2,900 / buwan",
+    pilot: "ay ibinebenta bilang pilot plan.",
+    setup: "Para gumana ang direct purchase, gumawa ng Stripe Payment Link o Polar Checkout Link para sa produktong ito, pagkatapos ikonekta ito sa Sites environment variable.",
+    envSuffix: "payment link para sa produktong ito",
+    ready: "Kapag nakakonekta na ang payment link, ang purchase button ay diretso sa checkout.",
+    noMail: "Tinanggal ang email link para manatiling direct ang pagbili, nang walang inquiry.",
+    back: "Bumalik sa partner products"
+  },
+  th: {
+    pending: "กำลังเตรียมลิงก์ชำระเงิน",
+    adfreeTitle: "ลบโฆษณาสำหรับผู้ใช้แอป",
+    adfreePrice: "2,900 วอน / เดือน",
+    pilot: "จำหน่ายเป็นแผนนำร่อง",
+    setup: "หากต้องการเปิดใช้การซื้อโดยตรง ให้สร้าง Stripe Payment Link หรือ Polar Checkout Link สำหรับสินค้านี้ แล้วเชื่อมต่อกับ environment variable ของ Sites",
+    envSuffix: "ลิงก์ชำระเงินของสินค้านี้",
+    ready: "เมื่อเชื่อมต่อลิงก์ชำระเงินแล้ว ปุ่มซื้อจะเปิดหน้า checkout โดยตรง",
+    noMail: "ลิงก์อีเมลถูกลบออกเพื่อให้คงโครงสร้างการซื้อโดยตรงโดยไม่ต้องสอบถาม",
+    back: "กลับไปยังสินค้าพาร์ทเนอร์"
+  },
+  vi: {
+    pending: "Đang chuẩn bị liên kết thanh toán",
+    adfreeTitle: "Xóa quảng cáo cho người dùng ứng dụng",
+    adfreePrice: "2.900 KRW / tháng",
+    pilot: "được bán dưới dạng gói thử nghiệm.",
+    setup: "Để dùng mua trực tiếp, hãy tạo Stripe Payment Link hoặc Polar Checkout Link cho sản phẩm này, sau đó kết nối với biến môi trường Sites.",
+    envSuffix: "liên kết thanh toán của sản phẩm này",
+    ready: "Khi liên kết thanh toán được kết nối, nút mua sẽ mở thẳng trang thanh toán.",
+    noMail: "Liên kết email đã được gỡ để giữ luồng mua trực tiếp, không cần hỏi trước.",
+    back: "Quay lại sản phẩm đối tác"
+  }
+};
+
+function paymentPage(plan, lang = "ko") {
+  const copy = paymentCopy[lang] || paymentCopy.en;
+  const isAdfree = plan.envKey === "PAYMENT_ADFREE_URL";
+  const title = isAdfree ? copy.adfreeTitle : plan.title;
+  const price = isAdfree ? copy.adfreePrice : plan.price;
+  return legalPage(copy.pending, String.raw`
+    <p><strong>${title}</strong> ${copy.pilot ? `<span class="price">${price}</span> ${copy.pilot}` : `<span class="price">${price}</span>`}</p>
+    <p>${copy.setup}</p>
     <ul>
-      <li>${plan.envKey}: 이 상품의 결제 링크</li>
-      <li>결제 링크가 연결되면 구매 버튼이 바로 결제창으로 이동합니다.</li>
-      <li>문의 없이 바로 구매하는 구조를 유지하기 위해 메일 링크는 제거했습니다.</li>
+      <li>${plan.envKey}: ${copy.envSuffix}</li>
+      <li>${copy.ready}</li>
+      <li>${copy.noMail}</li>
     </ul>
-    <a class="cta" href="/partners">파트너 상품으로 돌아가기</a>
+    <a class="cta" href="/partners">${copy.back}</a>
   `);
 }
 
@@ -1953,7 +2061,8 @@ export default {
       if (/^https:\/\/(buy\.stripe\.com|checkout\.polar\.sh)\//.test(link)) {
         return Response.redirect(link, 302);
       }
-      return new Response(paymentPage(plan), {
+      const lang = url.searchParams.get("lang") || "ko";
+      return new Response(paymentPage(plan, lang), {
         headers: { "content-type": "text/html; charset=utf-8" },
       });
     }
