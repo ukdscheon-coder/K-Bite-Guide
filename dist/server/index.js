@@ -1758,7 +1758,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v25";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v26";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -2006,7 +2006,7 @@ export default {
       const plan = paymentPlans[url.searchParams.get("plan") || ""];
       if (!plan) return Response.redirect(new URL("/partners", url).toString(), 302);
       const link = env?.[plan.envKey] || "";
-      if (/^https:\/\/(buy\.stripe\.com|checkout\.polar\.sh)\//.test(link)) {
+      if (/^https:\/\/(buy\.stripe\.com|checkout\.polar\.sh|buy\.polar\.sh)\//.test(link)) {
         return Response.redirect(link, 302);
       }
       const lang = url.searchParams.get("lang") || "ko";
