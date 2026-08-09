@@ -1842,7 +1842,7 @@ const html = String.raw`<!doctype html>
         return;
       }
       setScanStatus(t("analyzing"));
-      const response = await fetch("/api/identify-food", {
+      const response = await fetch("/identify-food", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ image: dataUrl, lang: state.lang })
@@ -2040,7 +2040,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v30";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v31";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -2363,7 +2363,7 @@ async function identifyFoodName(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === "/api/identify-food" && request.method === "POST") {
+    if (url.pathname === "/identify-food" && request.method === "POST") {
       return identifyFoodName(request, env);
     }
     if (url.pathname === "/buy") {
