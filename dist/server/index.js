@@ -638,14 +638,22 @@ const html = String.raw`<!doctype html>
     .dish-row {
       width: 100%;
       min-height: 48px;
-      display: block;
+      display: grid;
+      grid-template-columns: 44px 1fr;
       align-items: center;
+      gap: 10px;
       text-align: left;
       border: 1px solid var(--line);
       background: var(--panel);
       color: var(--text);
       border-radius: 14px;
-      padding: 12px 13px;
+      padding: 9px 10px;
+    }
+    .dish-row strong, .dish-row .sub {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .dish-row.active {
       background: var(--primary);
@@ -657,6 +665,28 @@ const html = String.raw`<!doctype html>
       height: 48px;
       border-radius: 15px;
       font-size: 24px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(244,208,111,.28), transparent 34%),
+        linear-gradient(145deg, rgba(25,77,71,.84), rgba(36,26,19,.92));
+    }
+    .food-img img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .food-img .fallback-icon {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      font-weight: 800;
+    }
+    .food-img.has-photo .fallback-icon {
+      display: none;
     }
     .detail {
       display: none;
@@ -1367,8 +1397,91 @@ const html = String.raw`<!doctype html>
       simpleDish("kkoma_gimbap", "김", "꼬마김밥", "Kkoma gimbap", "Small bite-sized gimbap rolls, often dipped in mustard soy sauce.", ["Rice roll", "Snack"], ["Pick up one small roll.", "Dip lightly in mustard soy sauce if served.", "Eat in one bite.", "Check fillings if you avoid ham, egg, or fish cake."], "mini gimbap kkoma gimbap mustard soy snack", "겨자소스에 찍어 먹나요?", "Should I dip it in mustard sauce?"),
       simpleDish("yakgwa", "🍯", "약과", "Yakgwa", "Traditional honey cookie with a dense fried texture.", ["Dessert", "Honey"], ["Take small bites because it is dense.", "Pair with tea or coffee.", "Expect a sweet honey-ginger flavor.", "Share if served as a dessert plate."], "traditional korean honey cookie yakgwa dessert", "차와 같이 먹나요?", "Should I eat it with tea?"),
       simpleDish("injeolmi", "🍡", "인절미", "Injeolmi", "Soft rice cake coated with roasted soybean powder.", ["Rice cake", "Soybean powder"], ["Take small bites because rice cake is chewy.", "Use a fork or toothpick if provided.", "Expect powder to fall, so lean over the plate.", "Pair with tea."], "rice cake soybean powder injeolmi tteok dessert", "가루가 떨어지니 조심해야 하나요?", "Should I be careful with the powder?"),
-      simpleDish("sikhye", "🥤", "식혜", "Sikhye", "Sweet rice punch served cold, often after a meal.", ["Drink", "Dessert"], ["Drink cold after the meal.", "Eat the rice grains if you like.", "Shake or stir gently if grains settle.", "Pair with traditional snacks."], "sweet rice punch sikhye korean dessert drink", "밥알도 먹어도 되나요?", "Can I eat the rice grains too?")
+      simpleDish("sikhye", "🥤", "식혜", "Sikhye", "Sweet rice punch served cold, often after a meal.", ["Drink", "Dessert"], ["Drink cold after the meal.", "Eat the rice grains if you like.", "Shake or stir gently if grains settle.", "Pair with traditional snacks."], "sweet rice punch sikhye korean dessert drink", "밥알도 먹어도 되나요?", "Can I eat the rice grains too?"),
+      simpleDish("dolsot_bibimbap", "🍚", "돌솥비빔밥", "Dolsot bibimbap", "Bibimbap served in a hot stone bowl with crisp rice at the bottom.", ["Stone bowl", "Mix carefully"], ["Add gochujang little by little.", "Mix before the rice burns too much.", "Scrape crispy rice from the bottom.", "Be careful because the bowl is very hot."], "stone bowl bibimbap crispy rice dolsot gochujang", "그릇이 많이 뜨거운가요?", "Is the bowl very hot?"),
+      simpleDish("jeyuk_bokkeum", "🥘", "제육볶음", "Jeyuk bokkeum", "Spicy stir-fried pork with gochujang sauce and vegetables.", ["Pork", "Spicy stir-fry"], ["Eat with rice to balance the spice.", "Wrap pork with lettuce if served.", "Use less sauce if it is very spicy.", "Ask about spice level before ordering."], "spicy pork stir fry jeyuk bokkeum gochujang lettuce", "쌈에 싸 먹나요?", "Should I wrap it in lettuce?"),
+      simpleDish("ojingeo_bokkeum", "🦑", "오징어볶음", "Ojingeo bokkeum", "Spicy stir-fried squid with vegetables.", ["Squid", "Spicy"], ["Mix squid and vegetables with sauce.", "Eat with rice because it is spicy and salty.", "Use scissors if pieces are large.", "Ask about seafood allergy if needed."], "spicy squid stir fry ojingeo bokkeum seafood", "밥과 같이 먹나요?", "Should I eat this with rice?"),
+      simpleDish("yukgaejang", "🍲", "육개장", "Yukgaejang", "Spicy shredded beef soup with vegetables and glass noodles.", ["Beef soup", "Spicy"], ["Let it cool slightly before eating.", "Eat beef, greens, and broth with rice.", "Add rice into the soup if you like.", "Ask if it is very spicy before ordering."], "spicy beef soup yukgaejang shredded beef glass noodles", "밥을 말아 먹나요?", "Do I put rice into the soup?"),
+      simpleDish("bindaetteok", "🥞", "빈대떡", "Bindaetteok", "Mung bean pancake, often crisp outside and soft inside.", ["Pancake", "Mung bean"], ["Tear or cut a piece.", "Dip lightly in soy-vinegar sauce.", "Eat while the edge is crisp.", "Pair with kimchi or pickled onion."], "mung bean pancake bindaetteok nokdu jeon", "간장에 찍어 먹나요?", "Should I dip it in soy sauce?"),
+      simpleDish("modeumjeon", "🥞", "모둠전", "Modeum jeon", "Assorted Korean pancakes such as fish, zucchini, meat, and tofu jeon.", ["Assorted pancake", "Shared"], ["Try each type one by one.", "Dip lightly in soy-vinegar sauce.", "Eat while warm.", "Ask what each piece contains if allergic."], "assorted jeon korean pancake fish zucchini tofu meat", "각각 뭐가 들어 있나요?", "What is inside each piece?"),
+      simpleDish("hobakjeon", "🥒", "호박전", "Hobakjeon", "Pan-fried zucchini slices coated lightly with egg batter.", ["Vegetable pancake", "Mild"], ["Pick one slice with chopsticks.", "Dip lightly in soy sauce if served.", "Eat as a mild side dish.", "Pair with spicy stew for balance."], "zucchini pancake hobakjeon egg batter side dish", "소스에 찍어 먹나요?", "Should I dip it in sauce?"),
+      simpleDish("baechu_kimchi", "🥬", "배추김치", "Baechu kimchi", "Classic napa cabbage kimchi served as a side dish.", ["Kimchi", "Side dish"], ["Eat a small piece with rice or meat.", "Use it to refresh the palate.", "Ask if it is very fermented if sensitive.", "Do not pour kimchi juice into shared dishes."], "napa cabbage kimchi baechu fermented side dish", "많이 익은 김치인가요?", "Is this well-fermented kimchi?"),
+      simpleDish("kkakdugi", "⬜", "깍두기", "Kkakdugi", "Cubed radish kimchi, often served with soups.", ["Radish kimchi", "Soup pairing"], ["Eat one cube with soup or rice.", "Expect a crunchy texture.", "Use it to balance rich broth.", "Ask if it is spicy."], "radish kimchi kkakdugi cube soup seolleongtang", "국밥과 같이 먹나요?", "Should I eat it with soup rice?"),
+      simpleDish("oisobagi", "🥒", "오이소박이", "Oi sobagi", "Stuffed cucumber kimchi with chili seasoning.", ["Cucumber kimchi", "Crunchy"], ["Bite or cut into smaller pieces.", "Eat with rice or grilled meat.", "Expect a fresh crunchy texture.", "Use it to cool down spicy food."], "stuffed cucumber kimchi oi sobagi crunchy", "매운 음식과 같이 먹나요?", "Should I eat it with spicy food?"),
+      simpleDish("saeujeon", "🍤", "새우전", "Saeu jeon", "Pan-fried shrimp coated with egg batter.", ["Shrimp", "Jeon"], ["Pick up one piece carefully.", "Dip lightly in soy-vinegar sauce.", "Eat while warm.", "Avoid if allergic to shellfish."], "shrimp pancake jeon egg batter shellfish", "새우 알레르기가 있으면 피해야 하나요?", "Should I avoid this with shrimp allergy?"),
+      simpleDish("dongtaejeon", "🐟", "동태전", "Dongtae jeon", "Pan-fried pollock slices coated with egg batter.", ["Fish jeon", "Bones rare"], ["Dip lightly in soy sauce.", "Eat with rice or as a shared side.", "Watch for small bones just in case.", "Pair with kimchi."], "pollock jeon fish pancake egg batter", "가시가 있나요?", "Are there bones?"),
+      simpleDish("dakjuk", "🥣", "닭죽", "Dakjuk", "Chicken rice porridge, mild and comforting.", ["Chicken porridge", "Mild"], ["Stir before eating.", "Let it cool because porridge stays hot.", "Season lightly with salt if served.", "Eat with kimchi for contrast."], "chicken porridge dakjuk rice mild", "소금을 넣어 먹나요?", "Should I add salt?"),
+      simpleDish("kongnamul_muchim", "🌱", "콩나물무침", "Kongnamul muchim", "Seasoned soybean sprouts served as a crunchy side dish.", ["Banchan", "Bean sprout"], ["Eat a small amount with rice.", "Use it to lighten grilled meat.", "Mix with bibimbap if served together.", "Ask if sesame oil is used if allergic."], "soybean sprout side dish kongnamul muchim banchan", "참기름이 들어가나요?", "Does this contain sesame oil?"),
+      simpleDish("sigeumchi_namul", "🌿", "시금치나물", "Sigeumchi namul", "Seasoned spinach side dish with sesame and garlic.", ["Banchan", "Spinach"], ["Eat with rice as a side dish.", "Mix into bibimbap if served.", "Expect sesame aroma.", "Ask about sesame if allergic."], "spinach namul sigeumchi sesame garlic side dish", "깨가 들어가나요?", "Does this contain sesame?"),
+      simpleDish("doraji_muchim", "🌶️", "도라지무침", "Doraji muchim", "Seasoned bellflower root with a bitter-crisp texture.", ["Banchan", "Bitter crisp"], ["Try a small bite first.", "Eat with rice to balance the bitterness.", "Use it as a palate refresher.", "Expect spicy-sour seasoning."], "bellflower root doraji muchim spicy sour banchan", "쓴맛이 나는 반찬인가요?", "Is this a bitter side dish?"),
+      simpleDish("songpyeon", "🍡", "송편", "Songpyeon", "Half-moon rice cakes filled with sesame, beans, or chestnut.", ["Rice cake", "Dessert"], ["Take small bites because rice cake is chewy.", "Check filling if allergic to sesame or nuts.", "Pair with tea.", "Eat at room temperature or slightly warm."], "songpyeon rice cake sesame bean chestnut chuseok", "속에 깨가 들어가나요?", "Does the filling contain sesame?"),
+      simpleDish("baekseolgi", "🍰", "백설기", "Baekseolgi", "Steamed white rice cake with a soft crumbly texture.", ["Rice cake", "Mild"], ["Break off a small piece.", "Eat with tea or sikhye.", "Expect a mild rice flavor.", "Keep it covered so it does not dry out."], "white steamed rice cake baekseolgi tteok dessert", "차와 같이 먹나요?", "Should I eat it with tea?"),
+      simpleDish("sujeonggwa", "🥤", "수정과", "Sujeonggwa", "Sweet cinnamon ginger punch served cold with dried persimmon.", ["Drink", "Dessert"], ["Drink cold after a meal.", "Eat the persimmon garnish if served.", "Expect cinnamon and ginger aroma.", "Pair with rice cakes or yakgwa."], "cinnamon ginger punch sujeonggwa persimmon dessert drink", "곶감도 먹어도 되나요?", "Can I eat the persimmon too?"),
+      simpleDish("makgeolli", "🍶", "막걸리", "Makgeolli", "Milky Korean rice wine, often paired with jeon.", ["Rice wine", "Alcohol"], ["Shake gently only if the cap is secure.", "Pour into small bowls or cups.", "Pair with pajeon or bindaetteok.", "Drink slowly because it is alcoholic."], "korean rice wine makgeolli alcohol jeon pancake", "전과 같이 마시나요?", "Do people drink this with jeon?"),
+      simpleDish("kimchi_mandu_guk", "🥟", "김치만두국", "Kimchi mandu guk", "Dumpling soup with kimchi-filled mandu.", ["Dumpling soup", "Kimchi"], ["Let dumplings cool before biting.", "Eat dumplings with broth.", "Ask if filling includes pork.", "Pair with rice if you want a fuller meal."], "kimchi dumpling soup mandu guk pork broth", "만두 속에 돼지고기가 들어가나요?", "Does the dumpling filling contain pork?"),
+      simpleDish("tteok_mandu_guk", "🥟", "떡만두국", "Tteok mandu guk", "Rice cake and dumpling soup, often eaten as a hearty meal.", ["Rice cake soup", "Dumpling"], ["Let rice cakes cool slightly.", "Eat dumplings with broth.", "Add pepper if you want more aroma.", "Ask about beef or pork broth if needed."], "rice cake dumpling soup tteok mandu guk", "육수가 소고기인가요?", "Is the broth made with beef?"),
+      simpleDish("saengchae_bibimbap", "🥗", "생채비빔밥", "Saengchae bibimbap", "Bibimbap with fresh seasoned vegetables and gochujang.", ["Fresh vegetables", "Mix"], ["Add gochujang gradually.", "Mix vegetables and rice evenly.", "Taste before adding more sauce.", "Eat soon to keep vegetables crisp."], "fresh vegetable bibimbap saengchae gochujang", "고추장은 얼마나 넣나요?", "How much gochujang should I add?"),
+      simpleDish("haemuljjim", "🦐", "해물찜", "Haemul jjim", "Spicy braised seafood with bean sprouts.", ["Seafood", "Spicy"], ["Mix seafood and bean sprouts with sauce.", "Use rice to balance the heat.", "Watch for shells and bones.", "Avoid if allergic to shellfish."], "spicy braised seafood haemul jjim bean sprouts shellfish", "조개류가 들어가나요?", "Does this contain shellfish?")
     );
+
+    const commons = (file) => "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file);
+    const photoMap = {
+      samgyeopsal: "Korean barbeque-Samgyeopsal-01.jpg",
+      sundubu: "Korean cuisine-Sundubu jjigae-01.jpg",
+      hoe: "Korean cuisine-Hoe-01.jpg",
+      bibimbap: "Bibimbap.jpg",
+      dolsot_bibimbap: "Dolsot-bibimbap.jpg",
+      naengmyeon: "Korean cuisine-Naengmyeon-01.jpg",
+      dakgalbi: "Dak galbi.jpg",
+      bossam: "Bossam.jpg",
+      jokbal: "Jokbal.jpg",
+      bulgogi: "Bulgogi.jpg",
+      kimchijjigae: "Kimchi jjigae.jpg",
+      budaejjigae: "Budae jjigae.jpg",
+      samgyetang: "Samgyetang.jpg",
+      galbitang: "Galbitang.jpg",
+      tteokbokki: "Tteokbokki.JPG",
+      gimbap: "Gimbap.jpg",
+      japchae: "Japchae.jpg",
+      pajeon: "Korean cuisine-Pajeon-01.jpg",
+      mandu: "Mandu (food).jpg",
+      kalguksu: "Kalguksu.jpg",
+      kongguksu: "Kongguksu.jpg",
+      jajangmyeon: "Jajangmyeon.jpg",
+      jjamppong: "Jjamppong.jpg",
+      ganjanggejang: "Ganjang gejang.jpg",
+      maeuntang: "Maeuntang.jpg",
+      yukhoe: "Yukhoe.jpg",
+      sundaeguk: "Sundaeguk.jpg",
+      hotteok: "Hotteok.jpg",
+      bingsu: "Patbingsu.jpg",
+      kimchibokkeumbap: "Kimchi fried rice.jpg",
+      tteokguk: "Tteokguk.jpg",
+      miyeokguk: "Miyeok guk.jpg",
+      jjimdak: "Jjimdak.jpg",
+      galbijjim: "Galbijjim.jpg",
+      gyeranjjim: "Gyeran-jjim.jpg",
+      dubukimchi: "Dubu kimchi.jpg",
+      patjuk: "Patjuk.jpg",
+      bungeoppang: "Bungeoppang.jpg",
+      kimchijeon: "Kimchijeon.jpg",
+      bibim_guksu: "Bibim-guksu.jpg",
+      soondae: "Sundae (Korean food).jpg",
+      dakgangjeong: "Dakgangjeong.jpg",
+      yangnyeom_chicken: "Korean fried chicken.jpg",
+      eomuk_tang: "Eomuk-tang.jpg",
+      godeungeogui: "Godeungeo gui.jpg",
+      jeonbokjuk: "Jeonbok-juk.jpg",
+      cheonggukjang: "Cheonggukjang jjigae.jpg",
+      baekban: "Korean table d'hote.jpg",
+      chungmu_gimbap: "Chungmu gimbap.jpg",
+      yakgwa: "Yakgwa.jpg",
+      injeolmi: "Injeolmi.jpg",
+      makgeolli: "Makgeolli.jpg"
+    };
+    dishes.forEach(dish => {
+      if (photoMap[dish.id]) dish.photo = commons(photoMap[dish.id]);
+    });
 
     const rules = [
       { keys: ["fully cooked", "cooked", "ready", "luto", "suk", "สุก", "chín", "火が通", "熟了", "熟嗎"], ko: "이거 다 익었나요?", meaning: { en: "Is this fully cooked?", ja: "これは火が通っていますか？", zhCN: "这个熟了吗？", zhTW: "這個熟了嗎？", fil: "Luto na ba ito nang husto?", th: "สุกทั่วแล้วหรือยัง?", vi: "Món này đã chín kỹ chưa?" } },
@@ -1463,13 +1576,19 @@ const html = String.raw`<!doctype html>
       const name = t("sponsorBiteName").replace("{dish}", title);
       return [name, [t("sponsorTagHouse"), t("sponsorTagLocal"), t("sponsorTagRemix")], t("sponsorCopy")];
     }
+    function dishVisual(dish) {
+      const label = esc(local(dish)[0] || dish.ko || "Korean food");
+      const fallback = '<span class="fallback-icon">' + esc(dish.emoji || "🍽️") + '</span>';
+      if (!dish.photo) return '<div class="food-img">' + fallback + '</div>';
+      return '<div class="food-img has-photo"><img loading="lazy" decoding="async" src="' + esc(dish.photo) + '" alt="' + label + '" onerror="this.remove();this.parentElement.classList.remove(\\'has-photo\\');">' + fallback + '</div>';
+    }
     function renderDetail(target, dish) {
       const text = local(dish);
       const partner = partnerBiteFor(dish);
       target.classList.add("active");
       target.innerHTML =
         '<div class="dish-head">' +
-          '<div class="food-img">' + dish.emoji + '</div>' +
+          dishVisual(dish) +
           '<div><h3>' + text[0] + ' / ' + dish.ko + '</h3><p class="muted">' + text[1] + '</p></div>' +
         '</div>' +
         '<div class="badges">' + text[2].map(b => '<span class="badge">' + b + '</span>').join("") + '</div>' +
@@ -1548,7 +1667,7 @@ const html = String.raw`<!doctype html>
       const rows = dishes.filter(d => (d.search + " " + local(d)[0] + " " + d.ko).toLowerCase().includes(q));
       $("#results").innerHTML = rows.map(d => {
         const text = local(d);
-        return '<button class="dish-row" data-dish="' + d.id + '"><strong>' + text[0] + '</strong><span class="sub">' + d.ko + '</span></button>';
+        return '<button class="dish-row" data-dish="' + d.id + '">' + dishVisual(d) + '<span><strong>' + text[0] + '</strong><span class="sub">' + d.ko + '</span></span></button>';
       }).join("");
       $$("#results [data-dish]").forEach(btn => btn.onclick = () => {
         const dish = dishes.find(d => d.id === btn.dataset.dish);
@@ -1758,7 +1877,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v26";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v27";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
