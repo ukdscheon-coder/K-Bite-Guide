@@ -1580,8 +1580,15 @@ const html = String.raw`<!doctype html>
       const label = esc(local(dish)[0] || dish.ko || "Korean food");
       const fallback = '<span class="fallback-icon">' + esc(dish.emoji || "🍽️") + '</span>';
       if (!dish.photo) return '<div class="food-img">' + fallback + '</div>';
-      return '<div class="food-img has-photo"><img loading="lazy" decoding="async" src="' + esc(dish.photo) + '" alt="' + label + '" onerror="this.remove();this.parentElement.classList.remove(\\'has-photo\\');">' + fallback + '</div>';
+      return '<div class="food-img has-photo"><img data-dish-photo loading="lazy" decoding="async" src="' + esc(dish.photo) + '" alt="' + label + '">' + fallback + '</div>';
     }
+    document.addEventListener("error", event => {
+      const img = event.target;
+      if (!img || !img.matches || !img.matches("[data-dish-photo]")) return;
+      const box = img.closest(".food-img");
+      img.remove();
+      if (box) box.classList.remove("has-photo");
+    }, true);
     function renderDetail(target, dish) {
       const text = local(dish);
       const partner = partnerBiteFor(dish);
@@ -1877,7 +1884,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v27";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v28";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
