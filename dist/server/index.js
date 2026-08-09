@@ -834,6 +834,38 @@ const html = String.raw`<!doctype html>
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
+    .scan-tools {
+      display: grid;
+      gap: 12px;
+    }
+    .file-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    .file-btn input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .lens-result {
+      display: none;
+      gap: 10px;
+      border: 1px solid rgba(76, 211, 194, .24);
+      border-radius: 18px;
+      background: rgba(15, 34, 39, .72);
+      padding: 14px;
+    }
+    .lens-result.active { display: grid; }
+    .lens-result h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .lens-result .confidence {
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 13px;
+    }
     button:disabled {
       opacity: .48;
     }
@@ -908,12 +940,16 @@ const html = String.raw`<!doctype html>
       </div>
       <div>
         <h2 data-i="homeTitle">Eat Korean food with confidence</h2>
-        <p class="muted home-copy" data-i="homeSupport">Search by name to see the right steps, sauces, and Korean staff phrases.</p>
+        <p class="muted home-copy" data-i="homeSupport">Search by name or scan a photo to find the dish name first.</p>
       </div>
       <div class="actions">
         <button class="action primary" id="toSearch" type="button">
           <span class="action-icon">🔎</span>
           <span><strong data-i="searchFood">Search food</strong><span class="sub" data-i="searchSub">Search by dish, sauce, ingredient, or eating action</span></span>
+        </button>
+        <button class="action" id="toScan" type="button">
+          <span class="action-icon">📷</span>
+          <span><strong data-i="scanMenu">Name scan</strong><span class="sub" data-i="scanSub">Use a photo to find the dish name first</span></span>
         </button>
       </div>
       <div class="install-card">
@@ -1006,6 +1042,32 @@ const html = String.raw`<!doctype html>
       <article class="detail" id="searchDetail"></article>
     </section>
 
+    <section class="screen" id="scan">
+      <div class="navline">
+        <button class="back" data-home>← <span data-i="home"></span></button>
+        <span class="chip" data-i="foodScan">Food name scan</span>
+      </div>
+      <p class="muted" data-i="scanCopy">Take a clear photo. K-Bite identifies only the dish name, then opens matching guides for you to confirm.</p>
+      <div class="camera">
+        <video id="video" playsinline muted></video>
+        <div class="camera-placeholder" id="cameraPlaceholder">
+          <div style="font-size:42px">📷</div>
+          <p data-i="cameraHint">Camera preview appears here</p>
+        </div>
+      </div>
+      <div class="scan-tools">
+        <div class="scan-actions">
+          <button class="primary-btn" id="cameraBtn" type="button" data-i="startCamera">Start camera</button>
+          <button class="small-btn" id="captureBtn" type="button" data-i="detectFood">Find name</button>
+        </div>
+        <label class="small-btn file-btn"><span data-i="uploadPhoto">Upload photo</span><input id="photoInput" type="file" accept="image/*"></label>
+      </div>
+      <p class="demo-note" data-i="scanBenchmark">Benchmarked from Naver Smart Lens and Google Lens: name-first results, no calorie clutter, no random guessing.</p>
+      <p class="muted" id="scanStatus"></p>
+      <section class="lens-result" id="lensResult"></section>
+      <div class="list" id="scanMatches"></div>
+    </section>
+
     <footer class="footer">
       <a href="/about">About</a>
       <a href="/privacy">Privacy</a>
@@ -1028,21 +1090,27 @@ const html = String.raw`<!doctype html>
     ui.ko = {
       homeCopy: "앞에 있는 한국 음식을 찾고, 한국식으로 먹는 정확한 방법을 배워보세요.",
       homeTitle: "한국 음식을 자신 있게 먹기",
-      homeSupport: "음식 이름을 검색해서 먹는 순서, 소스, 직원에게 물어볼 한국어 표현을 확인하세요.",
+      homeSupport: "음식 이름을 검색하거나 사진으로 이름을 먼저 찾은 뒤 먹는 법을 확인하세요.",
       searchFood: "음식 검색",
       searchSub: "음식, 소스, 재료, 먹는 행동으로 검색",
-      scanMenu: "음식 스캔",
-      scanSub: "카메라로 음식을 인식하고 가이드를 엽니다",
+      scanMenu: "이름 스캔",
+      scanSub: "사진으로 음식 이름을 먼저 찾습니다",
       home: "홈",
       foodSearch: "음식 검색",
-      foodScan: "음식 스캔",
-      scanCopy: "카메라를 음식에 맞추세요. 인식 후 음식 이름과 먹는 법이 아래에 표시됩니다.",
+      foodScan: "음식 이름 스캔",
+      scanCopy: "음식을 선명하게 찍으세요. K-Bite는 음식 이름만 먼저 찾고, 맞는 가이드를 사용자가 확인하게 합니다.",
       cameraHint: "카메라 미리보기가 여기에 표시됩니다",
       startCamera: "카메라 시작",
-      detectFood: "음식 인식",
-      cameraBlocked: "카메라 권한이 차단되었습니다. iPhone에서는 HTTPS 링크를 Safari로 열고 카메라 접근을 허용하세요.",
-      analyzing: "카메라 화면을 분석하는 중...",
+      detectFood: "이름 찾기",
+      uploadPhoto: "사진 업로드",
+      scanBenchmark: "네이버 스마트렌즈와 구글 렌즈를 벤치마킹했습니다. 음식 이름 중심, 칼로리 노출 없음, 랜덤 추측 없음.",
+      cameraBlocked: "카메라 권한이 차단되었습니다. 사진을 업로드하거나 Safari/Chrome에서 HTTPS 링크를 열고 카메라 접근을 허용하세요.",
+      analyzing: "음식 이름을 찾는 중...",
       detected: "인식됨",
+      nameFound: "가능성이 높은 음식 이름",
+      confidence: "신뢰도",
+      noMatch: "아직 K-Bite 가이드와 정확히 연결되지 않았습니다. 이 이름으로 검색해보세요.",
+      aiUnavailable: "음식 이름 스캔은 비전 API 키 연결이 필요합니다. 임의로 추측하지 않습니다.",
       how: "한국식으로 먹는 방법",
       ask: "직원에게 한국어로 묻기",
       askPlaceholder: "질문을 입력하세요. 예: 이거 다 익었나요?",
@@ -1060,9 +1128,7 @@ const html = String.raw`<!doctype html>
       quickSearch: "빠른 검색",
       resultsFound: "개 음식",
       quickQuestions: "빠른 질문",
-      scanNeedsCamera: "먼저 카메라를 시작한 뒤 음식을 인식하세요.",
-      demoResult: "데모 결과",
-      demoNote: "이 미리보기의 카메라 인식은 데모입니다. 실제 AI 음식 인식은 운영 버전에서 연결할 수 있습니다.",
+      scanNeedsCamera: "먼저 카메라를 시작하거나 음식 사진을 업로드하세요.",
       eventKicker: "월간 챌린지",
       eventTitle: "한국식으로 먹고, 나만의 조합을 만들고, 공유해서 우승하세요.",
       eventCopy: "먼저 한국식 기본 방법을 배운 뒤, 소스·쌈·식감·사이드 조합을 바꿔 나만의 한입을 올려보세요.",
@@ -1123,13 +1189,27 @@ const html = String.raw`<!doctype html>
     };
 
     Object.assign(ui.en, {
+      homeSupport: "Search by name or scan a photo to find the dish name first.",
       chooseLanguage: "Choose your language",
       quickSearch: "Quick search",
       resultsFound: "dishes found",
       quickQuestions: "Quick questions",
-      scanNeedsCamera: "Start the camera first, then detect the food.",
-      demoResult: "Demo result",
-      demoNote: "Camera recognition is a guided demo in this preview. Real AI food recognition can be connected for production.",
+      scanMenu: "Name scan",
+      scanSub: "Use a photo to find the dish name first",
+      foodScan: "Food name scan",
+      scanCopy: "Take a clear photo. K-Bite identifies only the dish name, then opens matching guides for you to confirm.",
+      cameraHint: "Camera preview appears here",
+      startCamera: "Start camera",
+      detectFood: "Find name",
+      uploadPhoto: "Upload photo",
+      scanBenchmark: "Benchmarked from Naver Smart Lens and Google Lens: name-first results, no calorie clutter, no random guessing.",
+      scanNeedsCamera: "Start the camera or upload a food photo first.",
+      analyzing: "Finding the food name...",
+      cameraBlocked: "Camera permission is blocked here. Upload a photo instead, or open the HTTPS link in Safari/Chrome and allow camera access.",
+      nameFound: "Possible dish name",
+      confidence: "Confidence",
+      noMatch: "No matching K-Bite guide yet. Try the search box with this name.",
+      aiUnavailable: "Food name scan needs the vision API key to be connected. It will not guess randomly.",
       eventKicker: "Monthly challenge",
       eventTitle: "Eat it Korean style. Create your own way. Share it to win.",
       eventCopy: "Try the house sauce, make your own best bite, and share it with K-Bite. The most useful and delicious idea becomes a featured winning bite.",
@@ -1519,7 +1599,7 @@ const html = String.raw`<!doctype html>
         return "en";
       }
     }
-    const state = { lang: loadLanguage(), query: "", selected: null, challengeEntries: loadChallengeEntries() };
+    const state = { lang: loadLanguage(), query: "", selected: null, cameraReady: false, scanImage: "", challengeEntries: loadChallengeEntries() };
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
     const langLabels = { en: "English", ko: "한국어", ja: "Japanese", zhCN: "简体中文", zhTW: "繁體中文", fil: "Filipino", th: "Thai", vi: "Vietnamese" };
@@ -1658,6 +1738,123 @@ const html = String.raw`<!doctype html>
         renderDetail($("#searchDetail"), dish);
       });
     }
+    function setScanStatus(message) {
+      $("#scanStatus").textContent = message || "";
+    }
+    function setScanImage(dataUrl) {
+      state.scanImage = dataUrl;
+      $("#lensResult").classList.remove("active");
+      $("#lensResult").innerHTML = "";
+      $("#scanMatches").innerHTML = "";
+    }
+    async function startCamera() {
+      try {
+        if (!navigator.mediaDevices?.getUserMedia) throw new Error("camera unavailable");
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+        $("#video").srcObject = stream;
+        $("#video").classList.add("active");
+        $("#cameraPlaceholder").style.display = "none";
+        await $("#video").play();
+        state.cameraReady = true;
+        setScanStatus(t("scanCopy"));
+      } catch {
+        state.cameraReady = false;
+        setScanStatus(t("cameraBlocked"));
+      }
+    }
+    function canvasDataUrlFromVideo() {
+      const video = $("#video");
+      if (!state.cameraReady || !video.videoWidth) return "";
+      const canvas = document.createElement("canvas");
+      const scale = Math.min(900 / video.videoWidth, 900 / video.videoHeight, 1);
+      canvas.width = Math.max(1, Math.round(video.videoWidth * scale));
+      canvas.height = Math.max(1, Math.round(video.videoHeight * scale));
+      canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+      return canvas.toDataURL("image/jpeg", .82);
+    }
+    function imageFileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const scale = Math.min(900 / img.width, 900 / img.height, 1);
+          canvas.width = Math.max(1, Math.round(img.width * scale));
+          canvas.height = Math.max(1, Math.round(img.height * scale));
+          canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+          URL.revokeObjectURL(img.src);
+          resolve(canvas.toDataURL("image/jpeg", .82));
+        };
+        img.onerror = reject;
+        img.src = URL.createObjectURL(file);
+      });
+    }
+    function matchDishesFromName(result) {
+      const terms = [result.korean_name, result.english_name, ...(result.candidates || [])]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      if (!terms.trim()) return [];
+      return dishes
+        .map(dish => {
+          const haystack = (dish.search + " " + dish.ko + " " + local(dish)[0]).toLowerCase();
+          const score = terms.split(/\s+|,|\//).filter(term => term.length > 1 && haystack.includes(term)).length;
+          return { dish, score };
+        })
+        .filter(item => item.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 8)
+        .map(item => item.dish);
+    }
+    function renderScanResult(result) {
+      const primary = result.korean_name || result.english_name || "";
+      const confidence = Math.round(Number(result.confidence || 0) * 100);
+      $("#lensResult").classList.add("active");
+      $("#lensResult").innerHTML =
+        '<span class="campaign-kicker">' + t("nameFound") + '</span>' +
+        '<h3>' + esc(primary || t("noMatch")) + '</h3>' +
+        (result.english_name ? '<p class="sponsor-copy">' + esc(result.english_name) + '</p>' : "") +
+        '<span class="confidence">' + t("confidence") + ': ' + (confidence || 0) + '%</span>' +
+        (result.reason ? '<p class="campaign-note">' + esc(result.reason) + '</p>' : "");
+      const matches = matchDishesFromName(result);
+      if (!matches.length) {
+        $("#scanMatches").innerHTML = '<p class="muted">' + t("noMatch") + '</p>';
+        state.query = primary;
+        $("#query").value = primary;
+        return;
+      }
+      $("#scanMatches").innerHTML = matches.map(d => {
+        const text = local(d);
+        return '<button class="dish-row" data-scan-dish="' + d.id + '">' + dishVisual(d) + '<span><strong>' + text[0] + '</strong><span class="sub">' + d.ko + '</span></span></button>';
+      }).join("");
+      $$("#scanMatches [data-scan-dish]").forEach(btn => btn.onclick = () => {
+        const dish = dishes.find(d => d.id === btn.dataset.scanDish);
+        state.query = local(dish)[0];
+        state.selected = dish.id;
+        $("#query").value = state.query;
+        setScreen("search");
+        renderResults();
+        renderDetail($("#searchDetail"), dish);
+      });
+    }
+    async function identifyScanImage(dataUrl) {
+      if (!dataUrl) {
+        setScanStatus(t("scanNeedsCamera"));
+        return;
+      }
+      setScanStatus(t("analyzing"));
+      const response = await fetch("/api/identify-food", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ image: dataUrl, lang: state.lang })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setScanStatus(data.message || t("aiUnavailable"));
+        return;
+      }
+      setScanStatus("");
+      renderScanResult(data);
+    }
     function saveChallengeEntries() {
       try { localStorage.setItem("kbiteChallengeEntries", JSON.stringify(state.challengeEntries)); } catch {}
     }
@@ -1769,6 +1966,10 @@ const html = String.raw`<!doctype html>
       setScreen("search");
       setTimeout(() => $("#query").focus(), 80);
     });
+    bindTap("#toScan", () => {
+      setScreen("scan");
+      setScanStatus("");
+    });
     bindTap("#toChallenge", () => {
       setScreen("challenge");
       renderChallenge();
@@ -1784,6 +1985,22 @@ const html = String.raw`<!doctype html>
       state.selected = null;
       $("#query").value = "";
       renderResults();
+    };
+    bindTap("#cameraBtn", startCamera);
+    bindTap("#captureBtn", () => {
+      const dataUrl = canvasDataUrlFromVideo();
+      if (dataUrl) setScanImage(dataUrl);
+      identifyScanImage(state.scanImage);
+    });
+    $("#photoInput").onchange = async (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      try {
+        setScanImage(await imageFileToDataUrl(file));
+        await identifyScanImage(state.scanImage);
+      } catch {
+        setScanStatus(t("scanNeedsCamera"));
+      }
     };
     bindTap("#submitChallenge", submitChallengeEntry);
     bindTap("#installBtn", async () => {
@@ -1802,7 +2019,7 @@ const html = String.raw`<!doctype html>
 const manifest = {
   name: "K-Bite Guide",
   short_name: "K-Bite",
-  description: "Mobile guide for eating Korean food with search, Korean staff phrases, and monthly Korean-style bite challenges.",
+  description: "Mobile guide for eating Korean food with search, food name scan, Korean staff phrases, and monthly Korean-style bite challenges.",
   start_url: "/",
   scope: "/",
   display: "standalone",
@@ -1823,7 +2040,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v29";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v30";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -1887,7 +2104,7 @@ function legalPage(title, body) {
 
 const pages = {
   "/about": legalPage("About", String.raw`
-    <p>K-Bite Guide is a free mobile guide for foreign visitors in Korea. It helps travelers search Korean dishes, learn table customs, and ask restaurant staff simple questions in Korean.</p>
+    <p>K-Bite Guide is a free mobile guide for foreign visitors in Korea. It helps travelers search Korean dishes, scan for likely food names, learn table customs, and ask restaurant staff simple questions in Korean.</p>
     <p>The guide focuses on practical eating steps: how to grill meat, wrap ssam, mix bibimbap, add an egg to sundubu jjigae, and choose sauces for raw fish or barbecue.</p>
     <p>The monthly bite challenge invites users to eat a dish Korean style first, create their own best bite, and share it. Restaurants and food brands can sponsor a featured local method by highlighting a real house sauce, product pairing, or limited reward.</p>
     <p>K-Bite Guide is designed for iPhone Safari and Android Chrome as an installable mobile web app.</p>
@@ -1896,6 +2113,8 @@ const pages = {
     <p>Last updated: August 2, 2026</p>
     <h2>Information we collect</h2>
     <p>K-Bite Guide does not require an account and does not ask users to submit personal information. Search text and selected language are processed in the browser for app functionality.</p>
+    <h2>Camera and photos</h2>
+    <p>The food name scan may request camera permission or let users upload a food photo. Photos are used only to identify the likely dish name for that request and are not stored by K-Bite Guide on this site.</p>
     <h2>Advertising and analytics</h2>
     <p>This site may display advertising in the future to keep the guide free. Advertising partners may use cookies or similar technologies according to their own policies. Users can review how Google uses information from partner sites at <a href="https://policies.google.com/technologies/partner-sites">Google's partner sites policy</a>.</p>
     <h2>Contact</h2>
@@ -2062,9 +2281,91 @@ function paymentPage(plan, lang = "ko") {
   `);
 }
 
+function extractOutputText(data) {
+  if (data?.output_text) return data.output_text;
+  const parts = [];
+  for (const item of data?.output || []) {
+    for (const content of item.content || []) {
+      if (content.text) parts.push(content.text);
+    }
+  }
+  return parts.join("\n");
+}
+
+function parseJsonObject(text = "") {
+  const clean = String(text).trim().replace(/^```json\s*/i, "").replace(/```$/i, "").trim();
+  try {
+    return JSON.parse(clean);
+  } catch {
+    const match = clean.match(/\{[\s\S]*\}/);
+    return match ? JSON.parse(match[0]) : {};
+  }
+}
+
+async function identifyFoodName(request, env) {
+  if (!env?.OPENAI_API_KEY) {
+    return new Response(JSON.stringify({
+      message: "Food name scan needs OPENAI_API_KEY. The app will not guess randomly."
+    }), { status: 503, headers: { "content-type": "application/json; charset=utf-8" } });
+  }
+  const payload = await request.json().catch(() => ({}));
+  const image = String(payload.image || "");
+  if (!/^data:image\/(png|jpe?g|webp);base64,/i.test(image) || image.length > 4500000) {
+    return new Response(JSON.stringify({ message: "A valid food photo is required." }), {
+      status: 400,
+      headers: { "content-type": "application/json; charset=utf-8" },
+    });
+  }
+  const prompt = [
+    "You identify Korean food from a single user photo.",
+    "Benchmark behavior: like Naver Smart Lens and Google Lens, return the dish name first and avoid calories, nutrition, restaurant ads, or unrelated commentary.",
+    "If uncertain, say so with a lower confidence and provide possible Korean dish-name candidates. Never invent a dish when the image is unclear.",
+    "Return only JSON with keys: korean_name, english_name, confidence, candidates, reason.",
+    "confidence must be a number from 0 to 1. candidates must be an array of short dish names."
+  ].join(" ");
+  const aiResponse = await fetch("https://api.openai.com/v1/responses", {
+    method: "POST",
+    headers: {
+      "authorization": `Bearer ${env.OPENAI_API_KEY}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      model: env.OPENAI_VISION_MODEL || "gpt-5",
+      input: [{
+        role: "user",
+        content: [
+          { type: "input_text", text: prompt },
+          { type: "input_image", image_url: image, detail: "low" }
+        ]
+      }]
+    })
+  });
+  const data = await aiResponse.json().catch(() => ({}));
+  if (!aiResponse.ok) {
+    return new Response(JSON.stringify({ message: data?.error?.message || "Food name scan is unavailable right now." }), {
+      status: 502,
+      headers: { "content-type": "application/json; charset=utf-8" },
+    });
+  }
+  const parsed = parseJsonObject(extractOutputText(data));
+  const result = {
+    korean_name: String(parsed.korean_name || "").slice(0, 80),
+    english_name: String(parsed.english_name || "").slice(0, 80),
+    confidence: Math.max(0, Math.min(1, Number(parsed.confidence || 0))),
+    candidates: Array.isArray(parsed.candidates) ? parsed.candidates.map(v => String(v).slice(0, 60)).slice(0, 6) : [],
+    reason: String(parsed.reason || "").slice(0, 180),
+  };
+  return new Response(JSON.stringify(result), {
+    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
+  });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/identify-food" && request.method === "POST") {
+      return identifyFoodName(request, env);
+    }
     if (url.pathname === "/buy") {
       const plan = paymentPlans[url.searchParams.get("plan") || ""];
       if (!plan) return Response.redirect(new URL("/partners", url).toString(), 302);
@@ -2111,6 +2412,7 @@ export default {
     return new Response(monetizedHtml, {
       headers: {
         "content-type": "text/html; charset=utf-8",
+        "permissions-policy": "camera=*",
       },
     });
   },
