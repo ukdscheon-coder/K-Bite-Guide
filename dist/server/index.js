@@ -908,16 +908,12 @@ const html = String.raw`<!doctype html>
       </div>
       <div>
         <h2 data-i="homeTitle">Eat Korean food with confidence</h2>
-        <p class="muted home-copy" data-i="homeSupport">Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.</p>
+        <p class="muted home-copy" data-i="homeSupport">Search by name to see the right steps, sauces, and Korean staff phrases.</p>
       </div>
       <div class="actions">
         <button class="action primary" id="toSearch" type="button">
           <span class="action-icon">🔎</span>
           <span><strong data-i="searchFood">Search food</strong><span class="sub" data-i="searchSub">Search by dish, sauce, ingredient, or eating action</span></span>
-        </button>
-        <button class="action" id="toScan" type="button">
-          <span class="action-icon">📷</span>
-          <span><strong data-i="scanMenu">Scan food</strong><span class="sub" data-i="scanSub">Use the camera to identify food and open its guide</span></span>
         </button>
       </div>
       <div class="install-card">
@@ -1010,27 +1006,6 @@ const html = String.raw`<!doctype html>
       <article class="detail" id="searchDetail"></article>
     </section>
 
-    <section class="screen" id="scan">
-      <div class="navline">
-        <button class="back" data-home>← <span data-i="home"></span></button>
-        <span class="chip" data-i="foodScan"></span>
-      </div>
-      <p class="muted" data-i="scanCopy"></p>
-      <div class="camera">
-        <video id="video" playsinline muted></video>
-        <div class="camera-placeholder" id="cameraPlaceholder">
-          <div style="font-size:42px">📷</div>
-          <p data-i="cameraHint"></p>
-        </div>
-      </div>
-      <div class="scan-actions">
-        <button class="primary-btn" id="cameraBtn" data-i="startCamera"></button>
-        <button class="small-btn" id="detectBtn" data-i="detectFood"></button>
-      </div>
-      <p class="demo-note" data-i="demoNote"></p>
-      <p class="muted" id="scanStatus"></p>
-      <article class="detail" id="scanDetail"></article>
-    </section>
     <footer class="footer">
       <a href="/about">About</a>
       <a href="/privacy">Privacy</a>
@@ -1041,19 +1016,19 @@ const html = String.raw`<!doctype html>
 
   <script>
     const ui = {
-      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", homeTitle: "Eat Korean food with confidence", homeSupport: "Search by name or scan the food to see the right steps, sauces, and Korean staff phrases.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan food", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu...", installTitle: "Install on your phone", installIOS: "iPhone: open in Safari, tap Share, then Add to Home Screen.", installAndroid: "Android: open in Chrome, tap Install app or Add to Home screen.", installOther: "Use this as a mobile web app on iPhone Safari or Android Chrome.", installButton: "Install app", adLabel: "Ad space reserved" },
-      ja: { homeCopy: "目の前の韓国料理を見つけて、正しい食べ方を確認できます。", homeTitle: "韓国料理を安心して楽しむ", homeSupport: "料理名で検索、または料理をスキャンして、食べ方・ソース・韓国語フレーズを確認できます。", searchFood: "料理を検索", searchSub: "料理名、ソース、食材、食べ方で検索", scanMenu: "料理をスキャン", scanSub: "カメラで料理を認識してガイドを表示", home: "ホーム", foodSearch: "料理検索", foodScan: "料理スキャン", scanCopy: "料理にカメラを向けます。認識後、料理名と食べ方が下に表示されます。", cameraHint: "ここにカメラ画面が表示されます", startCamera: "カメラ開始", detectFood: "料理を認識", cameraBlocked: "この環境ではカメラ許可がブロックされています。iPhoneではHTTPSリンクをSafariで開いて許可してください。", analyzing: "カメラ画像を解析中...", detected: "認識結果", how: "食べ方", ask: "韓国語で店員に質問", askPlaceholder: "質問を入力。例：これは火が通っていますか？", translate: "翻訳", play: "韓国語を再生", suggestion: "おすすめ文", searchPlaceholder: "豚バラ、卵、刺身、豆腐など", installTitle: "スマートフォンにインストール", installIOS: "iPhone: Safariで開き、共有からホーム画面に追加します。", installAndroid: "Android: Chromeで開き、アプリをインストールまたはホーム画面に追加します。", installOther: "iPhone SafariまたはAndroid Chromeでモバイルアプリとして使えます。", installButton: "アプリをインストール" },
-      zhCN: { homeCopy: "找到眼前的韩国料理，并学习正确吃法。", homeTitle: "放心享受韩国料理", homeSupport: "按名称搜索或扫描食物，查看正确步骤、酱料和韩语店员用语。", searchFood: "搜索菜品", searchSub: "按菜名、酱料、食材或吃法搜索", scanMenu: "扫描食物", scanSub: "用相机识别食物并打开指南", home: "首页", foodSearch: "菜品搜索", foodScan: "食物扫描", scanCopy: "把镜头对准食物。识别后，菜名和吃法会显示在下方。", cameraHint: "相机画面会显示在这里", startCamera: "开启相机", detectFood: "识别食物", cameraBlocked: "此环境可能阻止相机权限。在 iPhone 上请用 Safari 打开 HTTPS 链接并允许相机。", analyzing: "正在分析相机画面...", detected: "识别结果", how: "怎么吃", ask: "用韩语问店员", askPlaceholder: "输入问题，例如：这个熟了吗？", translate: "翻译", play: "播放韩语", suggestion: "推荐句", searchPlaceholder: "试试五花肉、鸡蛋、生鱼片、豆腐", installTitle: "安装到手机", installIOS: "iPhone：用 Safari 打开，点分享，然后添加到主屏幕。", installAndroid: "Android：用 Chrome 打开，点安装应用或添加到主屏幕。", installOther: "可在 iPhone Safari 或 Android Chrome 上作为手机网页应用使用。", installButton: "安装应用" },
-      zhTW: { homeCopy: "找到眼前的韓國料理，並學習正確吃法。", homeTitle: "放心享受韓國料理", homeSupport: "按名稱搜尋或掃描食物，查看正確步驟、醬料和韓語店員用語。", searchFood: "搜尋菜色", searchSub: "按菜名、醬料、食材或吃法搜尋", scanMenu: "掃描食物", scanSub: "用相機辨識食物並開啟指南", home: "首頁", foodSearch: "菜色搜尋", foodScan: "食物掃描", scanCopy: "把鏡頭對準食物。辨識後，菜名和吃法會顯示在下方。", cameraHint: "相機畫面會顯示在這裡", startCamera: "開啟相機", detectFood: "辨識食物", cameraBlocked: "此環境可能阻止相機權限。在 iPhone 上請用 Safari 開啟 HTTPS 連結並允許相機。", analyzing: "正在分析相機畫面...", detected: "辨識結果", how: "怎麼吃", ask: "用韓語問店員", askPlaceholder: "輸入問題，例如：這個熟了嗎？", translate: "翻譯", play: "播放韓語", suggestion: "推薦句", searchPlaceholder: "試試五花肉、雞蛋、生魚片、豆腐", installTitle: "安裝到手機", installIOS: "iPhone：用 Safari 開啟，點分享，然後加入主畫面。", installAndroid: "Android：用 Chrome 開啟，點安裝應用程式或加入主畫面。", installOther: "可在 iPhone Safari 或 Android Chrome 上作為手機網頁應用使用。", installButton: "安裝應用程式" },
-      fil: { homeCopy: "Hanapin ang Korean food sa harap mo at alamin kung paano ito kainin nang tama.", homeTitle: "Kumain ng Korean food nang may kumpiyansa", homeSupport: "Mag-search o mag-scan ng pagkain para makita ang tamang hakbang, sawsawan, at Korean phrases.", searchFood: "Search food", searchSub: "Maghanap ayon sa dish, sawsawan, sangkap, o paraan ng pagkain", scanMenu: "Scan food", scanSub: "Gamitin ang camera para makilala ang pagkain at buksan ang guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Itutok ang camera sa pagkain. Kapag nakita, lalabas ang pangalan at gabay kung paano kainin.", cameraHint: "Dito lalabas ang camera preview", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Naka-block ang camera permission dito. Sa iPhone, buksan ang HTTPS link sa Safari at payagan ang camera.", analyzing: "Sinusuri ang camera frame...", detected: "Nakita", how: "Paano kainin", ask: "Magtanong sa staff sa Korean", askPlaceholder: "Mag-type ng tanong, hal. Luto na ba ito?", translate: "Translate", play: "I-play ang Korean", suggestion: "Suggested phrase", searchPlaceholder: "Subukan: pork belly, egg, raw fish, tofu...", installTitle: "I-install sa phone", installIOS: "iPhone: buksan sa Safari, tap Share, tapos Add to Home Screen.", installAndroid: "Android: buksan sa Chrome, tap Install app o Add to Home screen.", installOther: "Gamitin ito bilang mobile web app sa iPhone Safari o Android Chrome.", installButton: "Install app" },
-      th: { homeCopy: "ค้นหาอาหารเกาหลีตรงหน้าคุณ แล้วเรียนรู้วิธีกินที่ถูกต้อง", homeTitle: "กินอาหารเกาหลีอย่างมั่นใจ", homeSupport: "ค้นหาชื่ออาหารหรือสแกนอาหารเพื่อดูขั้นตอน ซอส และประโยคภาษาเกาหลีสำหรับถามพนักงาน", searchFood: "ค้นหาอาหาร", searchSub: "ค้นหาด้วยชื่ออาหาร ซอส วัตถุดิบ หรือวิธีกิน", scanMenu: "สแกนอาหาร", scanSub: "ใช้กล้องระบุอาหารและเปิดคู่มือ", home: "หน้าแรก", foodSearch: "ค้นหาอาหาร", foodScan: "สแกนอาหาร", scanCopy: "หันกล้องไปที่อาหาร หลังจากตรวจจับแล้ว ชื่ออาหารและวิธีกินจะแสดงด้านล่าง", cameraHint: "ตัวอย่างภาพจากกล้องจะแสดงที่นี่", startCamera: "เปิดกล้อง", detectFood: "ตรวจจับอาหาร", cameraBlocked: "สิทธิ์กล้องถูกบล็อก ใน iPhone ให้เปิดลิงก์ HTTPS ด้วย Safari แล้วอนุญาตกล้อง", analyzing: "กำลังวิเคราะห์ภาพจากกล้อง...", detected: "ตรวจพบ", how: "วิธีกิน", ask: "ถามพนักงานเป็นภาษาเกาหลี", askPlaceholder: "พิมพ์คำถาม เช่น สุกแล้วหรือยัง?", translate: "แปล", play: "เล่นเสียงเกาหลี", suggestion: "ประโยคแนะนำ", searchPlaceholder: "ลองค้นหา หมูสามชั้น ไข่ ปลาดิบ เต้าหู้...", installTitle: "ติดตั้งบนโทรศัพท์", installIOS: "iPhone: เปิดใน Safari แตะแชร์ แล้วเลือกเพิ่มไปยังหน้าจอโฮม", installAndroid: "Android: เปิดใน Chrome แล้วแตะติดตั้งแอปหรือเพิ่มไปยังหน้าจอโฮม", installOther: "ใช้เป็นเว็บแอปบนมือถือได้ใน iPhone Safari หรือ Android Chrome", installButton: "ติดตั้งแอป" },
-      vi: { homeCopy: "Tìm món Hàn trước mặt bạn, rồi xem chính xác cách ăn.", homeTitle: "Tự tin ăn món Hàn", homeSupport: "Tìm theo tên món hoặc quét món ăn để xem các bước, nước chấm và câu hỏi tiếng Hàn.", searchFood: "Tìm món ăn", searchSub: "Tìm theo món, sốt, nguyên liệu hoặc cách ăn", scanMenu: "Quét món ăn", scanSub: "Dùng camera để nhận diện món và mở hướng dẫn", home: "Trang chủ", foodSearch: "Tìm món", foodScan: "Quét món", scanCopy: "Hướng camera vào món ăn. Sau khi nhận diện, tên món và cách ăn sẽ hiện bên dưới.", cameraHint: "Khung xem camera sẽ hiện ở đây", startCamera: "Mở camera", detectFood: "Nhận diện món", cameraBlocked: "Quyền camera đang bị chặn. Trên iPhone, mở liên kết HTTPS bằng Safari và cho phép camera.", analyzing: "Đang phân tích hình ảnh camera...", detected: "Đã nhận diện", how: "Cách ăn", ask: "Hỏi nhân viên bằng tiếng Hàn", askPlaceholder: "Nhập câu hỏi, ví dụ: Món này chín chưa?", translate: "Dịch", play: "Phát tiếng Hàn", suggestion: "Câu gợi ý", searchPlaceholder: "Thử tìm thịt ba chỉ, trứng, cá sống, đậu phụ...", installTitle: "Cài vào điện thoại", installIOS: "iPhone: mở bằng Safari, chạm Chia sẻ, rồi Thêm vào Màn hình chính.", installAndroid: "Android: mở bằng Chrome, chạm Cài đặt ứng dụng hoặc Thêm vào màn hình chính.", installOther: "Dùng như ứng dụng web di động trên iPhone Safari hoặc Android Chrome.", installButton: "Cài ứng dụng" }
+      en: { homeCopy: "Find the Korean dish in front of you, then learn exactly how to eat it.", homeTitle: "Eat Korean food with confidence", homeSupport: "Search by name to see the right steps, sauces, and Korean staff phrases.", searchFood: "Search food", searchSub: "Search by dish, sauce, ingredient, or eating action", scanMenu: "Scan food", scanSub: "Use the camera to identify food and open its guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Point the camera at the food. After detection, the dish name and how-to guide appear below.", cameraHint: "Camera preview appears here", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Camera permission is blocked here. On iPhone, open the HTTPS link in Safari and allow camera access.", analyzing: "Analyzing the camera frame...", detected: "Detected", how: "How to eat", ask: "Ask staff in Korean", askPlaceholder: "Type a question, e.g. Is this fully cooked?", translate: "Translate", play: "Play Korean", suggestion: "Suggested phrase", searchPlaceholder: "Try pork belly, egg, raw fish, tofu...", installTitle: "Install on your phone", installIOS: "iPhone: open in Safari, tap Share, then Add to Home Screen.", installAndroid: "Android: open in Chrome, tap Install app or Add to Home screen.", installOther: "Use this as a mobile web app on iPhone Safari or Android Chrome.", installButton: "Install app", adLabel: "Ad space reserved" },
+      ja: { homeCopy: "目の前の韓国料理を見つけて、正しい食べ方を確認できます。", homeTitle: "韓国料理を安心して楽しむ", homeSupport: "料理名で検索して、食べ方・ソース・韓国語フレーズを確認できます。", searchFood: "料理を検索", searchSub: "料理名、ソース、食材、食べ方で検索", scanMenu: "料理をスキャン", scanSub: "カメラで料理を認識してガイドを表示", home: "ホーム", foodSearch: "料理検索", foodScan: "料理スキャン", scanCopy: "料理にカメラを向けます。認識後、料理名と食べ方が下に表示されます。", cameraHint: "ここにカメラ画面が表示されます", startCamera: "カメラ開始", detectFood: "料理を認識", cameraBlocked: "この環境ではカメラ許可がブロックされています。iPhoneではHTTPSリンクをSafariで開いて許可してください。", analyzing: "カメラ画像を解析中...", detected: "認識結果", how: "食べ方", ask: "韓国語で店員に質問", askPlaceholder: "質問を入力。例：これは火が通っていますか？", translate: "翻訳", play: "韓国語を再生", suggestion: "おすすめ文", searchPlaceholder: "豚バラ、卵、刺身、豆腐など", installTitle: "スマートフォンにインストール", installIOS: "iPhone: Safariで開き、共有からホーム画面に追加します。", installAndroid: "Android: Chromeで開き、アプリをインストールまたはホーム画面に追加します。", installOther: "iPhone SafariまたはAndroid Chromeでモバイルアプリとして使えます。", installButton: "アプリをインストール" },
+      zhCN: { homeCopy: "找到眼前的韩国料理，并学习正确吃法。", homeTitle: "放心享受韩国料理", homeSupport: "按名称搜索菜品，查看正确步骤、酱料和韩语店员用语。", searchFood: "搜索菜品", searchSub: "按菜名、酱料、食材或吃法搜索", scanMenu: "扫描食物", scanSub: "用相机识别食物并打开指南", home: "首页", foodSearch: "菜品搜索", foodScan: "食物扫描", scanCopy: "把镜头对准食物。识别后，菜名和吃法会显示在下方。", cameraHint: "相机画面会显示在这里", startCamera: "开启相机", detectFood: "识别食物", cameraBlocked: "此环境可能阻止相机权限。在 iPhone 上请用 Safari 打开 HTTPS 链接并允许相机。", analyzing: "正在分析相机画面...", detected: "识别结果", how: "怎么吃", ask: "用韩语问店员", askPlaceholder: "输入问题，例如：这个熟了吗？", translate: "翻译", play: "播放韩语", suggestion: "推荐句", searchPlaceholder: "试试五花肉、鸡蛋、生鱼片、豆腐", installTitle: "安装到手机", installIOS: "iPhone：用 Safari 打开，点分享，然后添加到主屏幕。", installAndroid: "Android：用 Chrome 打开，点安装应用或添加到主屏幕。", installOther: "可在 iPhone Safari 或 Android Chrome 上作为手机网页应用使用。", installButton: "安装应用" },
+      zhTW: { homeCopy: "找到眼前的韓國料理，並學習正確吃法。", homeTitle: "放心享受韓國料理", homeSupport: "按名稱搜尋菜色，查看正確步驟、醬料和韓語店員用語。", searchFood: "搜尋菜色", searchSub: "按菜名、醬料、食材或吃法搜尋", scanMenu: "掃描食物", scanSub: "用相機辨識食物並開啟指南", home: "首頁", foodSearch: "菜色搜尋", foodScan: "食物掃描", scanCopy: "把鏡頭對準食物。辨識後，菜名和吃法會顯示在下方。", cameraHint: "相機畫面會顯示在這裡", startCamera: "開啟相機", detectFood: "辨識食物", cameraBlocked: "此環境可能阻止相機權限。在 iPhone 上請用 Safari 開啟 HTTPS 連結並允許相機。", analyzing: "正在分析相機畫面...", detected: "辨識結果", how: "怎麼吃", ask: "用韓語問店員", askPlaceholder: "輸入問題，例如：這個熟了嗎？", translate: "翻譯", play: "播放韓語", suggestion: "推薦句", searchPlaceholder: "試試五花肉、雞蛋、生魚片、豆腐", installTitle: "安裝到手機", installIOS: "iPhone：用 Safari 開啟，點分享，然後加入主畫面。", installAndroid: "Android：用 Chrome 開啟，點安裝應用程式或加入主畫面。", installOther: "可在 iPhone Safari 或 Android Chrome 上作為手機網頁應用使用。", installButton: "安裝應用程式" },
+      fil: { homeCopy: "Hanapin ang Korean food sa harap mo at alamin kung paano ito kainin nang tama.", homeTitle: "Kumain ng Korean food nang may kumpiyansa", homeSupport: "Mag-search ng pagkain para makita ang tamang hakbang, sawsawan, at Korean phrases.", searchFood: "Search food", searchSub: "Maghanap ayon sa dish, sawsawan, sangkap, o paraan ng pagkain", scanMenu: "Scan food", scanSub: "Gamitin ang camera para makilala ang pagkain at buksan ang guide", home: "Home", foodSearch: "Food search", foodScan: "Food scan", scanCopy: "Itutok ang camera sa pagkain. Kapag nakita, lalabas ang pangalan at gabay kung paano kainin.", cameraHint: "Dito lalabas ang camera preview", startCamera: "Start camera", detectFood: "Detect food", cameraBlocked: "Naka-block ang camera permission dito. Sa iPhone, buksan ang HTTPS link sa Safari at payagan ang camera.", analyzing: "Sinusuri ang camera frame...", detected: "Nakita", how: "Paano kainin", ask: "Magtanong sa staff sa Korean", askPlaceholder: "Mag-type ng tanong, hal. Luto na ba ito?", translate: "Translate", play: "I-play ang Korean", suggestion: "Suggested phrase", searchPlaceholder: "Subukan: pork belly, egg, raw fish, tofu...", installTitle: "I-install sa phone", installIOS: "iPhone: buksan sa Safari, tap Share, tapos Add to Home Screen.", installAndroid: "Android: buksan sa Chrome, tap Install app o Add to Home screen.", installOther: "Gamitin ito bilang mobile web app sa iPhone Safari o Android Chrome.", installButton: "Install app" },
+      th: { homeCopy: "ค้นหาอาหารเกาหลีตรงหน้าคุณ แล้วเรียนรู้วิธีกินที่ถูกต้อง", homeTitle: "กินอาหารเกาหลีอย่างมั่นใจ", homeSupport: "ค้นหาชื่ออาหารเพื่อดูขั้นตอน ซอส และประโยคภาษาเกาหลีสำหรับถามพนักงาน", searchFood: "ค้นหาอาหาร", searchSub: "ค้นหาด้วยชื่ออาหาร ซอส วัตถุดิบ หรือวิธีกิน", scanMenu: "สแกนอาหาร", scanSub: "ใช้กล้องระบุอาหารและเปิดคู่มือ", home: "หน้าแรก", foodSearch: "ค้นหาอาหาร", foodScan: "สแกนอาหาร", scanCopy: "หันกล้องไปที่อาหาร หลังจากตรวจจับแล้ว ชื่ออาหารและวิธีกินจะแสดงด้านล่าง", cameraHint: "ตัวอย่างภาพจากกล้องจะแสดงที่นี่", startCamera: "เปิดกล้อง", detectFood: "ตรวจจับอาหาร", cameraBlocked: "สิทธิ์กล้องถูกบล็อก ใน iPhone ให้เปิดลิงก์ HTTPS ด้วย Safari แล้วอนุญาตกล้อง", analyzing: "กำลังวิเคราะห์ภาพจากกล้อง...", detected: "ตรวจพบ", how: "วิธีกิน", ask: "ถามพนักงานเป็นภาษาเกาหลี", askPlaceholder: "พิมพ์คำถาม เช่น สุกแล้วหรือยัง?", translate: "แปล", play: "เล่นเสียงเกาหลี", suggestion: "ประโยคแนะนำ", searchPlaceholder: "ลองค้นหา หมูสามชั้น ไข่ ปลาดิบ เต้าหู้...", installTitle: "ติดตั้งบนโทรศัพท์", installIOS: "iPhone: เปิดใน Safari แตะแชร์ แล้วเลือกเพิ่มไปยังหน้าจอโฮม", installAndroid: "Android: เปิดใน Chrome แล้วแตะติดตั้งแอปหรือเพิ่มไปยังหน้าจอโฮม", installOther: "ใช้เป็นเว็บแอปบนมือถือได้ใน iPhone Safari หรือ Android Chrome", installButton: "ติดตั้งแอป" },
+      vi: { homeCopy: "Tìm món Hàn trước mặt bạn, rồi xem chính xác cách ăn.", homeTitle: "Tự tin ăn món Hàn", homeSupport: "Tìm theo tên món để xem các bước, nước chấm và câu hỏi tiếng Hàn.", searchFood: "Tìm món ăn", searchSub: "Tìm theo món, sốt, nguyên liệu hoặc cách ăn", scanMenu: "Quét món ăn", scanSub: "Dùng camera để nhận diện món và mở hướng dẫn", home: "Trang chủ", foodSearch: "Tìm món", foodScan: "Quét món", scanCopy: "Hướng camera vào món ăn. Sau khi nhận diện, tên món và cách ăn sẽ hiện bên dưới.", cameraHint: "Khung xem camera sẽ hiện ở đây", startCamera: "Mở camera", detectFood: "Nhận diện món", cameraBlocked: "Quyền camera đang bị chặn. Trên iPhone, mở liên kết HTTPS bằng Safari và cho phép camera.", analyzing: "Đang phân tích hình ảnh camera...", detected: "Đã nhận diện", how: "Cách ăn", ask: "Hỏi nhân viên bằng tiếng Hàn", askPlaceholder: "Nhập câu hỏi, ví dụ: Món này chín chưa?", translate: "Dịch", play: "Phát tiếng Hàn", suggestion: "Câu gợi ý", searchPlaceholder: "Thử tìm thịt ba chỉ, trứng, cá sống, đậu phụ...", installTitle: "Cài vào điện thoại", installIOS: "iPhone: mở bằng Safari, chạm Chia sẻ, rồi Thêm vào Màn hình chính.", installAndroid: "Android: mở bằng Chrome, chạm Cài đặt ứng dụng hoặc Thêm vào màn hình chính.", installOther: "Dùng như ứng dụng web di động trên iPhone Safari hoặc Android Chrome.", installButton: "Cài ứng dụng" }
     };
 
     ui.ko = {
       homeCopy: "앞에 있는 한국 음식을 찾고, 한국식으로 먹는 정확한 방법을 배워보세요.",
       homeTitle: "한국 음식을 자신 있게 먹기",
-      homeSupport: "음식 이름을 검색하거나 촬영해서 먹는 순서, 소스, 직원에게 물어볼 한국어 표현을 확인하세요.",
+      homeSupport: "음식 이름을 검색해서 먹는 순서, 소스, 직원에게 물어볼 한국어 표현을 확인하세요.",
       searchFood: "음식 검색",
       searchSub: "음식, 소스, 재료, 먹는 행동으로 검색",
       scanMenu: "음식 스캔",
@@ -1544,7 +1519,7 @@ const html = String.raw`<!doctype html>
         return "en";
       }
     }
-    const state = { lang: loadLanguage(), query: "", selected: null, scanned: null, cameraReady: false, challengeEntries: loadChallengeEntries() };
+    const state = { lang: loadLanguage(), query: "", selected: null, challengeEntries: loadChallengeEntries() };
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
     const langLabels = { en: "English", ko: "한국어", ja: "Japanese", zhCN: "简体中文", zhTW: "繁體中文", fil: "Filipino", th: "Thai", vi: "Vietnamese" };
@@ -1757,7 +1732,6 @@ const html = String.raw`<!doctype html>
       renderResults();
       renderChallenge();
       if (state.selected) renderDetail($("#searchDetail"), dishes.find(d => d.id === state.selected));
-      if (state.scanned) renderDetail($("#scanDetail"), dishes.find(d => d.id === state.scanned));
     }
     function renderPlatformInstall() {
       const ua = navigator.userAgent || "";
@@ -1768,37 +1742,6 @@ const html = String.raw`<!doctype html>
         el.classList.toggle("active", (isIOS && name === "ios") || (isAndroid && name === "android") || (!isIOS && !isAndroid && name === "other"));
       });
     }
-    async function startCamera() {
-      try {
-        if (!navigator.mediaDevices?.getUserMedia) throw new Error("camera unavailable");
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
-        $("#video").srcObject = stream;
-        $("#video").classList.add("active");
-        $("#cameraPlaceholder").style.display = "none";
-        await $("#video").play();
-        state.cameraReady = true;
-        $("#detectBtn").disabled = false;
-        $("#scanStatus").textContent = t("scanCopy");
-      } catch {
-        state.cameraReady = false;
-        $("#detectBtn").disabled = true;
-        $("#scanStatus").textContent = t("cameraBlocked");
-      }
-    }
-    function detectFood() {
-      if (!state.cameraReady) {
-        $("#scanStatus").textContent = t("scanNeedsCamera");
-        return;
-      }
-      $("#scanStatus").textContent = t("analyzing");
-      setTimeout(() => {
-        const dish = dishes[Math.floor(Date.now() / 1000) % dishes.length];
-        state.scanned = dish.id;
-        $("#scanStatus").textContent = t("demoResult") + ": " + local(dish)[0] + " / " + dish.ko;
-        renderDetail($("#scanDetail"), dish);
-      }, 450);
-    }
-
     let deferredInstallPrompt = null;
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
@@ -1822,7 +1765,6 @@ const html = String.raw`<!doctype html>
         handler(event);
       }, { passive: false });
     }
-    $("#detectBtn").disabled = true;
     bindTap("#toSearch", () => {
       setScreen("search");
       setTimeout(() => $("#query").focus(), 80);
@@ -1831,7 +1773,6 @@ const html = String.raw`<!doctype html>
       setScreen("challenge");
       renderChallenge();
     });
-    bindTap("#toScan", () => { setScreen("scan"); startCamera(); });
     $$("[data-home]").forEach(btn => bindTap(btn, () => setScreen("home")));
     $("#query").oninput = (e) => {
       state.query = e.target.value;
@@ -1844,8 +1785,6 @@ const html = String.raw`<!doctype html>
       $("#query").value = "";
       renderResults();
     };
-    bindTap("#cameraBtn", startCamera);
-    bindTap("#detectBtn", detectFood);
     bindTap("#submitChallenge", submitChallengeEntry);
     bindTap("#installBtn", async () => {
       if (!deferredInstallPrompt) return;
@@ -1863,7 +1802,7 @@ const html = String.raw`<!doctype html>
 const manifest = {
   name: "K-Bite Guide",
   short_name: "K-Bite",
-  description: "Mobile guide for eating Korean food with search, camera scan flow, Korean staff phrases, and monthly Korean-style bite challenges.",
+  description: "Mobile guide for eating Korean food with search, Korean staff phrases, and monthly Korean-style bite challenges.",
   start_url: "/",
   scope: "/",
   display: "standalone",
@@ -1884,7 +1823,7 @@ const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
 
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v28";
+const serviceWorker = String.raw`const CACHE = "k-bite-guide-v29";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -1948,7 +1887,7 @@ function legalPage(title, body) {
 
 const pages = {
   "/about": legalPage("About", String.raw`
-    <p>K-Bite Guide is a free mobile guide for foreign visitors in Korea. It helps travelers search Korean dishes, scan food, learn table customs, and ask restaurant staff simple questions in Korean.</p>
+    <p>K-Bite Guide is a free mobile guide for foreign visitors in Korea. It helps travelers search Korean dishes, learn table customs, and ask restaurant staff simple questions in Korean.</p>
     <p>The guide focuses on practical eating steps: how to grill meat, wrap ssam, mix bibimbap, add an egg to sundubu jjigae, and choose sauces for raw fish or barbecue.</p>
     <p>The monthly bite challenge invites users to eat a dish Korean style first, create their own best bite, and share it. Restaurants and food brands can sponsor a featured local method by highlighting a real house sauce, product pairing, or limited reward.</p>
     <p>K-Bite Guide is designed for iPhone Safari and Android Chrome as an installable mobile web app.</p>
@@ -1957,8 +1896,6 @@ const pages = {
     <p>Last updated: August 2, 2026</p>
     <h2>Information we collect</h2>
     <p>K-Bite Guide does not require an account and does not ask users to submit personal information. Search text and selected language are processed in the browser for app functionality.</p>
-    <h2>Camera</h2>
-    <p>The scan feature may request camera permission on the user's device. Camera access is used only to show a local preview and identify food inside the app flow. K-Bite Guide does not store camera images on this site.</p>
     <h2>Advertising and analytics</h2>
     <p>This site may display advertising in the future to keep the guide free. Advertising partners may use cookies or similar technologies according to their own policies. Users can review how Google uses information from partner sites at <a href="https://policies.google.com/technologies/partner-sites">Google's partner sites policy</a>.</p>
     <h2>Contact</h2>
@@ -2174,7 +2111,6 @@ export default {
     return new Response(monetizedHtml, {
       headers: {
         "content-type": "text/html; charset=utf-8",
-        "permissions-policy": "camera=*",
       },
     });
   },
