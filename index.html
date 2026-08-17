@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Search Console Ownership Verification -->
+  <meta name="google-site-verification" content="hUFfMQNzIjkRwAIBARjcWszdIbqmgV4UYIEp6mI54ag" />
+
+  <!-- Google AdSense Account Connection -->
+  <meta name="google-adsense-account" content="ca-pub-9335333067725848" />
+
+  <!-- SEO Meta Tags -->
+  <title>K-Bite Guide - Authentic Korean Food & Dining Etiquette</title>
+  <meta name="description" content="Official Korean food guide for international tourists. Standardized menu translations, dietary filters (Halal, Vegan, Non-Spicy), and dining etiquette." />
+  <meta name="keywords" content="Korean Food, K-Food, Menu Translation, Dining Etiquette, Halal Korean Food, Vegan Korean Food" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://k-biteguide.com/" />
+  <meta property="og:title" content="K-Bite Guide - Authentic Korean Food Guide" />
+  <meta property="og:description" content="Essential Korean culinary guide for international travelers." />
+
+  <!-- Design Stylesheet -->
+  <style>
+    :root {
+      --primary: #e11d48;
+      --primary-dark: #be123c;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    header { background: #ffffff; border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.25rem; font-weight: 800; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 20px; flex: 1; width: 100%; }
+    .hero { text-align: center; margin-bottom: 36px; }
+    .hero h1 { font-size: 2rem; margin-bottom: 12px; color: var(--text); }
+    .hero p { color: var(--text-muted); font-size: 1rem; }
+    .search-box { display: flex; gap: 8px; margin: 24px 0; }
+    .search-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none; }
+    .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1); }
+    .search-btn { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 0 20px; font-weight: 600; cursor: pointer; }
+    .filter-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; justify-content: center; }
+    .filter-chip { padding: 6px 14px; background: #fff; border: 1px solid var(--border); border-radius: 20px; font-size: 0.85rem; cursor: pointer; color: var(--text-muted); transition: all 0.2s; }
+    .filter-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+    .menu-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .menu-card h3 { font-size: 1.1rem; margin-bottom: 4px; }
+    .menu-card .ko { font-size: 0.9rem; color: var(--primary-dark); font-weight: 600; }
+    .menu-card .desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; }
+    .badge { display: inline-block; font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; background: #f1f5f9; color: #475569; margin-top: 10px; }
+    footer { background: #ffffff; border-top: 1px solid var(--border); text-align: center; padding: 24px; font-size: 0.85rem; color: var(--text-muted); }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 8px; }
+    footer a:hover { text-decoration: underline; color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">🥢 K-Bite Guide</a>
+    <div>
+      <span style="font-size: 0.85rem; color: var(--text-muted);">Standardized Korean Food Guide</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Enjoy Authentic Korean Dining</h1>
+      <p>Official foreign language translations, allergy filters, and dining etiquette for international travelers.</p>
+      
+      <div class="search-box">
+        <input type="text" id="foodSearch" class="search-input" placeholder="Search Korean dish (e.g. Bulgogi, Bibimbap, Tteokbokki)..." onkeyup="if(window.event.keyCode==13){filterMenu()}" />
+        <button class="search-btn" onclick="filterMenu()">Search</button>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-chip active" onclick="setDiet('all', this)">All</span>
+        <span class="filter-chip" onclick="setDiet('halal', this)">Halal-friendly</span>
+        <span class="filter-chip" onclick="setDiet('vegan', this)">Vegetarian/Vegan</span>
+        <span class="filter-chip" onclick="setDiet('non-spicy', this)">Non-Spicy</span>
+      </div>
+    </section>
+
+    <!-- Menu Showcase Container -->
+    <div class="menu-grid" id="menuContainer">
+      <div class="menu-card" data-diet="vegan non-spicy">
+        <h3>Bibimbap</h3>
+        <div class="ko">비빔밥 (Bibimbap)</div>
+        <div class="desc">Bowl of warm white rice topped with seasoned vegetables, chili pepper paste (gochujang), and egg.</div>
+        <span class="badge">Vegetarian Option Available</span>
+      </div>
+
+      <div class="menu-card" data-diet="halal non-spicy">
+        <h3>Bulgogi</h3>
+        <div class="ko">불고기 (Bulgogi)</div>
+        <div class="desc">Marinated thinly sliced beef grilled with sweet savory soy sauce, garlic, and sesame oil.</div>
+        <span class="badge">Savory / Non-Spicy</span>
+      </div>
+
+      <div class="menu-card" data-diet="halal non-spicy">
+        <h3>Samgyetang</h3>
+        <div class="ko">삼계탕 (Samgye-tang)</div>
+        <div class="desc">Ginseng chicken soup made with a whole young chicken stuffed with glutinous rice, ginseng, and jujubes.</div>
+        <span class="badge">Health Food / Nourishing</span>
+      </div>
+
+      <div class="menu-card" data-diet="vegetarian">
+        <h3>Tteokbokki</h3>
+        <div class="ko">떡볶이 (Tteok-bokki)</div>
+        <div class="desc">Simmered cylindrical rice cakes cooked in spicy-sweet gochujang chili sauce with fish cakes.</div>
+        <span class="badge">Spicy Street Food</span>
+      </div>
+
+      <div class="menu-card" data-diet="vegan non-spicy">
+        <h3>Pajeon</h3>
+        <div class="ko">파전 (Green Onion Pancake)</div>
+        <div class="desc">Savory Korean pancake made with scallions, batter, and dipping sauce.</div>
+        <span class="badge">Vegetarian / Non-Spicy</span>
+      </div>
+
+      <div class="menu-card" data-diet="halal non-spicy">
+        <h3>Galbitang</h3>
+        <div class="ko">갈비탕 (Beef Short Rib Soup)</div>
+        <div class="desc">Clear, hearty soup made with simmered beef short ribs, radish, and glass noodles.</div>
+        <span class="badge">Clear Broth</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Legal & AdSense Compliant Footer -->
+  <footer>
+    <p>© 2026 K-Bite Guide. All rights reserved.</p>
+    <p style="margin-top: 8px;">
+      <a href="/privacy-policy.html">Privacy Policy</a> | 
+      <a href="/terms-of-service.html">Terms of Service</a> | 
+      <a href="/contact.html">Contact Us</a>
+    </p>
+  </footer>
+
+  <script>
+    function filterMenu() {
+      var query = document.getElementById('foodSearch').value.toLowerCase();
+      var cards = document.querySelectorAll('.menu-card');
+      cards.forEach(function(card) {
+        var text = card.innerText.toLowerCase();
+        if (text.indexOf(query) !== -1) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function setDiet(type, element) {
+      var chips = document.querySelectorAll('.filter-chip');
+      chips.forEach(function(c) { c.classList.remove('active'); });
+      if (element) element.classList.add('active');
+
+      var cards = document.querySelectorAll('.menu-card');
+      cards.forEach(function(card) {
+        if (type === 'all') {
+          card.style.display = 'block';
+        } else {
+          var dietTags = card.getAttribute('data-diet') || '';
+          if (dietTags.indexOf(type) !== -1) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
