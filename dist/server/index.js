@@ -1,3 +1,4 @@
+import { handleDishRoute, dishSitemapPaths } from "./dish-pages.js";
 const html = String.raw`<!doctype html>
 <html lang="en">
 <head>
@@ -1069,6 +1070,7 @@ const html = String.raw`<!doctype html>
     </section>
 
     <footer class="footer">
+      <a href="/dishes">Food guides</a>
       <a href="/about">About</a>
       <a href="/privacy">Privacy</a>
       <a href="/partners">Partners</a>
@@ -2378,6 +2380,21 @@ export default {
         headers: { "content-type": "text/html; charset=utf-8" },
       });
     }
+    const dishResponse = handleDishRoute(url.pathname, env?.ADSENSE_CLIENT || "");
+    if (dishResponse) return dishResponse;
+    if (url.pathname === "/sitemap.xml") {
+      const paths = ["/", "/about", "/privacy", "/contact", "/partners", ...dishSitemapPaths()];
+      const body = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+        paths.map((p) => `  <url><loc>https://k-biteguide.com${p}</loc></url>`).join("\n") + "\n</urlset>\n";
+      return new Response(body, {
+        headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=3600" },
+      });
+    }
+    if (url.pathname === "/robots.txt") {
+      return new Response("User-agent: *\nAllow: /\nSitemap: https://k-biteguide.com/sitemap.xml\n", {
+        headers: { "content-type": "text/plain; charset=utf-8" },
+      });
+    }
     if (pages[url.pathname]) {
       return new Response(pages[url.pathname], {
         headers: { "content-type": "text/html; charset=utf-8" },
@@ -2408,7 +2425,7 @@ export default {
     const adsenseClient = env?.ADSENSE_CLIENT ? escapeHtml(env.ADSENSE_CLIENT) : "";
     const monetizedHtml = adsenseClient
       ? html.replace("</head>", `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script></head>`)
-      : html;
+      : html.replace("</head>", "<style>.sponsor-banner{display:none!important}</style></head>");
     return new Response(monetizedHtml, {
       headers: {
         "content-type": "text/html; charset=utf-8",
