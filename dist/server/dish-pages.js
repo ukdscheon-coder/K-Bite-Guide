@@ -26,7 +26,7 @@ export const categories = [
       "Pork and chicken must be cooked all the way through. Premium beef is often grilled only briefly. If you are not sure whether something is ready, ask — the phrase on each dish page helps.",
       "Many BBQ places finish with fried rice or cold noodles (naengmyeon). Ask for them near the end of the meal.",
     ],
-    ids: ["samgyeopsal", "samgyeopsal_bbq", "sogalbi", "hanwoo", "la_galbi", "bulgogi", "gopchang", "dakgalbi", "deunggalbi", "tteokgalbi", "jangeogui", "jogaegui"],
+    ids: ["samgyeopsal", "samgyeopsal_bbq", "sogalbi", "hanwoo", "la_galbi", "bulgogi", "gopchang", "dakgalbi", "deunggalbi", "tteokgalbi", "jangeogui", "jogaegui", "dwaeji_galbi", "chadolbaegi", "makchang"],
   },
   {
     slug: "stews-and-braises",
@@ -38,7 +38,7 @@ export const categories = [
       "Jjim (braised or steamed dishes) and hotpots are normally shared from the middle of the table. Use the serving ladle if there is one, and pick bones out onto the side plate.",
       "Stews are often topped up with rice or noodles at the end. Ask staff before adding anything to a pot they are still cooking.",
     ],
-    ids: ["kimchijjigae", "sundubu", "doenjangjjigae", "budaejjigae", "cheonggukjang", "maeuntang", "agujjim", "haemuljjim", "jjimdak", "galbijjim", "maeun_deunggalbi_jjim", "gyeranjjim", "eomuk_tang"],
+    ids: ["kimchijjigae", "sundubu", "doenjangjjigae", "budaejjigae", "cheonggukjang", "maeuntang", "agujjim", "haemuljjim", "jjimdak", "galbijjim", "maeun_deunggalbi_jjim", "gyeranjjim", "eomuk_tang", "dakbokkeumtang", "kimchijjim", "kongbiji_jjigae", "haemultang", "dongtaetang", "bulgogi_jeongol", "gopchang_jeongol"],
   },
   {
     slug: "soups",
@@ -50,7 +50,7 @@ export const categories = [
       "Kkakdugi (radish kimchi) is the classic side for these soups. Some people pour a little kimchi juice into the soup for extra flavour.",
       "Soups with bones, such as gamjatang or galbitang, come with an empty bowl for the bones. Picking meat off with your hands is normal.",
     ],
-    ids: ["seolleongtang", "galbitang", "samgyetang", "gamjatang", "sundaeguk", "dwaejigukbap", "kongnamulgukbap", "haejangguk", "yukgaejang", "bokjiri", "dakhanmari", "chueotang", "sujebi", "tteokguk", "miyeokguk", "kimchi_mandu_guk", "tteok_mandu_guk"],
+    ids: ["seolleongtang", "galbitang", "samgyetang", "gamjatang", "sundaeguk", "dwaejigukbap", "kongnamulgukbap", "haejangguk", "yukgaejang", "bokjiri", "dakhanmari", "chueotang", "sujebi", "tteokguk", "miyeokguk", "kimchi_mandu_guk", "tteok_mandu_guk", "gulgukbap"],
   },
   {
     slug: "noodles",
@@ -62,7 +62,7 @@ export const categories = [
       "Slurping noodles is normal in Korea and nobody will mind.",
       "Chinese-Korean restaurants serving jajangmyeon and jjamppong often deliver, and many serve danmuji (yellow pickled radish) and raw onion with black-bean sauce on the side.",
     ],
-    ids: ["naengmyeon", "bibim_guksu", "makguksu", "kongguksu", "kalguksu", "janchi_guksu", "jajangmyeon", "jjamppong", "kimbapcheongukramyeon"],
+    ids: ["naengmyeon", "bibim_guksu", "makguksu", "kongguksu", "kalguksu", "janchi_guksu", "jajangmyeon", "jjamppong", "kimbapcheongukramyeon", "bibim_naengmyeon", "jjolmyeon", "haemul_kalguksu"],
   },
   {
     slug: "rice-and-porridge",
@@ -74,7 +74,7 @@ export const categories = [
       "Gimbap is a finger food; you can eat pieces with chopsticks or your hands. It is sold everywhere from convenience stores to snack bars.",
       "Juk (porridge) is mild and often eaten when someone wants something gentle. It usually comes with small sides such as kimchi or soy-braised beef to add flavour.",
     ],
-    ids: ["bibimbap", "dolsot_bibimbap", "saengchae_bibimbap", "ssambap", "kimchibokkeumbap", "gondeure_bap", "baekban", "nurungji", "gimbap", "chungmu_gimbap", "kkoma_gimbap", "yubuchobap", "jeonbokjuk", "hobakjuk", "dakjuk", "patjuk"],
+    ids: ["bibimbap", "dolsot_bibimbap", "saengchae_bibimbap", "ssambap", "kimchibokkeumbap", "gondeure_bap", "baekban", "nurungji", "gimbap", "chungmu_gimbap", "kkoma_gimbap", "yubuchobap", "jeonbokjuk", "hobakjuk", "dakjuk", "patjuk", "japchaebap", "hoedeopbap", "albap", "samgak_gimbap", "omurice", "hanjeongsik"],
   },
   {
     slug: "seafood-and-raw",
@@ -86,19 +86,20 @@ export const categories = [
       "Grilled fish is served whole with bones in. Lift the flesh off the bone with chopsticks and put bones on the side plate.",
       "If you have a shellfish or seafood allergy, say so before ordering — broths and sauces often contain seafood even when the main ingredient is meat.",
     ],
-    ids: ["hoe", "mulhoe", "ganjanggejang", "yangnyeomgejang", "yukhoe", "samhab", "saengseongui", "godeungeogui", "nakjibokkeum", "ojingeo_bokkeum"],
+    ids: ["hoe", "mulhoe", "ganjanggejang", "yangnyeomgejang", "yukhoe", "samhab", "saengseongui", "godeungeogui", "nakjibokkeum", "ojingeo_bokkeum", "sannakji", "jjukkumi_bokkeum", "kkomak_bibimbap"],
   },
   {
     slug: "pork-and-chicken",
     title: "Pork, chicken and fried chicken",
-    lede: "Bossam, jokbal, spicy stir-fries and Korean fried chicken.",
+    lede: "Bossam, jokbal, Korean fried chicken, tangsuyuk and donkatsu.",
     guide: [
       "Bossam (boiled pork) and jokbal (braised trotters) are shared platters, often ordered for delivery or with drinks in the evening. Wrap slices with cabbage or lettuce and add kimchi, garlic or saeujeot.",
       "Korean fried chicken comes plain (huraideu), sauced (yangnyeom) or half-and-half. Pickled radish cubes are served to cut through the richness.",
       "Spicy stir-fries such as jeyuk bokkeum are eaten with rice and often wrapped in lettuce like BBQ.",
       "Using your hands for chicken and ribs is completely normal; plastic gloves are often provided.",
+      "Korean-Chinese tangsuyuk (sweet-and-sour pork) and Korean-style donkatsu (pork cutlet) are good mild choices. With tangsuyuk, ask the table before pouring the sauce over everything — some people prefer to dip.",
     ],
-    ids: ["bossam", "jokbal", "jeyuk_bokkeum", "yangnyeom_chicken", "dakgangjeong", "kkanpunggi"],
+    ids: ["bossam", "jokbal", "jeyuk_bokkeum", "yangnyeom_chicken", "dakgangjeong", "kkanpunggi", "fried_chicken", "padak", "tangsuyuk", "donkatsu"],
   },
   {
     slug: "pancakes-and-sides",
@@ -110,19 +111,19 @@ export const categories = [
       "Mandu (dumplings) can be steamed, pan-fried or served in soup. Filling is often very hot inside — bite a small corner first.",
       "Plates in the middle of the table are for everyone. Take a piece onto your own plate or rice bowl rather than eating directly from the shared plate for a long time.",
     ],
-    ids: ["pajeon", "haemulpajeon", "kimchijeon", "bindaetteok", "modeumjeon", "hobakjeon", "saeujeon", "dongtaejeon", "mandu", "japchae", "dubukimchi"],
+    ids: ["pajeon", "haemulpajeon", "kimchijeon", "bindaetteok", "modeumjeon", "hobakjeon", "saeujeon", "dongtaejeon", "mandu", "japchae", "dubukimchi", "gamjajeon", "gunmandu", "gyeranmari"],
   },
   {
     slug: "street-food",
     title: "Street food and bunsik",
-    lede: "Tteokbokki, fish cakes, sundae and hot sweet snacks.",
+    lede: "Tteokbokki, fish cakes, corn dogs, toast and hot sweet snacks.",
     guide: [
       "Street stalls and bunsik (snack) shops are quick and cheap. You usually order, pay and eat standing up or at a small counter.",
       "At fish-cake stalls, the broth is often free: take a paper cup and help yourself. Pay for the skewers you ate — the vendor may count your sticks.",
       "Hotteok, bungeoppang and fresh fillings are extremely hot inside. Wait a moment and bite from the edge.",
       "Tteokbokki spice levels vary widely. Ask for less spicy if you are unsure.",
     ],
-    ids: ["tteokbokki", "odeng", "soondae", "sotteok_sotteok", "tteokkochi", "hotteok", "bungeoppang"],
+    ids: ["tteokbokki", "odeng", "soondae", "sotteok_sotteok", "tteokkochi", "hotteok", "bungeoppang", "dak_kkochi", "rabokki", "korean_corndog", "gyeranppang", "twigim", "street_toast", "dalgona", "hodugwaja"],
   },
   {
     slug: "kimchi-and-banchan",
@@ -134,19 +135,20 @@ export const categories = [
       "Take banchan onto your rice or eat them between bites of the main dish; you do not need to finish them all.",
       "Different kimchi suit different dishes: cabbage kimchi goes with almost everything, while kkakdugi (radish kimchi) is the classic partner for soups.",
     ],
-    ids: ["baechu_kimchi", "kkakdugi", "oisobagi", "kongnamul_muchim", "sigeumchi_namul", "doraji_muchim"],
+    ids: ["baechu_kimchi", "kkakdugi", "oisobagi", "kongnamul_muchim", "sigeumchi_namul", "doraji_muchim", "dubujorim", "jangjorim", "myeolchi_bokkeum"],
   },
   {
     slug: "desserts-and-drinks",
     title: "Desserts, rice cakes and drinks",
-    lede: "Bingsu, tteok, traditional sweets, sikhye and makgeolli.",
+    lede: "Bingsu, tteok, traditional sweets, teas, sikhye, makgeolli and soju.",
     guide: [
       "Bingsu (shaved ice) is made to share. Mix the toppings into the ice as you go so every spoonful has some.",
       "Tteok (rice cakes) are chewy — take small bites, especially with children and older relatives.",
       "Sikhye (sweet rice drink) and sujeonggwa (cinnamon punch) are often served cold after a meal or at bathhouses.",
       "Makgeolli is an alcoholic rice wine. Shake or stir gently before pouring, and the legal drinking age in Korea applies.",
+      "When drinking soju or somaek with older people, pour for others rather than yourself, accept a pour with two hands, and turn slightly away when you drink. Never drink and drive.",
     ],
-    ids: ["bingsu", "injeolmi", "songpyeon", "baekseolgi", "yakgwa", "sikhye", "sujeonggwa", "makgeolli"],
+    ids: ["bingsu", "injeolmi", "songpyeon", "baekseolgi", "yakgwa", "sikhye", "sujeonggwa", "makgeolli", "yakbap", "chapssaltteok", "soju", "somaek", "yuja_cha"],
   },
 ];
 
