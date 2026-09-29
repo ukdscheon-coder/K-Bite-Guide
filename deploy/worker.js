@@ -1,5 +1,4083 @@
-import { handleDishRoute, dishSitemapPaths } from "./dish-pages.js";
-const html = String.raw`<!doctype html>
+// ../../../../../home/claude/k-bite-guide/dist/server/dish-data.js
+var dishes = [
+  {
+    "id": "samgyeopsal",
+    "emoji": "🥓",
+    "ko": "삼겹살",
+    "phrase": "이거 다 익었나요?",
+    "meaning": "Is this fully cooked?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Korean%20barbeque-Samgyeopsal-01.jpg",
+    "en": {
+      "name": "Samgyeopsal",
+      "desc": "Grilled pork belly eaten with ssamjang, garlic, kimchi, and lettuce.",
+      "tags": [
+        "Pork",
+        "Cook fully"
+      ],
+      "steps": [
+        "Grill until both sides are golden.",
+        "Cut into bite-sized pieces with scissors.",
+        "Dip lightly in sesame oil salt or ssamjang.",
+        "Wrap with lettuce, garlic, and kimchi if you like."
+      ]
+    },
+    "otherNames": {
+      "ja": "サムギョプサル",
+      "zhCN": "韩式烤五花肉",
+      "zhTW": "韓式烤五花肉",
+      "fil": "Samgyeopsal",
+      "th": "ซัมกยอบซัล",
+      "vi": "Samgyeopsal"
+    }
+  },
+  {
+    "id": "sundubu",
+    "emoji": "🥚",
+    "ko": "순두부찌개",
+    "phrase": "계란은 지금 넣으면 되나요?",
+    "meaning": "Should I put the egg in now?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Korean%20cuisine-Sundubu%20jjigae-01.jpg",
+    "en": {
+      "name": "Sundubu jjigae",
+      "desc": "Soft tofu stew served boiling hot, often with a raw egg.",
+      "tags": [
+        "Hot stew",
+        "Egg timing"
+      ],
+      "steps": [
+        "Crack the egg in while the stew is bubbling.",
+        "Press it gently under the broth.",
+        "Wait about one minute.",
+        "Scoop tofu, broth, and egg over rice."
+      ]
+    },
+    "otherNames": {
+      "ja": "スンドゥブチゲ",
+      "zhCN": "嫩豆腐锅",
+      "zhTW": "嫩豆腐鍋",
+      "fil": "Sundubu jjigae",
+      "th": "ซุนดูบูจิเก",
+      "vi": "Sundubu jjigae"
+    }
+  },
+  {
+    "id": "hoe",
+    "emoji": "🐟",
+    "ko": "회",
+    "phrase": "이건 간장에 먹어요, 초장에 먹어요?",
+    "meaning": "Should I eat this with soy sauce or chojang?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Korean%20cuisine-Hoe-01.jpg",
+    "en": {
+      "name": "Korean raw fish",
+      "desc": "Sliced raw fish eaten with soy-wasabi, chojang, or wrapped in lettuce.",
+      "tags": [
+        "Raw fish",
+        "Sauce choice"
+      ],
+      "steps": [
+        "Taste one slice with soy sauce and wasabi.",
+        "Try another with chojang.",
+        "For Korean style, wrap fish with garlic and ssamjang.",
+        "Eat the wrap in one bite if possible."
+      ]
+    },
+    "otherNames": {
+      "ja": "韓国式刺身",
+      "zhCN": "韩式生鱼片",
+      "zhTW": "韓式生魚片",
+      "fil": "Korean raw fish",
+      "th": "ปลาดิบเกาหลี",
+      "vi": "Gỏi cá sống kiểu Hàn"
+    }
+  },
+  {
+    "id": "bibimbap",
+    "emoji": "🍚",
+    "ko": "비빔밥",
+    "phrase": "고추장은 얼마나 넣으면 돼요?",
+    "meaning": "How much gochujang should I add?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Bibimbap.jpg",
+    "en": {
+      "name": "Bibimbap",
+      "desc": "Rice with vegetables, egg, meat, and gochujang, meant to be mixed before eating.",
+      "tags": [
+        "Mix fully",
+        "Sauce gradually"
+      ],
+      "steps": [
+        "Add gochujang little by little.",
+        "Break the egg if included.",
+        "Mix rice and toppings evenly.",
+        "Taste and add more sauce only if needed."
+      ]
+    },
+    "otherNames": {
+      "ja": "ビビンバ",
+      "zhCN": "拌饭",
+      "zhTW": "拌飯",
+      "fil": "Bibimbap",
+      "th": "บิบิมบับ",
+      "vi": "Bibimbap"
+    }
+  },
+  {
+    "id": "naengmyeon",
+    "emoji": "🍜",
+    "ko": "냉면",
+    "phrase": "면을 잘라서 먹으면 될까요?",
+    "meaning": "Should I cut the noodles before eating?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Korean%20cuisine-Naengmyeon-01.jpg",
+    "en": {
+      "name": "Naengmyeon",
+      "desc": "Cold buckwheat noodles, usually served with icy broth or spicy sauce.",
+      "tags": [
+        "Cold noodles",
+        "Cut first"
+      ],
+      "steps": [
+        "Use scissors to cut the long noodles.",
+        "Add vinegar and mustard little by little.",
+        "Mix gently before eating.",
+        "Sip the cold broth between bites."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "mulhoe",
+    "emoji": "🐟",
+    "ko": "물회",
+    "phrase": "밥이나 면을 넣어 먹나요?",
+    "meaning": "Do I add rice or noodles to this?",
+    "photo": "",
+    "en": {
+      "name": "Mulhoe",
+      "desc": "Cold spicy raw fish soup with vegetables and icy broth.",
+      "tags": [
+        "Raw seafood",
+        "Cold spicy"
+      ],
+      "steps": [
+        "Mix the sauce and icy broth well.",
+        "Eat fish and vegetables together.",
+        "Add noodles or rice if served.",
+        "Go slowly if it is very cold or spicy."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "bokjiri",
+    "emoji": "🍲",
+    "ko": "복지리탕",
+    "phrase": "가시가 있나요?",
+    "meaning": "Are there bones I should watch for?",
+    "photo": "",
+    "en": {
+      "name": "Bokjiri-tang",
+      "desc": "Clear pufferfish soup with a clean broth and dipping sauce.",
+      "tags": [
+        "Hot soup",
+        "Bones"
+      ],
+      "steps": [
+        "Taste the clear broth first.",
+        "Dip fish pieces in soy-vinegar sauce.",
+        "Watch carefully for bones.",
+        "Eat with rice and side dishes."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dakgalbi",
+    "emoji": "🍗",
+    "ko": "닭갈비",
+    "phrase": "지금 먹어도 되나요?",
+    "meaning": "Can I eat this now?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Dak%20galbi.jpg",
+    "en": {
+      "name": "Dakgalbi",
+      "desc": "Spicy stir-fried chicken cooked at the table with cabbage and rice cakes.",
+      "tags": [
+        "Chicken",
+        "Table cooking"
+      ],
+      "steps": [
+        "Let the staff cook and stir it first.",
+        "Wait until chicken is fully cooked.",
+        "Eat with perilla leaves or lettuce.",
+        "Order fried rice at the end if you want."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dakhanmari",
+    "emoji": "🍗",
+    "ko": "닭한마리 칼국수",
+    "phrase": "칼국수는 언제 넣나요?",
+    "meaning": "When should I add the noodles?",
+    "photo": "",
+    "en": {
+      "name": "Dakhanmari kalguksu",
+      "desc": "Whole chicken soup finished with noodles and dipping sauce.",
+      "tags": [
+        "Chicken soup",
+        "Noodles later"
+      ],
+      "steps": [
+        "Make a dipping sauce with soy, mustard, vinegar, and chili.",
+        "Dip chicken pieces in the sauce.",
+        "Add potatoes or rice cakes if served.",
+        "Add kalguksu noodles after most chicken is eaten."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "samhab",
+    "emoji": "🥓",
+    "ko": "삼합",
+    "phrase": "어떤 순서로 같이 먹나요?",
+    "meaning": "What should I combine in one bite?",
+    "photo": "",
+    "en": {
+      "name": "Samhab",
+      "desc": "A three-part bite, often pork, kimchi, and skate or seafood.",
+      "tags": [
+        "Three-bite combo",
+        "Strong flavor"
+      ],
+      "steps": [
+        "Take a small piece of each part.",
+        "Stack pork, kimchi, and skate or seafood.",
+        "Add sauce only lightly.",
+        "Eat together in one bite if comfortable."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "ssambap",
+    "emoji": "🥬",
+    "ko": "쌈밥",
+    "phrase": "쌈은 어떻게 싸면 되나요?",
+    "meaning": "How should I make the wrap?",
+    "photo": "",
+    "en": {
+      "name": "Ssambap",
+      "desc": "Rice and side dishes wrapped in leafy greens with ssamjang.",
+      "tags": [
+        "Wrap",
+        "Vegetables"
+      ],
+      "steps": [
+        "Put a small spoon of rice on a leaf.",
+        "Add meat or side dishes.",
+        "Add a little ssamjang.",
+        "Fold and eat in one bite."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "bossam",
+    "emoji": "🥩",
+    "ko": "보쌈",
+    "phrase": "새우젓에 찍어 먹나요?",
+    "meaning": "Should I dip this in salted shrimp sauce?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Bossam.jpg",
+    "en": {
+      "name": "Bossam",
+      "desc": "Boiled pork eaten with kimchi, garlic, and wraps.",
+      "tags": [
+        "Pork",
+        "Wrap"
+      ],
+      "steps": [
+        "Place pork on cabbage or lettuce.",
+        "Add bossam kimchi and garlic if you like.",
+        "Use saeujeot or ssamjang lightly.",
+        "Wrap and eat together."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jokbal",
+    "emoji": "🥩",
+    "ko": "족발",
+    "phrase": "어떤 소스에 찍어 먹나요?",
+    "meaning": "Which sauce should I use?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Jokbal.jpg",
+    "en": {
+      "name": "Jokbal",
+      "desc": "Braised pork trotter sliced and eaten with garlic, chili, and dipping sauces.",
+      "tags": [
+        "Pork",
+        "Dip"
+      ],
+      "steps": [
+        "Dip a slice in saeujeot or ssamjang.",
+        "Add garlic or chili if you like.",
+        "Wrap with lettuce for a lighter bite.",
+        "Eat the chewy skin and meat together."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "sogalbi",
+    "emoji": "🥩",
+    "ko": "소갈비",
+    "phrase": "고기는 얼마나 익혀야 하나요?",
+    "meaning": "How cooked should the beef be?",
+    "photo": "",
+    "en": {
+      "name": "Sogalbi",
+      "desc": "Beef short ribs grilled at the table and eaten with salt, sauce, or wraps.",
+      "tags": [
+        "Beef BBQ",
+        "Grill"
+      ],
+      "steps": [
+        "Grill until browned on both sides.",
+        "Cut between the bones if needed.",
+        "Dip lightly in salt or house sauce.",
+        "Wrap with lettuce and garlic if desired."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "hanwoo",
+    "emoji": "🥩",
+    "ko": "한우구이",
+    "phrase": "소금에 먼저 찍어 먹나요?",
+    "meaning": "Should I try it with salt first?",
+    "photo": "",
+    "en": {
+      "name": "Hanwoo gui",
+      "desc": "Premium Korean beef, usually grilled briefly and dipped simply.",
+      "tags": [
+        "Beef BBQ",
+        "Quick grill"
+      ],
+      "steps": [
+        "Grill each side briefly.",
+        "Do not overcook thin pieces.",
+        "Try salt first to taste the beef.",
+        "Use wasabi or sauce after the first bite."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gopchang",
+    "emoji": "🔥",
+    "ko": "곱창",
+    "phrase": "지금 먹어도 안전한가요?",
+    "meaning": "Is it ready and safe to eat now?",
+    "photo": "",
+    "en": {
+      "name": "Gopchang",
+      "desc": "Grilled beef or pork intestines, often finished with fried rice.",
+      "tags": [
+        "Grilled intestine",
+        "Cook fully"
+      ],
+      "steps": [
+        "Let it grill until crisp outside.",
+        "Ask staff before eating because timing matters.",
+        "Dip in sauce with onion or chili.",
+        "Order fried rice at the end if offered."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "bulgogi",
+    "emoji": "🥩",
+    "ko": "불고기",
+    "phrase": "밥에 국물을 올려 먹어도 되나요?",
+    "meaning": "Can I spoon the sauce over rice?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Bulgogi.jpg",
+    "en": {
+      "name": "Bulgogi",
+      "desc": "Sweet soy-marinated beef cooked with onions and mushrooms.",
+      "tags": [
+        "Beef",
+        "Sweet soy"
+      ],
+      "steps": [
+        "Let the beef cook in the pan.",
+        "Eat with rice when fully cooked.",
+        "Spoon some sauce over rice.",
+        "Wrap with lettuce if served."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kimchijjigae",
+    "emoji": "🍲",
+    "ko": "김치찌개",
+    "phrase": "돼지고기가 들어가나요?",
+    "meaning": "Does this contain pork?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Kimchi%20jjigae.jpg",
+    "en": {
+      "name": "Kimchi jjigae",
+      "desc": "Spicy kimchi stew with pork, tofu, or tuna.",
+      "tags": [
+        "Hot stew",
+        "Spicy"
+      ],
+      "steps": [
+        "Let it cool slightly before eating.",
+        "Scoop kimchi, tofu, and broth onto rice.",
+        "Ask if it contains pork or tuna if needed.",
+        "Share from the pot with a ladle."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "doenjangjjigae",
+    "emoji": "🍲",
+    "ko": "된장찌개",
+    "phrase": "해산물이 들어가나요?",
+    "meaning": "Does this contain seafood?",
+    "photo": "",
+    "en": {
+      "name": "Doenjang jjigae",
+      "desc": "Soybean paste stew with tofu, vegetables, and sometimes seafood or beef.",
+      "tags": [
+        "Soybean stew",
+        "Rice"
+      ],
+      "steps": [
+        "Taste the savory broth first.",
+        "Eat tofu and vegetables with rice.",
+        "It is often shared from the middle pot.",
+        "Ask about seafood or beef if allergic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "budaejjigae",
+    "emoji": "🍲",
+    "ko": "부대찌개",
+    "phrase": "라면은 지금 먹어도 되나요?",
+    "meaning": "Are the noodles ready to eat now?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Budae%20jjigae.jpg",
+    "en": {
+      "name": "Budae jjigae",
+      "desc": "Spicy army stew with sausage, ham, noodles, beans, and kimchi.",
+      "tags": [
+        "Spicy stew",
+        "Processed meat"
+      ],
+      "steps": [
+        "Wait until it boils strongly.",
+        "Let noodles soften before eating.",
+        "Eat sausage, kimchi, and broth with rice.",
+        "Ask before adding extra ramen or cheese."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gamjatang",
+    "emoji": "🍖",
+    "ko": "감자탕",
+    "phrase": "뼈는 어디에 두면 되나요?",
+    "meaning": "Where should I put the bones?",
+    "photo": "",
+    "en": {
+      "name": "Gamjatang",
+      "desc": "Pork bone soup with potatoes and greens.",
+      "tags": [
+        "Pork bone",
+        "Hot soup"
+      ],
+      "steps": [
+        "Use tongs or chopsticks to pull meat from the bone.",
+        "Dip meat in mustard soy sauce.",
+        "Eat greens and potatoes with broth.",
+        "Fried rice may be added at the end."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "samgyetang",
+    "emoji": "🍗",
+    "ko": "삼계탕",
+    "phrase": "소금을 넣어서 먹나요?",
+    "meaning": "Should I season this with salt?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Samgyetang.jpg",
+    "en": {
+      "name": "Samgyetang",
+      "desc": "Whole young chicken soup with ginseng, rice, garlic, and jujube.",
+      "tags": [
+        "Chicken soup",
+        "Rice inside"
+      ],
+      "steps": [
+        "Open the chicken gently with a spoon or chopsticks.",
+        "Eat the rice stuffed inside.",
+        "Season your own bowl with salt.",
+        "Sip the broth as you eat."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "seolleongtang",
+    "emoji": "🍲",
+    "ko": "설렁탕",
+    "phrase": "소금은 얼마나 넣나요?",
+    "meaning": "How much salt should I add?",
+    "photo": "",
+    "en": {
+      "name": "Seolleongtang",
+      "desc": "Milky beef bone soup served plain so you season it yourself.",
+      "tags": [
+        "Beef soup",
+        "Season yourself"
+      ],
+      "steps": [
+        "Add salt and pepper to your bowl.",
+        "Add chopped green onion if served.",
+        "Eat beef and noodles with rice.",
+        "Kimchi pairs strongly with the mild broth."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "galbitang",
+    "emoji": "🍖",
+    "ko": "갈비탕",
+    "phrase": "뼈 접시는 있나요?",
+    "meaning": "Is there a plate for the bones?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Galbitang.jpg",
+    "en": {
+      "name": "Galbitang",
+      "desc": "Clear beef short rib soup with glass noodles and radish.",
+      "tags": [
+        "Beef rib soup",
+        "Bones"
+      ],
+      "steps": [
+        "Taste broth before seasoning.",
+        "Pull beef from the rib bones.",
+        "Eat noodles before they get too soft.",
+        "Use a side plate for bones."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "tteokbokki",
+    "emoji": "🌶️",
+    "ko": "떡볶이",
+    "phrase": "많이 매운가요?",
+    "meaning": "Is it very spicy?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Tteokbokki.JPG",
+    "en": {
+      "name": "Tteokbokki",
+      "desc": "Chewy rice cakes in spicy-sweet gochujang sauce.",
+      "tags": [
+        "Street food",
+        "Spicy"
+      ],
+      "steps": [
+        "Check the heat before biting because rice cakes stay hot.",
+        "Eat rice cakes with fish cake or egg.",
+        "Dip fried snacks in the sauce.",
+        "Add cheese or noodles only if you want a heavier meal."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gimbap",
+    "emoji": "김",
+    "ko": "김밥",
+    "phrase": "고기가 들어가나요?",
+    "meaning": "Does this contain meat?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap.jpg",
+    "en": {
+      "name": "Gimbap",
+      "desc": "Seaweed rice rolls filled with vegetables, egg, and meat or tuna.",
+      "tags": [
+        "Rice roll",
+        "Easy"
+      ],
+      "steps": [
+        "Pick up one slice with chopsticks.",
+        "Eat in one bite so it does not fall apart.",
+        "Dip only if a sauce is provided.",
+        "Check filling if you avoid meat or seafood."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "japchae",
+    "emoji": "🍜",
+    "ko": "잡채",
+    "phrase": "고기가 들어가나요?",
+    "meaning": "Does this contain meat?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Japchae.jpg",
+    "en": {
+      "name": "Japchae",
+      "desc": "Stir-fried glass noodles with vegetables and soy-sesame flavor.",
+      "tags": [
+        "Glass noodles",
+        "Shared side"
+      ],
+      "steps": [
+        "Mix lightly if noodles are clumped.",
+        "Eat as a side dish or with rice.",
+        "Look for beef if you avoid meat.",
+        "It can be eaten warm or room temperature."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "pajeon",
+    "emoji": "🥞",
+    "ko": "파전",
+    "phrase": "이 소스에 찍어 먹나요?",
+    "meaning": "Should I dip it in this sauce?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Korean%20cuisine-Pajeon-01.jpg",
+    "en": {
+      "name": "Pajeon",
+      "desc": "Savory green onion pancake, often dipped in soy-vinegar sauce.",
+      "tags": [
+        "Pancake",
+        "Dip"
+      ],
+      "steps": [
+        "Tear or cut a piece.",
+        "Dip the edge in soy-vinegar sauce.",
+        "Eat while crisp and hot.",
+        "Share from the center plate."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "haemulpajeon",
+    "emoji": "🥞",
+    "ko": "해물파전",
+    "phrase": "조개류가 들어가나요?",
+    "meaning": "Does this contain shellfish?",
+    "photo": "",
+    "en": {
+      "name": "Haemul pajeon",
+      "desc": "Seafood and green onion pancake.",
+      "tags": [
+        "Seafood",
+        "Pancake"
+      ],
+      "steps": [
+        "Cut a piece with chopsticks or scissors.",
+        "Dip lightly in soy-vinegar sauce.",
+        "Eat while the edges are crisp.",
+        "Ask about shellfish if allergic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "mandu",
+    "emoji": "🥟",
+    "ko": "만두",
+    "phrase": "만두 속에 돼지고기가 들어가나요?",
+    "meaning": "Does the dumpling filling contain pork?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Mandu%20(food).jpg",
+    "en": {
+      "name": "Mandu",
+      "desc": "Korean dumplings, steamed, boiled, pan-fried, or in soup.",
+      "tags": [
+        "Dumpling",
+        "Filling"
+      ],
+      "steps": [
+        "Bite carefully because the inside can be hot.",
+        "Dip in soy-vinegar sauce if served.",
+        "Check if filling is pork, kimchi, or vegetables.",
+        "For soup, eat dumplings with broth."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kalguksu",
+    "emoji": "🍜",
+    "ko": "칼국수",
+    "phrase": "조개 육수인가요?",
+    "meaning": "Is this made with clam broth?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Kalguksu.jpg",
+    "en": {
+      "name": "Kalguksu",
+      "desc": "Knife-cut noodle soup, often with chicken, clams, or anchovy broth.",
+      "tags": [
+        "Noodles",
+        "Hot soup"
+      ],
+      "steps": [
+        "Stir noodles apart before eating.",
+        "Eat noodles while they are chewy.",
+        "Taste broth before adding kimchi.",
+        "Ask about clam broth if allergic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "makguksu",
+    "emoji": "🍜",
+    "ko": "막국수",
+    "phrase": "식초를 넣어 먹나요?",
+    "meaning": "Should I add vinegar?",
+    "photo": "",
+    "en": {
+      "name": "Makguksu",
+      "desc": "Buckwheat noodles, usually spicy and cool.",
+      "tags": [
+        "Buckwheat noodles",
+        "Mix"
+      ],
+      "steps": [
+        "Cut noodles if they are long.",
+        "Mix sauce from the bottom well.",
+        "Add vinegar or mustard gradually.",
+        "Eat with grilled meat if served together."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kongguksu",
+    "emoji": "🍜",
+    "ko": "콩국수",
+    "phrase": "소금이나 설탕을 넣나요?",
+    "meaning": "Should I add salt or sugar?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Kongguksu.jpg",
+    "en": {
+      "name": "Kongguksu",
+      "desc": "Cold noodles in creamy soybean broth.",
+      "tags": [
+        "Cold noodles",
+        "Mild"
+      ],
+      "steps": [
+        "Taste the soybean broth first.",
+        "Add salt or sugar only to your own bowl.",
+        "Mix noodles before eating.",
+        "Eat kimchi alongside for contrast."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jajangmyeon",
+    "emoji": "🍜",
+    "ko": "짜장면",
+    "phrase": "다 비벼서 먹나요?",
+    "meaning": "Do I mix all of it before eating?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Jajangmyeon.jpg",
+    "en": {
+      "name": "Jajangmyeon",
+      "desc": "Noodles topped with black bean sauce.",
+      "tags": [
+        "Noodles",
+        "Mix"
+      ],
+      "steps": [
+        "Mix the black bean sauce into the noodles fully.",
+        "Use scissors only if noodles are too long.",
+        "Eat pickled radish between bites.",
+        "Be careful: the sauce can stain clothes."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jjamppong",
+    "emoji": "🍜",
+    "ko": "짬뽕",
+    "phrase": "많이 매운가요?",
+    "meaning": "Is it very spicy?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Jjamppong.jpg",
+    "en": {
+      "name": "Jjamppong",
+      "desc": "Spicy seafood noodle soup.",
+      "tags": [
+        "Seafood",
+        "Spicy soup"
+      ],
+      "steps": [
+        "Taste broth carefully because it is hot and spicy.",
+        "Eat noodles first before they soften.",
+        "Use shell bowl for shells if provided.",
+        "Ask about seafood if allergic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "ganjanggejang",
+    "emoji": "🦀",
+    "ko": "간장게장",
+    "phrase": "게딱지에 밥을 비벼 먹나요?",
+    "meaning": "Should I mix rice in the crab shell?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Ganjang%20gejang.jpg",
+    "en": {
+      "name": "Ganjang gejang",
+      "desc": "Raw crab marinated in soy sauce, famous for mixing rice in the shell.",
+      "tags": [
+        "Raw crab",
+        "Soy marinade"
+      ],
+      "steps": [
+        "Pull crab meat from the shell with chopsticks.",
+        "Mix rice into the crab shell if you want.",
+        "Use gloves if provided.",
+        "Eat slowly because shells are sharp."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "yangnyeomgejang",
+    "emoji": "🦀",
+    "ko": "양념게장",
+    "phrase": "장갑을 끼고 먹나요?",
+    "meaning": "Should I use gloves to eat this?",
+    "photo": "",
+    "en": {
+      "name": "Yangnyeom gejang",
+      "desc": "Raw crab marinated in spicy red sauce.",
+      "tags": [
+        "Raw crab",
+        "Spicy"
+      ],
+      "steps": [
+        "Wear gloves if provided.",
+        "Suck or pull meat carefully from shell pieces.",
+        "Eat with rice because it is salty and spicy.",
+        "Watch for sharp shell edges."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jangeogui",
+    "emoji": "🐟",
+    "ko": "장어구이",
+    "phrase": "생강을 올려 먹나요?",
+    "meaning": "Should I eat it with ginger?",
+    "photo": "",
+    "en": {
+      "name": "Jangeo gui",
+      "desc": "Grilled eel with sweet soy sauce or salt.",
+      "tags": [
+        "Grilled eel",
+        "Sauce"
+      ],
+      "steps": [
+        "Eat a small piece first with salt or sauce.",
+        "Add ginger if served.",
+        "Wrap with perilla leaf if you like.",
+        "It is usually fully cooked before serving."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jogaegui",
+    "emoji": "🦪",
+    "ko": "조개구이",
+    "phrase": "이 조개는 다 익었나요?",
+    "meaning": "Is this shellfish fully cooked?",
+    "photo": "",
+    "en": {
+      "name": "Jogae gui",
+      "desc": "Grilled shellfish cooked at the table.",
+      "tags": [
+        "Shellfish",
+        "Cook fully"
+      ],
+      "steps": [
+        "Wait until shells open and flesh is cooked.",
+        "Use tongs; shells are very hot.",
+        "Dip in chili sauce or butter sauce if served.",
+        "Discard empty shells in the shell bucket."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "maeuntang",
+    "emoji": "🍲",
+    "ko": "매운탕",
+    "phrase": "가시가 많나요?",
+    "meaning": "Does it have many bones?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Maeuntang.jpg",
+    "en": {
+      "name": "Maeuntang",
+      "desc": "Spicy fish stew often served after sashimi.",
+      "tags": [
+        "Fish stew",
+        "Bones"
+      ],
+      "steps": [
+        "Let it boil before eating.",
+        "Eat fish carefully because there are bones.",
+        "Scoop broth and vegetables over rice.",
+        "Add noodles only if ordered."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "agujjim",
+    "emoji": "🐟",
+    "ko": "아구찜",
+    "phrase": "밥을 같이 먹으면 되나요?",
+    "meaning": "Should I eat this with rice?",
+    "photo": "",
+    "en": {
+      "name": "Agujjim",
+      "desc": "Spicy braised monkfish with bean sprouts.",
+      "tags": [
+        "Spicy seafood",
+        "Bones"
+      ],
+      "steps": [
+        "Mix fish and bean sprouts with sauce.",
+        "Eat fish carefully around bones.",
+        "Use rice to balance the spicy sauce.",
+        "Fried rice may be made with leftover sauce."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "nakjibokkeum",
+    "emoji": "🐙",
+    "ko": "낙지볶음",
+    "phrase": "얼마나 매운가요?",
+    "meaning": "How spicy is this?",
+    "photo": "",
+    "en": {
+      "name": "Nakji bokkeum",
+      "desc": "Spicy stir-fried octopus.",
+      "tags": [
+        "Octopus",
+        "Spicy"
+      ],
+      "steps": [
+        "Mix octopus with vegetables and sauce.",
+        "Eat with rice to reduce the heat.",
+        "Use scissors if pieces are large.",
+        "Ask spice level before ordering if sensitive."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "yukhoe",
+    "emoji": "🥩",
+    "ko": "육회",
+    "phrase": "노른자를 섞어 먹나요?",
+    "meaning": "Should I mix in the egg yolk?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Yukhoe.jpg",
+    "en": {
+      "name": "Yukhoe",
+      "desc": "Seasoned raw beef, often served with pear and egg yolk.",
+      "tags": [
+        "Raw beef",
+        "Egg yolk"
+      ],
+      "steps": [
+        "Mix lightly with egg yolk if served.",
+        "Eat beef with pear slices.",
+        "Add pine nuts or sauce if provided.",
+        "Eat soon while cold and fresh."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "sundaeguk",
+    "emoji": "🍲",
+    "ko": "순대국",
+    "phrase": "새우젓을 넣어 먹나요?",
+    "meaning": "Should I add salted shrimp?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Sundaeguk.jpg",
+    "en": {
+      "name": "Sundaeguk",
+      "desc": "Korean blood sausage soup with pork broth.",
+      "tags": [
+        "Pork soup",
+        "Season yourself"
+      ],
+      "steps": [
+        "Add salt, pepper, or salted shrimp to your bowl.",
+        "Add perilla powder if you like a nutty flavor.",
+        "Eat sundae pieces with rice.",
+        "Ask if you want less offal."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "haejangguk",
+    "emoji": "🍲",
+    "ko": "해장국",
+    "phrase": "양념장을 넣어 먹나요?",
+    "meaning": "Should I add the seasoning paste?",
+    "photo": "",
+    "en": {
+      "name": "Haejangguk",
+      "desc": "Hearty hangover soup, often spicy with beef, cabbage, or bones.",
+      "tags": [
+        "Hot soup",
+        "Hearty"
+      ],
+      "steps": [
+        "Taste broth first because recipes vary.",
+        "Add seasoning paste gradually.",
+        "Eat meat and cabbage with rice.",
+        "Use side plate for bones if present."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "sujebi",
+    "emoji": "🍜",
+    "ko": "수제비",
+    "phrase": "김치와 같이 먹나요?",
+    "meaning": "Should I eat this with kimchi?",
+    "photo": "",
+    "en": {
+      "name": "Sujebi",
+      "desc": "Hand-pulled dough flakes in hot broth.",
+      "tags": [
+        "Hot soup",
+        "Dough"
+      ],
+      "steps": [
+        "Stir gently so dough pieces separate.",
+        "Eat dough flakes with spoon or chopsticks.",
+        "Add kimchi for stronger flavor.",
+        "Let it cool before big bites."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "hotteok",
+    "emoji": "🥞",
+    "ko": "호떡",
+    "phrase": "안이 뜨거운가요?",
+    "meaning": "Is the inside very hot?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Hotteok.jpg",
+    "en": {
+      "name": "Hotteok",
+      "desc": "Sweet filled pancake with hot sugar syrup inside.",
+      "tags": [
+        "Street snack",
+        "Very hot"
+      ],
+      "steps": [
+        "Wait a moment before biting.",
+        "Hold with the paper cup or napkin.",
+        "Bite carefully because syrup is hot.",
+        "Eat while warm and crisp."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "odeng",
+    "emoji": "🍢",
+    "ko": "어묵",
+    "phrase": "국물도 마셔도 되나요?",
+    "meaning": "Can I drink the broth too?",
+    "photo": "",
+    "en": {
+      "name": "Eomuk",
+      "desc": "Fish cake skewers served with warm broth.",
+      "tags": [
+        "Street food",
+        "Fish cake"
+      ],
+      "steps": [
+        "Pick a skewer from the broth.",
+        "Dip in soy sauce if available.",
+        "Drink the warm broth from a cup.",
+        "Count skewers for payment."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "bingsu",
+    "emoji": "🍧",
+    "ko": "빙수",
+    "phrase": "섞어서 먹나요?",
+    "meaning": "Should I mix it before eating?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Patbingsu.jpg",
+    "en": {
+      "name": "Bingsu",
+      "desc": "Shaved ice dessert with toppings such as red bean, fruit, or milk.",
+      "tags": [
+        "Dessert",
+        "Share"
+      ],
+      "steps": [
+        "Mix only part of it first if you want texture.",
+        "Spoon toppings with shaved ice.",
+        "Share from the bowl with clean spoons.",
+        "Eat before it melts too much."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kimchibokkeumbap",
+    "emoji": "🍚",
+    "ko": "김치볶음밥",
+    "phrase": "계란을 섞어서 먹나요?",
+    "meaning": "Should I mix the egg in?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Kimchi%20fried%20rice.jpg",
+    "en": {
+      "name": "Kimchi bokkeumbap",
+      "desc": "Fried rice with kimchi, often topped with egg or seaweed.",
+      "tags": [
+        "Fried rice",
+        "Kimchi"
+      ],
+      "steps": [
+        "Break the egg if served on top.",
+        "Mix kimchi, rice, and seaweed evenly.",
+        "Eat with pickles or soup between bites.",
+        "Add extra gochujang only if you want more heat."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kimbapcheongukramyeon",
+    "emoji": "🍜",
+    "ko": "분식 라면",
+    "phrase": "김밥이랑 같이 먹나요?",
+    "meaning": "Should I eat this with gimbap?",
+    "photo": "",
+    "en": {
+      "name": "Bunsik ramyeon",
+      "desc": "Korean instant-style ramen often served with egg, scallion, and gimbap.",
+      "tags": [
+        "Noodles",
+        "Bunsik"
+      ],
+      "steps": [
+        "Eat noodles while springy.",
+        "Sip broth carefully because it is hot.",
+        "Pair with gimbap if ordered together.",
+        "Add kimchi between bites for contrast."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "tteokguk",
+    "emoji": "🍲",
+    "ko": "떡국",
+    "phrase": "떡이 뜨거운가요?",
+    "meaning": "Are the rice cakes hot?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Tteokguk.jpg",
+    "en": {
+      "name": "Tteokguk",
+      "desc": "Mild rice cake soup with egg, scallion, and sometimes beef.",
+      "tags": [
+        "Rice cake soup",
+        "Mild"
+      ],
+      "steps": [
+        "Let rice cakes cool slightly before eating.",
+        "Scoop broth and rice cakes together.",
+        "Add pepper if you want stronger aroma.",
+        "Eat with kimchi for balance."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "miyeokguk",
+    "emoji": "🍲",
+    "ko": "미역국",
+    "phrase": "소고기가 들어가나요?",
+    "meaning": "Does this contain beef?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Miyeok%20guk.jpg",
+    "en": {
+      "name": "Miyeokguk",
+      "desc": "Seaweed soup, often with beef or seafood broth.",
+      "tags": [
+        "Seaweed soup",
+        "Mild"
+      ],
+      "steps": [
+        "Taste broth before adding anything.",
+        "Eat seaweed and rice together.",
+        "Ask whether it contains beef or seafood if needed.",
+        "Pair with kimchi or salty side dishes."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kongnamulgukbap",
+    "emoji": "🍲",
+    "ko": "콩나물국밥",
+    "phrase": "계란을 넣어 먹나요?",
+    "meaning": "Do I add the egg?",
+    "photo": "",
+    "en": {
+      "name": "Kongnamul gukbap",
+      "desc": "Bean sprout soup with rice, often served hot with egg.",
+      "tags": [
+        "Soup rice",
+        "Bean sprout"
+      ],
+      "steps": [
+        "Break the egg gently if served.",
+        "Taste broth before adding seasoning.",
+        "Eat sprouts, rice, and broth together.",
+        "Add kimchi or chili gradually."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dwaejigukbap",
+    "emoji": "🍲",
+    "ko": "돼지국밥",
+    "phrase": "새우젓은 얼마나 넣나요?",
+    "meaning": "How much salted shrimp should I add?",
+    "photo": "",
+    "en": {
+      "name": "Dwaeji gukbap",
+      "desc": "Pork soup with rice, often seasoned at the table.",
+      "tags": [
+        "Pork soup",
+        "Busan"
+      ],
+      "steps": [
+        "Add salted shrimp or seasoning little by little.",
+        "Mix rice into soup or eat separately.",
+        "Add chives if served.",
+        "Taste before adding more salt."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jjimdak",
+    "emoji": "🍗",
+    "ko": "찜닭",
+    "phrase": "당면부터 먹나요?",
+    "meaning": "Should I eat the glass noodles first?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Jjimdak.jpg",
+    "en": {
+      "name": "Jjimdak",
+      "desc": "Soy-braised chicken with glass noodles, potato, and vegetables.",
+      "tags": [
+        "Braised chicken",
+        "Soy"
+      ],
+      "steps": [
+        "Mix noodles with sauce before they stick.",
+        "Eat chicken and potato with rice.",
+        "Watch for bones if bone-in.",
+        "Share from the center plate."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "galbijjim",
+    "emoji": "🍖",
+    "ko": "갈비찜",
+    "phrase": "소스를 밥에 비벼 먹나요?",
+    "meaning": "Can I mix the sauce with rice?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Galbijjim.jpg",
+    "en": {
+      "name": "Galbijjim",
+      "desc": "Braised beef short ribs in a sweet-savory sauce.",
+      "tags": [
+        "Braised beef",
+        "Ribs"
+      ],
+      "steps": [
+        "Pull meat gently from the bone.",
+        "Eat sauce with rice if you like.",
+        "Try radish or potato with the meat.",
+        "Use a side plate for bones."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "saengseongui",
+    "emoji": "🐟",
+    "ko": "생선구이",
+    "phrase": "가시는 어디에 두나요?",
+    "meaning": "Where should I put the bones?",
+    "photo": "",
+    "en": {
+      "name": "Saengseon gui",
+      "desc": "Grilled fish served whole or filleted with rice and side dishes.",
+      "tags": [
+        "Grilled fish",
+        "Bones"
+      ],
+      "steps": [
+        "Separate flesh from bones carefully.",
+        "Eat with rice and a little soy sauce if provided.",
+        "Use a side plate for bones.",
+        "Try the crispy skin if you like."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gyeranjjim",
+    "emoji": "🥚",
+    "ko": "계란찜",
+    "phrase": "뜨거우니 기다려야 하나요?",
+    "meaning": "Should I wait because it is hot?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Gyeran-jjim.jpg",
+    "en": {
+      "name": "Gyeran jjim",
+      "desc": "Steamed egg custard served hot and fluffy.",
+      "tags": [
+        "Egg",
+        "Hot"
+      ],
+      "steps": [
+        "Wait a moment because the bowl is very hot.",
+        "Scoop gently with a spoon.",
+        "Eat as a soft side dish with rice.",
+        "Share using a clean spoon if served in the center."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dubukimchi",
+    "emoji": "🥘",
+    "ko": "두부김치",
+    "phrase": "돼지고기가 들어가나요?",
+    "meaning": "Does this contain pork?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Dubu%20kimchi.jpg",
+    "en": {
+      "name": "Dubu kimchi",
+      "desc": "Warm tofu served with stir-fried kimchi, often with pork.",
+      "tags": [
+        "Tofu",
+        "Kimchi"
+      ],
+      "steps": [
+        "Place kimchi on a tofu slice.",
+        "Eat together in one bite.",
+        "Ask if pork is included if needed.",
+        "Use less kimchi if it is very spicy."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "tteokgalbi",
+    "emoji": "🥩",
+    "ko": "떡갈비",
+    "phrase": "이미 양념이 되어 있나요?",
+    "meaning": "Is it already seasoned?",
+    "photo": "",
+    "en": {
+      "name": "Tteokgalbi",
+      "desc": "Grilled minced short rib patties with sweet soy flavor.",
+      "tags": [
+        "Beef patty",
+        "Sweet soy"
+      ],
+      "steps": [
+        "Cut a small piece first.",
+        "Eat with rice or lettuce if served.",
+        "Dip only lightly because it is already seasoned.",
+        "Pair with kimchi to balance sweetness."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kkanpunggi",
+    "emoji": "🍗",
+    "ko": "깐풍기",
+    "phrase": "많이 매운가요?",
+    "meaning": "Is it very spicy?",
+    "photo": "",
+    "en": {
+      "name": "Kkanpunggi",
+      "desc": "Crispy fried chicken tossed in a spicy garlic sauce.",
+      "tags": [
+        "Fried chicken",
+        "Spicy"
+      ],
+      "steps": [
+        "Eat while crisp before sauce softens it.",
+        "Try one piece first to check spice.",
+        "Share from the center plate.",
+        "Eat with pickled radish between bites."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "yubuchobap",
+    "emoji": "🍚",
+    "ko": "유부초밥",
+    "phrase": "한입에 먹나요?",
+    "meaning": "Should I eat it in one bite?",
+    "photo": "",
+    "en": {
+      "name": "Yubu chobap",
+      "desc": "Sweet tofu pockets filled with seasoned rice.",
+      "tags": [
+        "Tofu pocket",
+        "Rice"
+      ],
+      "steps": [
+        "Pick up one piece carefully.",
+        "Eat in one bite if possible.",
+        "Dip only if sauce is served.",
+        "Check toppings if you avoid seafood."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "patjuk",
+    "emoji": "🥣",
+    "ko": "팥죽",
+    "phrase": "설탕을 넣어 먹나요?",
+    "meaning": "Should I add sugar?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Patjuk.jpg",
+    "en": {
+      "name": "Patjuk",
+      "desc": "Red bean porridge, sometimes served with small rice balls.",
+      "tags": [
+        "Porridge",
+        "Red bean"
+      ],
+      "steps": [
+        "Stir before eating because it is thick.",
+        "Let rice balls cool slightly.",
+        "Add sugar or salt only to your own bowl.",
+        "Eat slowly; it stays hot."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "bungeoppang",
+    "emoji": "🐟",
+    "ko": "붕어빵",
+    "phrase": "속이 많이 뜨거운가요?",
+    "meaning": "Is the filling very hot?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Bungeoppang.jpg",
+    "en": {
+      "name": "Bungeoppang",
+      "desc": "Fish-shaped pastry filled with sweet red bean, custard, or other fillings.",
+      "tags": [
+        "Street snack",
+        "Hot filling"
+      ],
+      "steps": [
+        "Break it open first to release steam.",
+        "Check the filling because it can be very hot.",
+        "Eat from the head or tail as you like.",
+        "Share different fillings if buying a bag."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "samgyeopsal_bbq",
+    "emoji": "🥓",
+    "ko": "삼겹살구이",
+    "phrase": "쌈에 무엇을 넣으면 좋나요?",
+    "meaning": "What should I put in the wrap?",
+    "photo": "",
+    "en": {
+      "name": "Samgyeopsal gui",
+      "desc": "Grilled pork belly served with lettuce, garlic, ssamjang, and kimchi.",
+      "tags": [
+        "Pork BBQ",
+        "Wrap"
+      ],
+      "steps": [
+        "Grill until browned and cooked through.",
+        "Cut into one-bite pieces.",
+        "Dip lightly in salt oil or ssamjang.",
+        "Wrap with lettuce, garlic, and kimchi."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "la_galbi",
+    "emoji": "🥩",
+    "ko": "LA갈비",
+    "phrase": "뼈는 어디에 두면 되나요?",
+    "meaning": "Where should I put the bones?",
+    "photo": "",
+    "en": {
+      "name": "LA galbi",
+      "desc": "Thin cross-cut beef short ribs marinated in sweet soy sauce.",
+      "tags": [
+        "Beef BBQ",
+        "Sweet soy"
+      ],
+      "steps": [
+        "Grill both sides until caramelized.",
+        "Cut around the bone if needed.",
+        "Eat with rice, lettuce, or kimchi.",
+        "Use a bone plate for rib pieces."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "deunggalbi",
+    "emoji": "🍖",
+    "ko": "등갈비",
+    "phrase": "손으로 먹어도 되나요?",
+    "meaning": "Can I eat this with my hands?",
+    "photo": "",
+    "en": {
+      "name": "Deunggalbi",
+      "desc": "Pork back ribs, grilled or braised, often sweet, smoky, or spicy.",
+      "tags": [
+        "Pork ribs",
+        "Hands okay"
+      ],
+      "steps": [
+        "Pick up the rib if gloves or napkins are provided.",
+        "Eat meat from the bone carefully.",
+        "Use rice or pickles to balance sauce.",
+        "Put bones on the side plate."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "maeun_deunggalbi_jjim",
+    "emoji": "🌶️",
+    "ko": "매운등갈비찜",
+    "phrase": "치즈를 추가해서 먹나요?",
+    "meaning": "Should I add cheese?",
+    "photo": "",
+    "en": {
+      "name": "Maeun deunggalbi jjim",
+      "desc": "Spicy braised pork back ribs often served with rice cakes or cheese.",
+      "tags": [
+        "Spicy ribs",
+        "Braised"
+      ],
+      "steps": [
+        "Let it cool slightly because sauce is hot.",
+        "Pull rib meat from the bone.",
+        "Eat with rice to soften the heat.",
+        "Ask before adding cheese or noodles."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kimchijeon",
+    "emoji": "🥞",
+    "ko": "김치전",
+    "phrase": "간장에 찍어 먹나요?",
+    "meaning": "Should I dip it in soy sauce?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Kimchijeon.jpg",
+    "en": {
+      "name": "Kimchi jeon",
+      "desc": "Crisp savory pancake made with kimchi batter.",
+      "tags": [
+        "Pancake",
+        "Kimchi"
+      ],
+      "steps": [
+        "Tear or cut one piece.",
+        "Dip only lightly because kimchi is already seasoned.",
+        "Eat while the edge is crisp.",
+        "Pair with makgeolli if desired."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "bibim_guksu",
+    "emoji": "🍜",
+    "ko": "비빔국수",
+    "phrase": "다 비벼서 먹나요?",
+    "meaning": "Do I mix all of it?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Bibim-guksu.jpg",
+    "en": {
+      "name": "Bibim guksu",
+      "desc": "Cold noodles mixed with spicy-sweet gochujang sauce.",
+      "tags": [
+        "Cold noodles",
+        "Mix"
+      ],
+      "steps": [
+        "Mix from the bottom until sauce coats noodles.",
+        "Cut noodles if they are too long.",
+        "Add egg or cucumber to cool the spice.",
+        "Eat soon before noodles soften."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "janchi_guksu",
+    "emoji": "🍜",
+    "ko": "잔치국수",
+    "phrase": "양념장을 넣어 먹나요?",
+    "meaning": "Should I add the seasoning sauce?",
+    "photo": "",
+    "en": {
+      "name": "Janchi guksu",
+      "desc": "Warm banquet noodles in light anchovy broth with garnish.",
+      "tags": [
+        "Warm noodles",
+        "Light broth"
+      ],
+      "steps": [
+        "Taste the broth first.",
+        "Mix garnish into the noodles.",
+        "Add seasoning sauce gradually.",
+        "Eat kimchi between bites."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "soondae",
+    "emoji": "🌭",
+    "ko": "순대",
+    "phrase": "어떤 소스에 찍어 먹나요?",
+    "meaning": "Which sauce should I use?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Sundae%20(Korean%20food).jpg",
+    "en": {
+      "name": "Soondae",
+      "desc": "Korean blood sausage often eaten with salt, tteokbokki sauce, or liver.",
+      "tags": [
+        "Street food",
+        "Dip"
+      ],
+      "steps": [
+        "Dip lightly in salt or regional sauce.",
+        "Eat with liver or lung if served.",
+        "Try dipping in tteokbokki sauce.",
+        "Ask what parts are included if unsure."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dakgangjeong",
+    "emoji": "🍗",
+    "ko": "닭강정",
+    "phrase": "무와 같이 먹나요?",
+    "meaning": "Should I eat it with pickled radish?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Dakgangjeong.jpg",
+    "en": {
+      "name": "Dakgangjeong",
+      "desc": "Crispy bite-sized fried chicken coated in sweet spicy glaze.",
+      "tags": [
+        "Fried chicken",
+        "Sweet spicy"
+      ],
+      "steps": [
+        "Eat while the coating is crisp.",
+        "Use toothpicks or chopsticks if served.",
+        "Balance with pickled radish.",
+        "Share because the glaze is rich."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "yangnyeom_chicken",
+    "emoji": "🍗",
+    "ko": "양념치킨",
+    "phrase": "치킨무와 같이 먹나요?",
+    "meaning": "Should I eat it with pickled radish?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Korean%20fried%20chicken.jpg",
+    "en": {
+      "name": "Yangnyeom chicken",
+      "desc": "Korean fried chicken coated with sweet-spicy red sauce.",
+      "tags": [
+        "Fried chicken",
+        "Sauced"
+      ],
+      "steps": [
+        "Eat soon before the crust softens.",
+        "Use pickled radish between bites.",
+        "Try plain and sauced pieces together if ordered half-half.",
+        "Use gloves if provided."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "sotteok_sotteok",
+    "emoji": "🍢",
+    "ko": "소떡소떡",
+    "phrase": "떡과 소시지를 같이 먹나요?",
+    "meaning": "Should I eat sausage and rice cake together?",
+    "photo": "",
+    "en": {
+      "name": "Sotteok sotteok",
+      "desc": "Street skewer alternating sausage and rice cake with sweet spicy sauce.",
+      "tags": [
+        "Skewer",
+        "Street food"
+      ],
+      "steps": [
+        "Eat one sausage and one rice cake together.",
+        "Check heat before biting the rice cake.",
+        "Hold the stick from the bottom.",
+        "Use napkins because sauce is sticky."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "tteokkochi",
+    "emoji": "🍢",
+    "ko": "떡꼬치",
+    "phrase": "많이 뜨거운가요?",
+    "meaning": "Is it very hot?",
+    "photo": "",
+    "en": {
+      "name": "Tteokkochi",
+      "desc": "Skewered rice cakes grilled or fried with sweet spicy sauce.",
+      "tags": [
+        "Rice cake",
+        "Skewer"
+      ],
+      "steps": [
+        "Let it cool before the first bite.",
+        "Bite one rice cake at a time.",
+        "Use the stick carefully.",
+        "Expect a chewy texture."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "eomuk_tang",
+    "emoji": "🍲",
+    "ko": "어묵탕",
+    "phrase": "국물도 마셔도 되나요?",
+    "meaning": "Can I drink the broth too?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Eomuk-tang.jpg",
+    "en": {
+      "name": "Eomuk tang",
+      "desc": "Warm fish cake soup with skewers, radish, and broth.",
+      "tags": [
+        "Fish cake soup",
+        "Broth"
+      ],
+      "steps": [
+        "Take a skewer or bowl piece.",
+        "Sip the broth while hot.",
+        "Dip fish cake in soy sauce if served.",
+        "Count skewers if paying street-style."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "chueotang",
+    "emoji": "🍲",
+    "ko": "추어탕",
+    "phrase": "들깨가루를 넣어 먹나요?",
+    "meaning": "Should I add perilla powder?",
+    "photo": "",
+    "en": {
+      "name": "Chueotang",
+      "desc": "Nutty loach soup with greens, perilla, and peppery seasoning.",
+      "tags": [
+        "Fish soup",
+        "Strong flavor"
+      ],
+      "steps": [
+        "Taste first before adding spice.",
+        "Add perilla powder if you like nuttiness.",
+        "Eat with rice and kimchi.",
+        "Ask if bones are ground into the soup."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "godeungeogui",
+    "emoji": "🐟",
+    "ko": "고등어구이",
+    "phrase": "가시를 조심해야 하나요?",
+    "meaning": "Should I watch for bones?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Godeungeo%20gui.jpg",
+    "en": {
+      "name": "Godeungeo gui",
+      "desc": "Grilled mackerel served with rice and side dishes.",
+      "tags": [
+        "Grilled fish",
+        "Bones"
+      ],
+      "steps": [
+        "Separate flesh from bones carefully.",
+        "Eat with rice because it is salty and rich.",
+        "Try with radish or kimchi.",
+        "Use a side plate for bones."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jeonbokjuk",
+    "emoji": "🥣",
+    "ko": "전복죽",
+    "phrase": "조개류 알레르기가 있으면 피해야 하나요?",
+    "meaning": "Should I avoid it with shellfish allergy?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Jeonbok-juk.jpg",
+    "en": {
+      "name": "Jeonbokjuk",
+      "desc": "Abalone rice porridge with a gentle seafood flavor.",
+      "tags": [
+        "Porridge",
+        "Seafood"
+      ],
+      "steps": [
+        "Stir before eating.",
+        "Let it cool because thick porridge stays hot.",
+        "Eat with kimchi or salted side dishes.",
+        "Ask about shellfish if allergic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "hobakjuk",
+    "emoji": "🥣",
+    "ko": "호박죽",
+    "phrase": "새알심이 뜨거운가요?",
+    "meaning": "Are the rice balls hot?",
+    "photo": "",
+    "en": {
+      "name": "Hobakjuk",
+      "desc": "Sweet pumpkin porridge, sometimes with rice balls or beans.",
+      "tags": [
+        "Porridge",
+        "Sweet"
+      ],
+      "steps": [
+        "Stir before eating.",
+        "Let rice balls cool slightly.",
+        "Add salt only if provided.",
+        "Eat slowly because it stays hot."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "cheonggukjang",
+    "emoji": "🍲",
+    "ko": "청국장",
+    "phrase": "냄새가 강한 음식인가요?",
+    "meaning": "Does this have a strong aroma?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Cheonggukjang%20jjigae.jpg",
+    "en": {
+      "name": "Cheonggukjang",
+      "desc": "Strong fermented soybean stew with tofu and vegetables.",
+      "tags": [
+        "Fermented stew",
+        "Strong aroma"
+      ],
+      "steps": [
+        "Expect a strong fermented aroma.",
+        "Scoop tofu, beans, and broth over rice.",
+        "Eat with kimchi and side dishes.",
+        "Ask about meat or seafood broth if needed."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gondeure_bap",
+    "emoji": "🍚",
+    "ko": "곤드레밥",
+    "phrase": "양념장을 얼마나 넣나요?",
+    "meaning": "How much seasoning sauce should I add?",
+    "photo": "",
+    "en": {
+      "name": "Gondeure bap",
+      "desc": "Rice cooked with seasoned thistle greens and mixed with soy sauce.",
+      "tags": [
+        "Vegetable rice",
+        "Mix"
+      ],
+      "steps": [
+        "Add soy seasoning little by little.",
+        "Mix the greens and rice evenly.",
+        "Eat with stew or side dishes.",
+        "Try seaweed if served."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "baekban",
+    "emoji": "🍱",
+    "ko": "백반",
+    "phrase": "반찬 리필이 되나요?",
+    "meaning": "Can I refill the side dishes?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Korean%20table%20d'hote.jpg",
+    "en": {
+      "name": "Baekban",
+      "desc": "Korean set meal with rice, soup, and many small side dishes.",
+      "tags": [
+        "Set meal",
+        "Banchan"
+      ],
+      "steps": [
+        "Start with rice and soup.",
+        "Try side dishes one by one.",
+        "Refill side dishes only if the restaurant offers it.",
+        "Ask which dishes are spicy or contain seafood."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "nurungji",
+    "emoji": "🍚",
+    "ko": "누룽지",
+    "phrase": "뜨거운 물을 부어 먹나요?",
+    "meaning": "Do I pour hot water over it?",
+    "photo": "",
+    "en": {
+      "name": "Nurungji",
+      "desc": "Scorched rice eaten crispy or softened with hot water.",
+      "tags": [
+        "Scorched rice",
+        "Finish"
+      ],
+      "steps": [
+        "Eat dry pieces as a crunchy snack.",
+        "Pour hot water if served for a warm finish.",
+        "Let it soften before spooning.",
+        "Pair with salty side dishes."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "chungmu_gimbap",
+    "emoji": "김",
+    "ko": "충무김밥",
+    "phrase": "김밥 안에 속이 없나요?",
+    "meaning": "Is there no filling inside the roll?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Chungmu%20gimbap.jpg",
+    "en": {
+      "name": "Chungmu gimbap",
+      "desc": "Small plain seaweed rice rolls served with spicy squid and radish kimchi.",
+      "tags": [
+        "Rice roll",
+        "Spicy side"
+      ],
+      "steps": [
+        "Eat a plain rice roll with spicy side dish.",
+        "Do not expect fillings inside the roll.",
+        "Balance squid, radish, and rice in one bite.",
+        "Ask about seafood if allergic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kkoma_gimbap",
+    "emoji": "김",
+    "ko": "꼬마김밥",
+    "phrase": "겨자소스에 찍어 먹나요?",
+    "meaning": "Should I dip it in mustard sauce?",
+    "photo": "",
+    "en": {
+      "name": "Kkoma gimbap",
+      "desc": "Small bite-sized gimbap rolls, often dipped in mustard soy sauce.",
+      "tags": [
+        "Rice roll",
+        "Snack"
+      ],
+      "steps": [
+        "Pick up one small roll.",
+        "Dip lightly in mustard soy sauce if served.",
+        "Eat in one bite.",
+        "Check fillings if you avoid ham, egg, or fish cake."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "yakgwa",
+    "emoji": "🍯",
+    "ko": "약과",
+    "phrase": "차와 같이 먹나요?",
+    "meaning": "Should I eat it with tea?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Yakgwa.jpg",
+    "en": {
+      "name": "Yakgwa",
+      "desc": "Traditional honey cookie with a dense fried texture.",
+      "tags": [
+        "Dessert",
+        "Honey"
+      ],
+      "steps": [
+        "Take small bites because it is dense.",
+        "Pair with tea or coffee.",
+        "Expect a sweet honey-ginger flavor.",
+        "Share if served as a dessert plate."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "injeolmi",
+    "emoji": "🍡",
+    "ko": "인절미",
+    "phrase": "가루가 떨어지니 조심해야 하나요?",
+    "meaning": "Should I be careful with the powder?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Injeolmi.jpg",
+    "en": {
+      "name": "Injeolmi",
+      "desc": "Soft rice cake coated with roasted soybean powder.",
+      "tags": [
+        "Rice cake",
+        "Soybean powder"
+      ],
+      "steps": [
+        "Take small bites because rice cake is chewy.",
+        "Use a fork or toothpick if provided.",
+        "Expect powder to fall, so lean over the plate.",
+        "Pair with tea."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "sikhye",
+    "emoji": "🥤",
+    "ko": "식혜",
+    "phrase": "밥알도 먹어도 되나요?",
+    "meaning": "Can I eat the rice grains too?",
+    "photo": "",
+    "en": {
+      "name": "Sikhye",
+      "desc": "Sweet rice punch served cold, often after a meal.",
+      "tags": [
+        "Drink",
+        "Dessert"
+      ],
+      "steps": [
+        "Drink cold after the meal.",
+        "Eat the rice grains if you like.",
+        "Shake or stir gently if grains settle.",
+        "Pair with traditional snacks."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dolsot_bibimbap",
+    "emoji": "🍚",
+    "ko": "돌솥비빔밥",
+    "phrase": "그릇이 많이 뜨거운가요?",
+    "meaning": "Is the bowl very hot?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Dolsot-bibimbap.jpg",
+    "en": {
+      "name": "Dolsot bibimbap",
+      "desc": "Bibimbap served in a hot stone bowl with crisp rice at the bottom.",
+      "tags": [
+        "Stone bowl",
+        "Mix carefully"
+      ],
+      "steps": [
+        "Add gochujang little by little.",
+        "Mix before the rice burns too much.",
+        "Scrape crispy rice from the bottom.",
+        "Be careful because the bowl is very hot."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jeyuk_bokkeum",
+    "emoji": "🥘",
+    "ko": "제육볶음",
+    "phrase": "쌈에 싸 먹나요?",
+    "meaning": "Should I wrap it in lettuce?",
+    "photo": "",
+    "en": {
+      "name": "Jeyuk bokkeum",
+      "desc": "Spicy stir-fried pork with gochujang sauce and vegetables.",
+      "tags": [
+        "Pork",
+        "Spicy stir-fry"
+      ],
+      "steps": [
+        "Eat with rice to balance the spice.",
+        "Wrap pork with lettuce if served.",
+        "Use less sauce if it is very spicy.",
+        "Ask about spice level before ordering."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "ojingeo_bokkeum",
+    "emoji": "🦑",
+    "ko": "오징어볶음",
+    "phrase": "밥과 같이 먹나요?",
+    "meaning": "Should I eat this with rice?",
+    "photo": "",
+    "en": {
+      "name": "Ojingeo bokkeum",
+      "desc": "Spicy stir-fried squid with vegetables.",
+      "tags": [
+        "Squid",
+        "Spicy"
+      ],
+      "steps": [
+        "Mix squid and vegetables with sauce.",
+        "Eat with rice because it is spicy and salty.",
+        "Use scissors if pieces are large.",
+        "Ask about seafood allergy if needed."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "yukgaejang",
+    "emoji": "🍲",
+    "ko": "육개장",
+    "phrase": "밥을 말아 먹나요?",
+    "meaning": "Do I put rice into the soup?",
+    "photo": "",
+    "en": {
+      "name": "Yukgaejang",
+      "desc": "Spicy shredded beef soup with vegetables and glass noodles.",
+      "tags": [
+        "Beef soup",
+        "Spicy"
+      ],
+      "steps": [
+        "Let it cool slightly before eating.",
+        "Eat beef, greens, and broth with rice.",
+        "Add rice into the soup if you like.",
+        "Ask if it is very spicy before ordering."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "bindaetteok",
+    "emoji": "🥞",
+    "ko": "빈대떡",
+    "phrase": "간장에 찍어 먹나요?",
+    "meaning": "Should I dip it in soy sauce?",
+    "photo": "",
+    "en": {
+      "name": "Bindaetteok",
+      "desc": "Mung bean pancake, often crisp outside and soft inside.",
+      "tags": [
+        "Pancake",
+        "Mung bean"
+      ],
+      "steps": [
+        "Tear or cut a piece.",
+        "Dip lightly in soy-vinegar sauce.",
+        "Eat while the edge is crisp.",
+        "Pair with kimchi or pickled onion."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "modeumjeon",
+    "emoji": "🥞",
+    "ko": "모둠전",
+    "phrase": "각각 뭐가 들어 있나요?",
+    "meaning": "What is inside each piece?",
+    "photo": "",
+    "en": {
+      "name": "Modeum jeon",
+      "desc": "Assorted Korean pancakes such as fish, zucchini, meat, and tofu jeon.",
+      "tags": [
+        "Assorted pancake",
+        "Shared"
+      ],
+      "steps": [
+        "Try each type one by one.",
+        "Dip lightly in soy-vinegar sauce.",
+        "Eat while warm.",
+        "Ask what each piece contains if allergic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "hobakjeon",
+    "emoji": "🥒",
+    "ko": "호박전",
+    "phrase": "소스에 찍어 먹나요?",
+    "meaning": "Should I dip it in sauce?",
+    "photo": "",
+    "en": {
+      "name": "Hobakjeon",
+      "desc": "Pan-fried zucchini slices coated lightly with egg batter.",
+      "tags": [
+        "Vegetable pancake",
+        "Mild"
+      ],
+      "steps": [
+        "Pick one slice with chopsticks.",
+        "Dip lightly in soy sauce if served.",
+        "Eat as a mild side dish.",
+        "Pair with spicy stew for balance."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "baechu_kimchi",
+    "emoji": "🥬",
+    "ko": "배추김치",
+    "phrase": "많이 익은 김치인가요?",
+    "meaning": "Is this well-fermented kimchi?",
+    "photo": "",
+    "en": {
+      "name": "Baechu kimchi",
+      "desc": "Classic napa cabbage kimchi served as a side dish.",
+      "tags": [
+        "Kimchi",
+        "Side dish"
+      ],
+      "steps": [
+        "Eat a small piece with rice or meat.",
+        "Use it to refresh the palate.",
+        "Ask if it is very fermented if sensitive.",
+        "Do not pour kimchi juice into shared dishes."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kkakdugi",
+    "emoji": "⬜",
+    "ko": "깍두기",
+    "phrase": "국밥과 같이 먹나요?",
+    "meaning": "Should I eat it with soup rice?",
+    "photo": "",
+    "en": {
+      "name": "Kkakdugi",
+      "desc": "Cubed radish kimchi, often served with soups.",
+      "tags": [
+        "Radish kimchi",
+        "Soup pairing"
+      ],
+      "steps": [
+        "Eat one cube with soup or rice.",
+        "Expect a crunchy texture.",
+        "Use it to balance rich broth.",
+        "Ask if it is spicy."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "oisobagi",
+    "emoji": "🥒",
+    "ko": "오이소박이",
+    "phrase": "매운 음식과 같이 먹나요?",
+    "meaning": "Should I eat it with spicy food?",
+    "photo": "",
+    "en": {
+      "name": "Oi sobagi",
+      "desc": "Stuffed cucumber kimchi with chili seasoning.",
+      "tags": [
+        "Cucumber kimchi",
+        "Crunchy"
+      ],
+      "steps": [
+        "Bite or cut into smaller pieces.",
+        "Eat with rice or grilled meat.",
+        "Expect a fresh crunchy texture.",
+        "Use it to cool down spicy food."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "saeujeon",
+    "emoji": "🍤",
+    "ko": "새우전",
+    "phrase": "새우 알레르기가 있으면 피해야 하나요?",
+    "meaning": "Should I avoid this with shrimp allergy?",
+    "photo": "",
+    "en": {
+      "name": "Saeu jeon",
+      "desc": "Pan-fried shrimp coated with egg batter.",
+      "tags": [
+        "Shrimp",
+        "Jeon"
+      ],
+      "steps": [
+        "Pick up one piece carefully.",
+        "Dip lightly in soy-vinegar sauce.",
+        "Eat while warm.",
+        "Avoid if allergic to shellfish."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dongtaejeon",
+    "emoji": "🐟",
+    "ko": "동태전",
+    "phrase": "가시가 있나요?",
+    "meaning": "Are there bones?",
+    "photo": "",
+    "en": {
+      "name": "Dongtae jeon",
+      "desc": "Pan-fried pollock slices coated with egg batter.",
+      "tags": [
+        "Fish jeon",
+        "Bones rare"
+      ],
+      "steps": [
+        "Dip lightly in soy sauce.",
+        "Eat with rice or as a shared side.",
+        "Watch for small bones just in case.",
+        "Pair with kimchi."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dakjuk",
+    "emoji": "🥣",
+    "ko": "닭죽",
+    "phrase": "소금을 넣어 먹나요?",
+    "meaning": "Should I add salt?",
+    "photo": "",
+    "en": {
+      "name": "Dakjuk",
+      "desc": "Chicken rice porridge, mild and comforting.",
+      "tags": [
+        "Chicken porridge",
+        "Mild"
+      ],
+      "steps": [
+        "Stir before eating.",
+        "Let it cool because porridge stays hot.",
+        "Season lightly with salt if served.",
+        "Eat with kimchi for contrast."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kongnamul_muchim",
+    "emoji": "🌱",
+    "ko": "콩나물무침",
+    "phrase": "참기름이 들어가나요?",
+    "meaning": "Does this contain sesame oil?",
+    "photo": "",
+    "en": {
+      "name": "Kongnamul muchim",
+      "desc": "Seasoned soybean sprouts served as a crunchy side dish.",
+      "tags": [
+        "Banchan",
+        "Bean sprout"
+      ],
+      "steps": [
+        "Eat a small amount with rice.",
+        "Use it to lighten grilled meat.",
+        "Mix with bibimbap if served together.",
+        "Ask if sesame oil is used if allergic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "sigeumchi_namul",
+    "emoji": "🌿",
+    "ko": "시금치나물",
+    "phrase": "깨가 들어가나요?",
+    "meaning": "Does this contain sesame?",
+    "photo": "",
+    "en": {
+      "name": "Sigeumchi namul",
+      "desc": "Seasoned spinach side dish with sesame and garlic.",
+      "tags": [
+        "Banchan",
+        "Spinach"
+      ],
+      "steps": [
+        "Eat with rice as a side dish.",
+        "Mix into bibimbap if served.",
+        "Expect sesame aroma.",
+        "Ask about sesame if allergic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "doraji_muchim",
+    "emoji": "🌶️",
+    "ko": "도라지무침",
+    "phrase": "쓴맛이 나는 반찬인가요?",
+    "meaning": "Is this a bitter side dish?",
+    "photo": "",
+    "en": {
+      "name": "Doraji muchim",
+      "desc": "Seasoned bellflower root with a bitter-crisp texture.",
+      "tags": [
+        "Banchan",
+        "Bitter crisp"
+      ],
+      "steps": [
+        "Try a small bite first.",
+        "Eat with rice to balance the bitterness.",
+        "Use it as a palate refresher.",
+        "Expect spicy-sour seasoning."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "songpyeon",
+    "emoji": "🍡",
+    "ko": "송편",
+    "phrase": "속에 깨가 들어가나요?",
+    "meaning": "Does the filling contain sesame?",
+    "photo": "",
+    "en": {
+      "name": "Songpyeon",
+      "desc": "Half-moon rice cakes filled with sesame, beans, or chestnut.",
+      "tags": [
+        "Rice cake",
+        "Dessert"
+      ],
+      "steps": [
+        "Take small bites because rice cake is chewy.",
+        "Check filling if allergic to sesame or nuts.",
+        "Pair with tea.",
+        "Eat at room temperature or slightly warm."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "baekseolgi",
+    "emoji": "🍰",
+    "ko": "백설기",
+    "phrase": "차와 같이 먹나요?",
+    "meaning": "Should I eat it with tea?",
+    "photo": "",
+    "en": {
+      "name": "Baekseolgi",
+      "desc": "Steamed white rice cake with a soft crumbly texture.",
+      "tags": [
+        "Rice cake",
+        "Mild"
+      ],
+      "steps": [
+        "Break off a small piece.",
+        "Eat with tea or sikhye.",
+        "Expect a mild rice flavor.",
+        "Keep it covered so it does not dry out."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "sujeonggwa",
+    "emoji": "🥤",
+    "ko": "수정과",
+    "phrase": "곶감도 먹어도 되나요?",
+    "meaning": "Can I eat the persimmon too?",
+    "photo": "",
+    "en": {
+      "name": "Sujeonggwa",
+      "desc": "Sweet cinnamon ginger punch served cold with dried persimmon.",
+      "tags": [
+        "Drink",
+        "Dessert"
+      ],
+      "steps": [
+        "Drink cold after a meal.",
+        "Eat the persimmon garnish if served.",
+        "Expect cinnamon and ginger aroma.",
+        "Pair with rice cakes or yakgwa."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "makgeolli",
+    "emoji": "🍶",
+    "ko": "막걸리",
+    "phrase": "전과 같이 마시나요?",
+    "meaning": "Do people drink this with jeon?",
+    "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Makgeolli.jpg",
+    "en": {
+      "name": "Makgeolli",
+      "desc": "Milky Korean rice wine, often paired with jeon.",
+      "tags": [
+        "Rice wine",
+        "Alcohol"
+      ],
+      "steps": [
+        "Shake gently only if the cap is secure.",
+        "Pour into small bowls or cups.",
+        "Pair with pajeon or bindaetteok.",
+        "Drink slowly because it is alcoholic."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kimchi_mandu_guk",
+    "emoji": "🥟",
+    "ko": "김치만두국",
+    "phrase": "만두 속에 돼지고기가 들어가나요?",
+    "meaning": "Does the dumpling filling contain pork?",
+    "photo": "",
+    "en": {
+      "name": "Kimchi mandu guk",
+      "desc": "Dumpling soup with kimchi-filled mandu.",
+      "tags": [
+        "Dumpling soup",
+        "Kimchi"
+      ],
+      "steps": [
+        "Let dumplings cool before biting.",
+        "Eat dumplings with broth.",
+        "Ask if filling includes pork.",
+        "Pair with rice if you want a fuller meal."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "tteok_mandu_guk",
+    "emoji": "🥟",
+    "ko": "떡만두국",
+    "phrase": "육수가 소고기인가요?",
+    "meaning": "Is the broth made with beef?",
+    "photo": "",
+    "en": {
+      "name": "Tteok mandu guk",
+      "desc": "Rice cake and dumpling soup, often eaten as a hearty meal.",
+      "tags": [
+        "Rice cake soup",
+        "Dumpling"
+      ],
+      "steps": [
+        "Let rice cakes cool slightly.",
+        "Eat dumplings with broth.",
+        "Add pepper if you want more aroma.",
+        "Ask about beef or pork broth if needed."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "saengchae_bibimbap",
+    "emoji": "🥗",
+    "ko": "생채비빔밥",
+    "phrase": "고추장은 얼마나 넣나요?",
+    "meaning": "How much gochujang should I add?",
+    "photo": "",
+    "en": {
+      "name": "Saengchae bibimbap",
+      "desc": "Bibimbap with fresh seasoned vegetables and gochujang.",
+      "tags": [
+        "Fresh vegetables",
+        "Mix"
+      ],
+      "steps": [
+        "Add gochujang gradually.",
+        "Mix vegetables and rice evenly.",
+        "Taste before adding more sauce.",
+        "Eat soon to keep vegetables crisp."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "haemuljjim",
+    "emoji": "🦐",
+    "ko": "해물찜",
+    "phrase": "조개류가 들어가나요?",
+    "meaning": "Does this contain shellfish?",
+    "photo": "",
+    "en": {
+      "name": "Haemul jjim",
+      "desc": "Spicy braised seafood with bean sprouts.",
+      "tags": [
+        "Seafood",
+        "Spicy"
+      ],
+      "steps": [
+        "Mix seafood and bean sprouts with sauce.",
+        "Use rice to balance the heat.",
+        "Watch for shells and bones.",
+        "Avoid if allergic to shellfish."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dwaeji_galbi",
+    "emoji": "🍖",
+    "ko": "돼지갈비",
+    "phrase": "이거 다 익었나요?",
+    "meaning": "Is this fully cooked?",
+    "photo": "",
+    "en": {
+      "name": "Dwaeji galbi",
+      "desc": "Pork ribs or shoulder marinated in sweet soy sauce and grilled at the table.",
+      "tags": [
+        "Pork BBQ",
+        "Sweet marinade"
+      ],
+      "steps": [
+        "Let staff flip it often because the sugary marinade burns easily.",
+        "Cook until the pork is no longer pink.",
+        "Cut into pieces with scissors.",
+        "Wrap in lettuce with ssamjang or eat with rice."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "chadolbaegi",
+    "emoji": "🥩",
+    "ko": "차돌박이",
+    "phrase": "몇 초만 구우면 되나요?",
+    "meaning": "Only a few seconds on the grill?",
+    "photo": "",
+    "en": {
+      "name": "Chadolbaegi",
+      "desc": "Paper-thin slices of beef brisket that cook in seconds on the grill.",
+      "tags": [
+        "Beef BBQ",
+        "Very thin"
+      ],
+      "steps": [
+        "Lay one slice at a time on the hot grill.",
+        "Turn it after a few seconds, once it changes colour.",
+        "Eat it straight away while it is hot.",
+        "Dip in sesame oil salt or wrap with pickled onion."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "makchang",
+    "emoji": "🔥",
+    "ko": "막창",
+    "phrase": "이제 먹어도 되나요?",
+    "meaning": "Can we eat it now?",
+    "photo": "",
+    "en": {
+      "name": "Makchang",
+      "desc": "Grilled pork or beef large intestine, chewy and rich, famous in Daegu.",
+      "tags": [
+        "Grilled intestine",
+        "Cook fully"
+      ],
+      "steps": [
+        "Let staff pre-cook and cut it.",
+        "Grill until the outside is crisp.",
+        "Dip in the doenjang-based sauce.",
+        "Add raw garlic or green chilli if you like."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dakbokkeumtang",
+    "emoji": "🍗",
+    "ko": "닭볶음탕",
+    "phrase": "덜 맵게 해 주실 수 있나요?",
+    "meaning": "Could you make it less spicy?",
+    "photo": "",
+    "en": {
+      "name": "Dakbokkeumtang",
+      "desc": "Chicken braised with potatoes and carrots in a spicy, slightly sweet red sauce.",
+      "tags": [
+        "Chicken",
+        "Spicy braise"
+      ],
+      "steps": [
+        "Serve chicken and potato into your own bowl.",
+        "Watch for small bones.",
+        "Spoon the sauce over rice.",
+        "Some restaurants fry rice in the leftover sauce if you ask."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kimchijjim",
+    "emoji": "🥬",
+    "ko": "김치찜",
+    "phrase": "가위 좀 주실 수 있나요?",
+    "meaning": "Could I have scissors, please?",
+    "photo": "",
+    "en": {
+      "name": "Kimchi jjim",
+      "desc": "Whole leaves of aged kimchi slowly braised with pork.",
+      "tags": [
+        "Kimchi",
+        "Braised pork"
+      ],
+      "steps": [
+        "Cut the kimchi and pork with scissors.",
+        "Wrap a piece of pork in kimchi.",
+        "Eat it with rice.",
+        "The broth is salty, so take it with rice rather than on its own."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kongbiji_jjigae",
+    "emoji": "🫘",
+    "ko": "콩비지찌개",
+    "phrase": "양념장 있나요?",
+    "meaning": "Is there seasoning sauce?",
+    "photo": "",
+    "en": {
+      "name": "Kongbiji jjigae",
+      "desc": "Thick stew of ground soybean, usually cooked with pork and kimchi.",
+      "tags": [
+        "Soybean stew",
+        "Mild"
+      ],
+      "steps": [
+        "Stir before eating because it settles.",
+        "Spoon it over rice.",
+        "Add the seasoning sauce if it tastes plain.",
+        "Eat while hot."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "haemultang",
+    "emoji": "🦀",
+    "ko": "해물탕",
+    "phrase": "이제 먹어도 되나요?",
+    "meaning": "Can we eat it now?",
+    "photo": "",
+    "en": {
+      "name": "Haemultang",
+      "desc": "Spicy seafood hotpot with crab, shellfish, squid and vegetables, cooked at the table.",
+      "tags": [
+        "Seafood hotpot",
+        "Shells"
+      ],
+      "steps": [
+        "Wait until it boils and the shellfish open.",
+        "Staff often cut the octopus or squid for you.",
+        "Leave any shellfish that stay closed.",
+        "Put shells in the empty bowl."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dongtaetang",
+    "emoji": "🐟",
+    "ko": "동태탕",
+    "phrase": "뼈 버리는 그릇 있나요?",
+    "meaning": "Is there a bowl for bones?",
+    "photo": "",
+    "en": {
+      "name": "Dongtaetang",
+      "desc": "Spicy stew of frozen pollock with radish and tofu.",
+      "tags": [
+        "Fish stew",
+        "Bones"
+      ],
+      "steps": [
+        "Taste the broth first.",
+        "Lift the fish off the bones carefully.",
+        "Eat radish and tofu with rice.",
+        "Put bones in the empty bowl."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "bulgogi_jeongol",
+    "emoji": "🍲",
+    "ko": "불고기전골",
+    "phrase": "이제 먹어도 되나요?",
+    "meaning": "Can we eat it now?",
+    "photo": "",
+    "en": {
+      "name": "Bulgogi jeongol",
+      "desc": "Sweet soy-marinated beef simmered in a shallow hotpot with noodles and vegetables.",
+      "tags": [
+        "Beef hotpot",
+        "Share"
+      ],
+      "steps": [
+        "Let it simmer until the beef is cooked.",
+        "Serve beef, noodles and broth into your own bowl.",
+        "Eat it with rice.",
+        "Add the noodles once the broth is boiling."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gopchang_jeongol",
+    "emoji": "🍲",
+    "ko": "곱창전골",
+    "phrase": "덜 맵게 해 주실 수 있나요?",
+    "meaning": "Could you make it less spicy?",
+    "photo": "",
+    "en": {
+      "name": "Gopchang jeongol",
+      "desc": "Spicy hotpot of beef intestines with vegetables and noodles.",
+      "tags": [
+        "Intestine hotpot",
+        "Spicy"
+      ],
+      "steps": [
+        "Wait until it boils well.",
+        "Stir so the bottom does not burn.",
+        "Serve intestines and vegetables into your bowl.",
+        "Add rice or noodles to the last of the broth."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gulgukbap",
+    "emoji": "🦪",
+    "ko": "굴국밥",
+    "phrase": "조개류 알레르기가 있어요.",
+    "meaning": "I have a shellfish allergy.",
+    "photo": "",
+    "en": {
+      "name": "Gul gukbap",
+      "desc": "Oyster soup with rice, often with seaweed and egg, popular in winter.",
+      "tags": [
+        "Oyster",
+        "Soup rice"
+      ],
+      "steps": [
+        "Taste the broth first.",
+        "Add chilli flakes or seasoning if you like.",
+        "Eat the oysters with the rice and broth.",
+        "Tell staff about any shellfish allergy before ordering."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "bibim_naengmyeon",
+    "emoji": "🍜",
+    "ko": "비빔냉면",
+    "phrase": "잘라 주실 수 있나요?",
+    "meaning": "Could you cut the noodles, please?",
+    "photo": "",
+    "en": {
+      "name": "Bibim naengmyeon",
+      "desc": "Chewy cold buckwheat noodles mixed with a sweet and spicy chilli sauce.",
+      "tags": [
+        "Cold noodles",
+        "Spicy"
+      ],
+      "steps": [
+        "Cut the noodles with scissors.",
+        "Mix the sauce all through the noodles.",
+        "Add a little vinegar or mustard if you like.",
+        "Sip the warm broth served on the side between bites."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jjolmyeon",
+    "emoji": "🍜",
+    "ko": "쫄면",
+    "phrase": "덜 맵게 해 주실 수 있나요?",
+    "meaning": "Could you make it less spicy?",
+    "photo": "",
+    "en": {
+      "name": "Jjolmyeon",
+      "desc": "Very chewy wheat noodles with vegetables and a sweet-spicy gochujang sauce.",
+      "tags": [
+        "Chewy noodles",
+        "Spicy"
+      ],
+      "steps": [
+        "Mix the sauce and vegetables into the noodles.",
+        "Cut the noodles if they are hard to bite.",
+        "Cool the spice with the broth served on the side.",
+        "Often ordered with gimbap at snack shops."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "haemul_kalguksu",
+    "emoji": "🍜",
+    "ko": "해물칼국수",
+    "phrase": "조개 껍데기 버리는 그릇 있나요?",
+    "meaning": "Is there a bowl for shells?",
+    "photo": "",
+    "en": {
+      "name": "Haemul kalguksu",
+      "desc": "Knife-cut wheat noodles in a clear seafood broth with clams and shellfish.",
+      "tags": [
+        "Noodles",
+        "Seafood"
+      ],
+      "steps": [
+        "Wait for the clams to open.",
+        "Take the shellfish out and put the shells aside.",
+        "Eat noodles and broth together.",
+        "Add kimchi on top if you like."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "japchaebap",
+    "emoji": "🍚",
+    "ko": "잡채밥",
+    "phrase": "단무지 더 주실 수 있나요?",
+    "meaning": "Could I have more pickled radish?",
+    "photo": "",
+    "en": {
+      "name": "Japchae bap",
+      "desc": "Stir-fried glass noodles and vegetables served over rice, a Korean-Chinese favourite.",
+      "tags": [
+        "Glass noodles",
+        "Rice"
+      ],
+      "steps": [
+        "Mix some japchae into the rice.",
+        "If black-bean sauce comes on the side, add a little and mix.",
+        "Eat with danmuji (yellow pickled radish).",
+        "Share if the portion is large."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "hoedeopbap",
+    "emoji": "🐟",
+    "ko": "회덮밥",
+    "phrase": "무슨 생선이에요?",
+    "meaning": "What kind of fish is this?",
+    "photo": "",
+    "en": {
+      "name": "Hoedeopbap",
+      "desc": "Rice topped with raw fish and vegetables, mixed with sweet-sour chilli sauce.",
+      "tags": [
+        "Raw fish",
+        "Mix"
+      ],
+      "steps": [
+        "Add chogochujang a little at a time.",
+        "Mix fish, vegetables and rice evenly.",
+        "Eat soon while the fish is cold and fresh.",
+        "Sip the soup served on the side."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "albap",
+    "emoji": "🍣",
+    "ko": "알밥",
+    "phrase": "그릇이 많이 뜨거운가요?",
+    "meaning": "Is the bowl very hot?",
+    "photo": "",
+    "en": {
+      "name": "Albap",
+      "desc": "Fish roe and vegetables on rice, served in a hot stone bowl.",
+      "tags": [
+        "Fish roe",
+        "Hot bowl"
+      ],
+      "steps": [
+        "Mix quickly while the bowl is hot.",
+        "Let the rice crisp at the bottom.",
+        "Be careful because the bowl is very hot.",
+        "Add a little sauce if it tastes plain."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "samgak_gimbap",
+    "emoji": "🍙",
+    "ko": "삼각김밥",
+    "phrase": "데워 주실 수 있나요?",
+    "meaning": "Could you heat this up, please?",
+    "photo": "",
+    "en": {
+      "name": "Samgak gimbap",
+      "desc": "Triangle rice ball wrapped in seaweed, sold in every convenience store.",
+      "tags": [
+        "Convenience store",
+        "Easy"
+      ],
+      "steps": [
+        "Pull tab 1 straight down the middle.",
+        "Pull corners 2 and 3 off to the sides.",
+        "The seaweed stays crisp around the rice.",
+        "Microwave it only if the label says so."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "omurice",
+    "emoji": "🍳",
+    "ko": "오므라이스",
+    "phrase": "안 매운 거죠?",
+    "meaning": "It's not spicy, right?",
+    "photo": "",
+    "en": {
+      "name": "Omurice",
+      "desc": "Fried rice wrapped in a thin omelette and topped with ketchup or sauce.",
+      "tags": [
+        "Egg",
+        "Mild"
+      ],
+      "steps": [
+        "Cut through the omelette with your spoon.",
+        "Take egg, rice and sauce in each bite.",
+        "Eat while warm.",
+        "A good mild choice if you do not eat spicy food."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "hanjeongsik",
+    "emoji": "🍱",
+    "ko": "한정식",
+    "phrase": "이건 뭐예요?",
+    "meaning": "What is this?",
+    "photo": "",
+    "en": {
+      "name": "Hanjeongsik",
+      "desc": "A full Korean set meal with many small dishes, served in courses or all at once.",
+      "tags": [
+        "Set meal",
+        "Many dishes"
+      ],
+      "steps": [
+        "Start with the lighter dishes.",
+        "Take a little from each plate; you do not have to finish everything.",
+        "Rice and soup often come near the end.",
+        "Ask staff about any dish you do not recognise."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "sannakji",
+    "emoji": "🐙",
+    "ko": "산낙지",
+    "phrase": "작게 잘라 주실 수 있나요?",
+    "meaning": "Could you cut it smaller, please?",
+    "photo": "",
+    "en": {
+      "name": "Sannakji",
+      "desc": "Freshly cut raw octopus that still moves on the plate, dipped in sesame oil.",
+      "tags": [
+        "Raw octopus",
+        "Chew well"
+      ],
+      "steps": [
+        "Dip each piece in sesame oil so the suckers do not stick.",
+        "Take small pieces only.",
+        "Chew thoroughly before swallowing.",
+        "Young children and older people should avoid it because of the choking risk."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jjukkumi_bokkeum",
+    "emoji": "🐙",
+    "ko": "쭈꾸미볶음",
+    "phrase": "덜 맵게 해 주실 수 있나요?",
+    "meaning": "Could you make it less spicy?",
+    "photo": "",
+    "en": {
+      "name": "Jjukkumi bokkeum",
+      "desc": "Spicy stir-fried webfoot octopus, often cooked at the table.",
+      "tags": [
+        "Octopus",
+        "Very spicy"
+      ],
+      "steps": [
+        "Let it cook until the octopus is firm.",
+        "Wrap it in lettuce or eat it with rice.",
+        "Cool the spice with steamed egg or cheese if offered.",
+        "Many places fry rice in the leftover sauce at the end."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "kkomak_bibimbap",
+    "emoji": "🐚",
+    "ko": "꼬막비빔밥",
+    "phrase": "조개류 알레르기가 있어요.",
+    "meaning": "I have a shellfish allergy.",
+    "photo": "",
+    "en": {
+      "name": "Kkomak bibimbap",
+      "desc": "Rice mixed with seasoned cockles, spicy sauce and vegetables.",
+      "tags": [
+        "Cockles",
+        "Mix"
+      ],
+      "steps": [
+        "Mix the cockles and sauce into the rice.",
+        "Add seaweed flakes if they are served.",
+        "Taste before adding more sauce.",
+        "Tell staff about any shellfish allergy."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "fried_chicken",
+    "emoji": "🍗",
+    "ko": "후라이드치킨",
+    "phrase": "반반으로 주세요.",
+    "meaning": "Half plain, half sauced, please.",
+    "photo": "",
+    "en": {
+      "name": "Korean fried chicken",
+      "desc": "Plain Korean fried chicken with a thin, extra-crisp coating.",
+      "tags": [
+        "Fried chicken",
+        "Crispy"
+      ],
+      "steps": [
+        "Dip in the salt and pepper mix or the sauce.",
+        "Eat pickled radish cubes between pieces.",
+        "Use the gloves provided or your hands.",
+        "Order half-and-half to try plain and sauced."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "padak",
+    "emoji": "🍗",
+    "ko": "파닭",
+    "phrase": "소스 더 주실 수 있나요?",
+    "meaning": "Could I have more sauce?",
+    "photo": "",
+    "en": {
+      "name": "Padak",
+      "desc": "Fried chicken piled with thinly sliced spring onions and a tangy mustard-soy sauce.",
+      "tags": [
+        "Fried chicken",
+        "Spring onion"
+      ],
+      "steps": [
+        "Pour the sauce over the spring onions.",
+        "Toss the onions with the chicken.",
+        "Eat chicken and onion together.",
+        "Pickled radish helps cool it down."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "tangsuyuk",
+    "emoji": "🍖",
+    "ko": "탕수육",
+    "phrase": "소스 따로 주세요.",
+    "meaning": "Sauce on the side, please.",
+    "photo": "",
+    "en": {
+      "name": "Tangsuyuk",
+      "desc": "Crispy fried pork with sweet-and-sour sauce, a Korean-Chinese classic.",
+      "tags": [
+        "Fried pork",
+        "Sweet sour"
+      ],
+      "steps": [
+        "Ask the table whether to pour the sauce or dip.",
+        "Dipping keeps the pork crisp.",
+        "Share from the middle plate.",
+        "Often ordered with jajangmyeon or jjamppong."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "donkatsu",
+    "emoji": "🍖",
+    "ko": "돈가스",
+    "phrase": "소스 따로 주세요.",
+    "meaning": "Sauce on the side, please.",
+    "photo": "",
+    "en": {
+      "name": "Donkatsu",
+      "desc": "Breaded, deep-fried pork cutlet with a sweet brown sauce, Korean style.",
+      "tags": [
+        "Fried pork",
+        "Mild"
+      ],
+      "steps": [
+        "Cut it into pieces with the knife and fork provided.",
+        "Pour over or dip in the sauce.",
+        "Eat it with the cabbage salad and rice.",
+        "A good mild choice for children."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gamjajeon",
+    "emoji": "🥔",
+    "ko": "감자전",
+    "phrase": "간장 더 주실 수 있나요?",
+    "meaning": "Could I have more soy sauce?",
+    "photo": "",
+    "en": {
+      "name": "Gamja jeon",
+      "desc": "Crispy pancake made from grated potato.",
+      "tags": [
+        "Pancake",
+        "Potato"
+      ],
+      "steps": [
+        "Tear it into pieces with chopsticks.",
+        "Dip lightly in the soy-vinegar sauce.",
+        "Eat it hot while it is crisp.",
+        "It goes well with makgeolli."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gunmandu",
+    "emoji": "🥟",
+    "ko": "군만두",
+    "phrase": "간장 좀 주세요.",
+    "meaning": "Soy sauce, please.",
+    "photo": "",
+    "en": {
+      "name": "Gunmandu",
+      "desc": "Pan-fried or deep-fried dumplings, sometimes given free with Korean-Chinese orders.",
+      "tags": [
+        "Dumpling",
+        "Crispy"
+      ],
+      "steps": [
+        "Bite a small corner first because the filling is hot.",
+        "Dip in soy sauce with a little vinegar and chilli flakes.",
+        "Eat while crisp.",
+        "Share with the table."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gyeranmari",
+    "emoji": "🍳",
+    "ko": "계란말이",
+    "phrase": "안 매운 거죠?",
+    "meaning": "It's not spicy, right?",
+    "photo": "",
+    "en": {
+      "name": "Gyeran mari",
+      "desc": "Rolled omelette cut into slices, often with vegetables or ham inside.",
+      "tags": [
+        "Egg",
+        "Mild"
+      ],
+      "steps": [
+        "Take a slice with chopsticks.",
+        "Dip in ketchup if it is served.",
+        "Eat as a side dish or with drinks.",
+        "A good mild choice for children."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dak_kkochi",
+    "emoji": "🍢",
+    "ko": "닭꼬치",
+    "phrase": "안 매운 소스로 주세요.",
+    "meaning": "Non-spicy sauce, please.",
+    "photo": "",
+    "en": {
+      "name": "Dak kkochi",
+      "desc": "Grilled chicken skewers brushed with sweet or spicy sauce.",
+      "tags": [
+        "Skewer",
+        "Street food"
+      ],
+      "steps": [
+        "Choose sweet or spicy sauce.",
+        "Hold the stick and eat from the top.",
+        "Watch the sharp end of the skewer.",
+        "Put the used stick in the vendor's bin."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "rabokki",
+    "emoji": "🌶️",
+    "ko": "라볶이",
+    "phrase": "덜 맵게 해 주세요.",
+    "meaning": "Less spicy, please.",
+    "photo": "",
+    "en": {
+      "name": "Rabokki",
+      "desc": "Tteokbokki with instant ramen noodles cooked in the same spicy sauce.",
+      "tags": [
+        "Street food",
+        "Spicy"
+      ],
+      "steps": [
+        "Eat the noodles first before they soak up the sauce.",
+        "Cut long noodles or rice cakes with scissors if needed.",
+        "Mix in the boiled egg if there is one.",
+        "Ask for less spicy if you are unsure."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "korean_corndog",
+    "emoji": "🌭",
+    "ko": "핫도그",
+    "phrase": "설탕 빼 주세요.",
+    "meaning": "No sugar, please.",
+    "photo": "",
+    "en": {
+      "name": "Korean corn dog",
+      "desc": "Sausage or cheese on a stick, battered, fried and often rolled in sugar.",
+      "tags": [
+        "Street food",
+        "Hot cheese"
+      ],
+      "steps": [
+        "Choose sausage, cheese or half-and-half.",
+        "Add ketchup or mustard at the counter.",
+        "Wait a moment because the cheese inside is very hot.",
+        "Hold the stick and eat from the top."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "gyeranppang",
+    "emoji": "🥚",
+    "ko": "계란빵",
+    "phrase": "하나 주세요.",
+    "meaning": "One, please.",
+    "photo": "",
+    "en": {
+      "name": "Gyeranppang",
+      "desc": "Small sweet bread with a whole egg baked on top, a winter street snack.",
+      "tags": [
+        "Street snack",
+        "Egg"
+      ],
+      "steps": [
+        "Hold it in its paper cup or bag.",
+        "Bite carefully because it is hot.",
+        "Eat it fresh.",
+        "Usually sold from street carts in cold weather."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "twigim",
+    "emoji": "🍤",
+    "ko": "튀김",
+    "phrase": "떡볶이 소스 좀 뿌려 주세요.",
+    "meaning": "Put some tteokbokki sauce on, please.",
+    "photo": "",
+    "en": {
+      "name": "Twigim",
+      "desc": "Korean tempura: fried squid, vegetables, sweet potato, dumplings and more.",
+      "tags": [
+        "Fried",
+        "Street food"
+      ],
+      "steps": [
+        "Point to the pieces you want.",
+        "Staff re-fry them briefly and cut them.",
+        "Dip them in tteokbokki sauce if you like.",
+        "Eat hot while crisp."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "street_toast",
+    "emoji": "🍞",
+    "ko": "길거리토스트",
+    "phrase": "설탕 조금만 넣어 주세요.",
+    "meaning": "Only a little sugar, please.",
+    "photo": "",
+    "en": {
+      "name": "Street toast",
+      "desc": "Buttered toast with an egg-and-cabbage omelette, ham, cheese, sugar and ketchup.",
+      "tags": [
+        "Breakfast",
+        "Sweet savoury"
+      ],
+      "steps": [
+        "Order at the stall and choose your fillings.",
+        "Ask for less sugar if you prefer.",
+        "Eat it from the paper wrap.",
+        "A quick breakfast near stations and schools."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dalgona",
+    "emoji": "🍬",
+    "ko": "달고나",
+    "phrase": "직접 만들어 봐도 되나요?",
+    "meaning": "Can I make it myself?",
+    "photo": "",
+    "en": {
+      "name": "Dalgona",
+      "desc": "Melted sugar and baking soda candy, pressed flat with a shape stamped in the middle.",
+      "tags": [
+        "Candy",
+        "Hard sugar"
+      ],
+      "steps": [
+        "Let it cool before touching.",
+        "Try to break out the stamped shape without cracking it.",
+        "Eat small pieces because it is hard.",
+        "If you make it yourself, the pan and sugar get very hot."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "hodugwaja",
+    "emoji": "🌰",
+    "ko": "호두과자",
+    "phrase": "견과류 알레르기가 있어요.",
+    "meaning": "I have a nut allergy.",
+    "photo": "",
+    "en": {
+      "name": "Hodu gwaja",
+      "desc": "Walnut-shaped cakes filled with red bean paste and walnut pieces.",
+      "tags": [
+        "Snack",
+        "Red bean"
+      ],
+      "steps": [
+        "Eat one in one or two bites.",
+        "The filling may be hot if freshly made.",
+        "Popular at motorway rest stops and train stations.",
+        "Contains walnuts, so avoid it if you have a nut allergy."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "dubujorim",
+    "emoji": "🧈",
+    "ko": "두부조림",
+    "phrase": "반찬 더 주실 수 있나요?",
+    "meaning": "Could we have more side dishes?",
+    "photo": "",
+    "en": {
+      "name": "Dubu jorim",
+      "desc": "Pan-fried tofu simmered in a spicy soy glaze, a common side dish.",
+      "tags": [
+        "Tofu",
+        "Banchan"
+      ],
+      "steps": [
+        "Take a piece onto your rice.",
+        "Spoon a little of the glaze over the rice.",
+        "Break large pieces with chopsticks.",
+        "Ask for more; refills are usually free."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "jangjorim",
+    "emoji": "🥩",
+    "ko": "장조림",
+    "phrase": "반찬 더 주실 수 있나요?",
+    "meaning": "Could we have more side dishes?",
+    "photo": "",
+    "en": {
+      "name": "Jangjorim",
+      "desc": "Beef, often with eggs, braised in soy sauce and served cold as a side dish.",
+      "tags": [
+        "Beef",
+        "Banchan"
+      ],
+      "steps": [
+        "Shred the beef with chopsticks.",
+        "Mix it with rice and a little of the sauce.",
+        "Eat the eggs in halves.",
+        "Good with plain rice or porridge."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "myeolchi_bokkeum",
+    "emoji": "🐟",
+    "ko": "멸치볶음",
+    "phrase": "생선 알레르기가 있어요.",
+    "meaning": "I have a fish allergy.",
+    "photo": "",
+    "en": {
+      "name": "Myeolchi bokkeum",
+      "desc": "Tiny dried anchovies stir-fried in sweet soy or chilli, a crunchy side dish.",
+      "tags": [
+        "Anchovy",
+        "Banchan"
+      ],
+      "steps": [
+        "Pick up a small pinch with chopsticks.",
+        "Eat it with rice.",
+        "The anchovies are eaten whole, with no bones to remove.",
+        "Tell staff if you have a fish allergy."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "yakbap",
+    "emoji": "🍯",
+    "ko": "약밥",
+    "phrase": "견과류 알레르기가 있어요.",
+    "meaning": "I have a nut allergy.",
+    "photo": "",
+    "en": {
+      "name": "Yakbap",
+      "desc": "Sweet sticky rice with dates, chestnuts, pine nuts and soy-honey syrup.",
+      "tags": [
+        "Rice cake",
+        "Sweet"
+      ],
+      "steps": [
+        "Eat it in small pieces because it is sticky.",
+        "Enjoy it with tea.",
+        "It contains nuts.",
+        "Often served on holidays."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "chapssaltteok",
+    "emoji": "🍡",
+    "ko": "찹쌀떡",
+    "phrase": "하나 주세요.",
+    "meaning": "One, please.",
+    "photo": "",
+    "en": {
+      "name": "Chapssaltteok",
+      "desc": "Soft, chewy glutinous rice cake filled with sweet red bean paste.",
+      "tags": [
+        "Rice cake",
+        "Chewy"
+      ],
+      "steps": [
+        "Take small bites and chew well.",
+        "Hold it by the powdered outside.",
+        "Enjoy it with tea.",
+        "Chewy rice cakes are a choking risk for young children and older people."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "soju",
+    "emoji": "🍶",
+    "ko": "소주",
+    "phrase": "물 좀 주실 수 있나요?",
+    "meaning": "Could I have some water, please?",
+    "photo": "",
+    "en": {
+      "name": "Soju",
+      "desc": "Clear Korean spirit, usually around 16 to 17% alcohol, drunk from small glasses.",
+      "tags": [
+        "Alcohol",
+        "Share"
+      ],
+      "steps": [
+        "Pour for others rather than for yourself.",
+        "Hold your glass with two hands when an older person pours for you.",
+        "Turn your head slightly away from elders when you drink.",
+        "You must be of legal drinking age (19 in Korea). Never drink and drive."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "somaek",
+    "emoji": "🍺",
+    "ko": "소맥",
+    "phrase": "맥주 한 병 주세요.",
+    "meaning": "One bottle of beer, please.",
+    "photo": "",
+    "en": {
+      "name": "Somaek",
+      "desc": "Soju mixed into beer, popular at Korean BBQ and fried chicken restaurants.",
+      "tags": [
+        "Alcohol",
+        "Mix"
+      ],
+      "steps": [
+        "Pour beer into a glass and add a small shot of soju.",
+        "Mix gently before drinking.",
+        "Drink slowly because it is stronger than beer.",
+        "Legal drinking age applies. Never drink and drive."
+      ]
+    },
+    "otherNames": {}
+  },
+  {
+    "id": "yuja_cha",
+    "emoji": "🍋",
+    "ko": "유자차",
+    "phrase": "따뜻하게 주세요.",
+    "meaning": "Hot, please.",
+    "photo": "",
+    "en": {
+      "name": "Yuja cha",
+      "desc": "Hot citron tea made by stirring yuja marmalade into hot water.",
+      "tags": [
+        "Tea",
+        "Sweet"
+      ],
+      "steps": [
+        "Stir well to mix in the marmalade.",
+        "Eat the citron peel pieces too.",
+        "Sip slowly while hot.",
+        "Also served iced in summer."
+      ]
+    },
+    "otherNames": {}
+  }
+];
+
+// ../../../../../home/claude/k-bite-guide/dist/server/dish-pages.js
+var SITE = "https://k-biteguide.com";
+var categories = [
+  {
+    slug: "korean-bbq",
+    title: "Korean BBQ",
+    lede: "Meat, seafood and eel grilled at your table.",
+    guide: [
+      "At most Korean BBQ restaurants the grill is built into your table. Staff often start the cooking, turn the meat and cut it with scissors. Let them lead at first; you can take over once you see how they do it.",
+      "Cooked meat is usually eaten as ssam: take a lettuce or perilla leaf, add a piece of meat, a little ssamjang, and garlic or chilli if you like, then fold it and eat it in one bite.",
+      "Pork and chicken must be cooked all the way through. Premium beef is often grilled only briefly. If you are not sure whether something is ready, ask — the phrase on each dish page helps.",
+      "Many BBQ places finish with fried rice or cold noodles (naengmyeon). Ask for them near the end of the meal."
+    ],
+    ids: ["samgyeopsal", "samgyeopsal_bbq", "sogalbi", "hanwoo", "la_galbi", "bulgogi", "gopchang", "dakgalbi", "deunggalbi", "tteokgalbi", "jangeogui", "jogaegui", "dwaeji_galbi", "chadolbaegi", "makchang"]
+  },
+  {
+    slug: "stews-and-braises",
+    title: "Stews and braised dishes",
+    lede: "Jjigae, jjim and bubbling pots served to share.",
+    guide: [
+      "Jjigae (stew) usually arrives boiling in a stone or metal pot. It is served with a bowl of rice each; take a spoonful of stew and eat it with rice rather than drinking it like soup.",
+      "Stone pots stay very hot for a long time. Do not touch the pot, and let each spoonful cool for a moment.",
+      "Jjim (braised or steamed dishes) and hotpots are normally shared from the middle of the table. Use the serving ladle if there is one, and pick bones out onto the side plate.",
+      "Stews are often topped up with rice or noodles at the end. Ask staff before adding anything to a pot they are still cooking."
+    ],
+    ids: ["kimchijjigae", "sundubu", "doenjangjjigae", "budaejjigae", "cheonggukjang", "maeuntang", "agujjim", "haemuljjim", "jjimdak", "galbijjim", "maeun_deunggalbi_jjim", "gyeranjjim", "eomuk_tang", "dakbokkeumtang", "kimchijjim", "kongbiji_jjigae", "haemultang", "dongtaetang", "bulgogi_jeongol", "gopchang_jeongol"]
+  },
+  {
+    slug: "soups",
+    title: "Soups and gukbap",
+    lede: "Guk, tang and soup-with-rice for any time of day.",
+    guide: [
+      "Korean soups (guk and tang) are eaten with a spoon, often with rice added straight into the bowl. Gukbap means the rice is already in the soup.",
+      "Many clear beef or pork soups are served lightly seasoned on purpose. Salt, pepper, chopped spring onion or saeujeot (salted shrimp) are on the table so you can season it yourself — taste first.",
+      "Kkakdugi (radish kimchi) is the classic side for these soups. Some people pour a little kimchi juice into the soup for extra flavour.",
+      "Soups with bones, such as gamjatang or galbitang, come with an empty bowl for the bones. Picking meat off with your hands is normal."
+    ],
+    ids: ["seolleongtang", "galbitang", "samgyetang", "gamjatang", "sundaeguk", "dwaejigukbap", "kongnamulgukbap", "haejangguk", "yukgaejang", "bokjiri", "dakhanmari", "chueotang", "sujebi", "tteokguk", "miyeokguk", "kimchi_mandu_guk", "tteok_mandu_guk", "gulgukbap"]
+  },
+  {
+    slug: "noodles",
+    title: "Noodles",
+    lede: "Hot, cold, spicy and black-bean noodles.",
+    guide: [
+      "Long noodles such as naengmyeon are often cut with scissors before eating. Staff may offer to do it; it is not rude to say yes.",
+      "Mix sauce-based noodles (bibim guksu, jajangmyeon) thoroughly before you start. For cold noodles, vinegar and mustard are usually on the table — add a little at a time.",
+      "Slurping noodles is normal in Korea and nobody will mind.",
+      "Chinese-Korean restaurants serving jajangmyeon and jjamppong often deliver, and many serve danmuji (yellow pickled radish) and raw onion with black-bean sauce on the side."
+    ],
+    ids: ["naengmyeon", "bibim_guksu", "makguksu", "kongguksu", "kalguksu", "janchi_guksu", "jajangmyeon", "jjamppong", "kimbapcheongukramyeon", "bibim_naengmyeon", "jjolmyeon", "haemul_kalguksu"]
+  },
+  {
+    slug: "rice-and-porridge",
+    title: "Rice dishes, gimbap and porridge",
+    lede: "Bibimbap, rolled rice and comforting juk.",
+    guide: [
+      "Bibimbap is meant to be mixed. Add gochujang a little at a time, mix everything evenly, then taste before adding more sauce.",
+      "In a hot stone bowl (dolsot) the rice at the bottom turns crisp. Mix early, then scrape the crispy rice at the end.",
+      "Gimbap is a finger food; you can eat pieces with chopsticks or your hands. It is sold everywhere from convenience stores to snack bars.",
+      "Juk (porridge) is mild and often eaten when someone wants something gentle. It usually comes with small sides such as kimchi or soy-braised beef to add flavour."
+    ],
+    ids: ["bibimbap", "dolsot_bibimbap", "saengchae_bibimbap", "ssambap", "kimchibokkeumbap", "gondeure_bap", "baekban", "nurungji", "gimbap", "chungmu_gimbap", "kkoma_gimbap", "yubuchobap", "jeonbokjuk", "hobakjuk", "dakjuk", "patjuk", "japchaebap", "hoedeopbap", "albap", "samgak_gimbap", "omurice", "hanjeongsik"]
+  },
+  {
+    slug: "seafood-and-raw",
+    title: "Seafood and raw dishes",
+    lede: "Raw fish, marinated crab, grilled fish and spicy seafood.",
+    guide: [
+      "Korean raw fish (hoe) is usually eaten with a choice of dips: chogochujang (sweet-sour chilli sauce), soy sauce with wasabi, or ssamjang in a lettuce wrap. Try each to find your favourite.",
+      "Marinated raw crab (gejang) is eaten by sucking the meat out of the shell and mixing the rich roe with rice in the shell. Gloves or a plastic bib may be provided.",
+      "Grilled fish is served whole with bones in. Lift the flesh off the bone with chopsticks and put bones on the side plate.",
+      "If you have a shellfish or seafood allergy, say so before ordering — broths and sauces often contain seafood even when the main ingredient is meat."
+    ],
+    ids: ["hoe", "mulhoe", "ganjanggejang", "yangnyeomgejang", "yukhoe", "samhab", "saengseongui", "godeungeogui", "nakjibokkeum", "ojingeo_bokkeum", "sannakji", "jjukkumi_bokkeum", "kkomak_bibimbap"]
+  },
+  {
+    slug: "pork-and-chicken",
+    title: "Pork, chicken and fried chicken",
+    lede: "Bossam, jokbal, Korean fried chicken, tangsuyuk and donkatsu.",
+    guide: [
+      "Bossam (boiled pork) and jokbal (braised trotters) are shared platters, often ordered for delivery or with drinks in the evening. Wrap slices with cabbage or lettuce and add kimchi, garlic or saeujeot.",
+      "Korean fried chicken comes plain (huraideu), sauced (yangnyeom) or half-and-half. Pickled radish cubes are served to cut through the richness.",
+      "Spicy stir-fries such as jeyuk bokkeum are eaten with rice and often wrapped in lettuce like BBQ.",
+      "Using your hands for chicken and ribs is completely normal; plastic gloves are often provided.",
+      "Korean-Chinese tangsuyuk (sweet-and-sour pork) and Korean-style donkatsu (pork cutlet) are good mild choices. With tangsuyuk, ask the table before pouring the sauce over everything — some people prefer to dip."
+    ],
+    ids: ["bossam", "jokbal", "jeyuk_bokkeum", "yangnyeom_chicken", "dakgangjeong", "kkanpunggi", "fried_chicken", "padak", "tangsuyuk", "donkatsu"]
+  },
+  {
+    slug: "pancakes-and-sides",
+    title: "Pancakes (jeon), dumplings and shared plates",
+    lede: "Savoury pancakes, mandu, japchae and tofu with kimchi.",
+    guide: [
+      "Jeon are savoury pancakes cut into pieces to share. Dip each piece lightly in the soy-vinegar sauce that comes with them.",
+      "Pancakes and makgeolli (rice wine) are a classic pairing, especially on rainy days.",
+      "Mandu (dumplings) can be steamed, pan-fried or served in soup. Filling is often very hot inside — bite a small corner first.",
+      "Plates in the middle of the table are for everyone. Take a piece onto your own plate or rice bowl rather than eating directly from the shared plate for a long time."
+    ],
+    ids: ["pajeon", "haemulpajeon", "kimchijeon", "bindaetteok", "modeumjeon", "hobakjeon", "saeujeon", "dongtaejeon", "mandu", "japchae", "dubukimchi", "gamjajeon", "gunmandu", "gyeranmari"]
+  },
+  {
+    slug: "street-food",
+    title: "Street food and bunsik",
+    lede: "Tteokbokki, fish cakes, corn dogs, toast and hot sweet snacks.",
+    guide: [
+      "Street stalls and bunsik (snack) shops are quick and cheap. You usually order, pay and eat standing up or at a small counter.",
+      "At fish-cake stalls, the broth is often free: take a paper cup and help yourself. Pay for the skewers you ate — the vendor may count your sticks.",
+      "Hotteok, bungeoppang and fresh fillings are extremely hot inside. Wait a moment and bite from the edge.",
+      "Tteokbokki spice levels vary widely. Ask for less spicy if you are unsure."
+    ],
+    ids: ["tteokbokki", "odeng", "soondae", "sotteok_sotteok", "tteokkochi", "hotteok", "bungeoppang", "dak_kkochi", "rabokki", "korean_corndog", "gyeranppang", "twigim", "street_toast", "dalgona", "hodugwaja"]
+  },
+  {
+    slug: "kimchi-and-banchan",
+    title: "Kimchi and banchan (side dishes)",
+    lede: "The small shared dishes that come with almost every meal.",
+    guide: [
+      "Banchan are the small side dishes placed on the table with your meal. They are shared by everyone at the table and are included in the price.",
+      "Refills of banchan are usually free. You can ask politely, and at some restaurants there is a self-service counter.",
+      "Take banchan onto your rice or eat them between bites of the main dish; you do not need to finish them all.",
+      "Different kimchi suit different dishes: cabbage kimchi goes with almost everything, while kkakdugi (radish kimchi) is the classic partner for soups."
+    ],
+    ids: ["baechu_kimchi", "kkakdugi", "oisobagi", "kongnamul_muchim", "sigeumchi_namul", "doraji_muchim", "dubujorim", "jangjorim", "myeolchi_bokkeum"]
+  },
+  {
+    slug: "desserts-and-drinks",
+    title: "Desserts, rice cakes and drinks",
+    lede: "Bingsu, tteok, traditional sweets, teas, sikhye, makgeolli and soju.",
+    guide: [
+      "Bingsu (shaved ice) is made to share. Mix the toppings into the ice as you go so every spoonful has some.",
+      "Tteok (rice cakes) are chewy — take small bites, especially with children and older relatives.",
+      "Sikhye (sweet rice drink) and sujeonggwa (cinnamon punch) are often served cold after a meal or at bathhouses.",
+      "Makgeolli is an alcoholic rice wine. Shake or stir gently before pouring, and the legal drinking age in Korea applies.",
+      "When drinking soju or somaek with older people, pour for others rather than yourself, accept a pour with two hands, and turn slightly away when you drink. Never drink and drive."
+    ],
+    ids: ["bingsu", "injeolmi", "songpyeon", "baekseolgi", "yakgwa", "sikhye", "sujeonggwa", "makgeolli", "yakbap", "chapssaltteok", "soju", "somaek", "yuja_cha"]
+  }
+];
+var byId = new Map(dishes.map((d) => [d.id, d]));
+var catOf = /* @__PURE__ */ new Map();
+for (const c of categories) for (const id of c.ids) if (byId.has(id)) catOf.set(id, c);
+var uncategorised = dishes.filter((d) => !catOf.has(d.id)).map((d) => d.id);
+if (uncategorised.length) {
+  categories.push({
+    slug: "more-dishes",
+    title: "More Korean dishes",
+    lede: "Other dishes covered in the K-Bite app.",
+    guide: ["These dishes are covered in the K-Bite app. Each page explains what the dish is and how to eat it."],
+    ids: uncategorised
+  });
+  for (const id of uncategorised) catOf.set(id, categories[categories.length - 1]);
+}
+var LANG_LABEL = { ja: "Japanese", zhCN: "Chinese (Simplified)", zhTW: "Chinese (Traditional)", fil: "Filipino", th: "Thai", vi: "Vietnamese" };
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+}
+var STYLE = `
+:root{--bg:#101419;--card:#171d24;--line:#26303a;--text:#eef2f5;--muted:#9aa7b3;--accent:#ff6b4a;--accent2:#ffd08a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif}
+a{color:var(--accent2)}
+header.top{border-bottom:1px solid var(--line);background:#0c1014}
+header.top .in{max-width:860px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header.top a.brand{color:var(--text);text-decoration:none;font-weight:800;font-size:18px}
+header.top nav{display:flex;gap:16px;font-size:14px}
+header.top nav a{color:var(--muted);text-decoration:none}
+main{max-width:860px;margin:0 auto;padding:24px 16px 48px}
+.crumbs{font-size:13px;color:var(--muted)}
+.crumbs a{color:var(--muted)}
+h1{font-size:32px;line-height:1.2;margin:10px 0 6px}
+h2{font-size:21px;margin:30px 0 10px}
+.ko{font-size:20px;color:var(--accent2);margin:0 0 14px}
+.lede{font-size:18px;color:#d7dee4}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tag{background:#222b35;border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:13px;color:#cdd6de}
+ol.steps{padding-left:22px}
+ol.steps li{margin:6px 0}
+.phrase{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.phrase .k{font-size:22px;font-weight:700}
+.phrase .e{color:var(--muted)}
+.guide p{color:#d7dee4}
+.cta{display:inline-block;margin-top:8px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:11px 18px;border-radius:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;padding:0;list-style:none}
+.grid a{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--text)}
+.grid a:hover{border-color:var(--accent)}
+.grid small{display:block;color:var(--muted)}
+figure{margin:18px 0}
+figure img{width:100%;max-height:380px;object-fit:cover;border-radius:14px;background:var(--card)}
+figcaption{font-size:12px;color:var(--muted)}
+.note{font-size:13px;color:var(--muted);border-top:1px solid var(--line);margin-top:34px;padding-top:14px}
+footer{max-width:860px;margin:0 auto;padding:0 16px 40px;font-size:13px;color:var(--muted)}
+footer a{color:var(--muted);margin-right:14px}
+@media(max-width:600px){h1{font-size:26px}}
+`;
+function layout({ title, description, path, body, jsonLd = [] }) {
+  const url = SITE + path;
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(description)}">
+<link rel="canonical" href="${url}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="K-Bite Guide">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(description)}">
+<meta property="og:url" content="${url}">
+<meta name="theme-color" content="#101419">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<meta name="google-adsense-account" content="ca-pub-9335333067725848">
+<!--adsense-->
+<style>${STYLE}</style>
+${jsonLd.map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u003c")}</script>`).join("\n")}
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="brand" href="/">🍽️ K-Bite</a>
+  <nav><a href="/dishes">All dishes</a><a href="/">Open the app</a><a href="/about">About</a></nav>
+</div></header>
+<main>
+${body}
+</main>
+<footer>
+  <a href="/about">About</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a><a href="/partners">Partners</a>
+  <p>K-Bite Guide helps visitors eat Korean food with confidence. Guides are general information; always tell restaurant staff about allergies.</p>
+</footer>
+</body>
+</html>`;
+}
+function crumbLd(items) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map(([name, path], i) => ({ "@type": "ListItem", position: i + 1, name, item: SITE + path }))
+  };
+}
+function dishCard(d) {
+  return `<li><a href="/dish/${d.id}">${esc(d.emoji)} ${esc(d.en.name)}<small>${esc(d.ko)}</small></a></li>`;
+}
+function renderDish(id) {
+  const d = byId.get(id);
+  if (!d) return null;
+  const c = catOf.get(id);
+  const related = c.ids.filter((x) => x !== id).map((x) => byId.get(x)).filter(Boolean).slice(0, 6);
+  const others = Object.entries(d.otherNames || {});
+  const path = `/dish/${id}`;
+  const title = `How to eat ${d.en.name} (${d.ko}) — K-Bite Guide`;
+  const description = `${d.en.desc} Step-by-step: how to eat ${d.en.name}, plus a Korean phrase to ask restaurant staff.`;
+  const body = `
+<p class="crumbs"><a href="/">K-Bite</a> › <a href="/dishes">Dishes</a> › <a href="/dishes/${c.slug}">${esc(c.title)}</a></p>
+<h1>${esc(d.emoji)} How to eat ${esc(d.en.name)}</h1>
+<p class="ko">${esc(d.ko)}</p>
+<p class="lede">${esc(d.en.desc)}</p>
+<div class="tags">${d.en.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+${d.photo ? `<figure><img src="${esc(d.photo)}?width=900" alt="${esc(d.en.name)} (${esc(d.ko)})" loading="lazy"><figcaption>Photo: <a href="${esc(d.photo.replace("/wiki/Special:FilePath/", "/wiki/File:"))}" rel="noopener">Wikimedia Commons — see the file page for author and licence</a></figcaption></figure>` : ""}
+<h2>How to eat it</h2>
+<ol class="steps">${d.en.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
+<h2>Ask the staff in Korean</h2>
+<div class="phrase"><div class="k" lang="ko">${esc(d.phrase)}</div><div class="e">${esc(d.meaning)}</div></div>
+${others.length ? `<h2>${esc(d.en.name)} in other languages</h2><ul>${others.map(([k, v]) => `<li>${esc(LANG_LABEL[k] || k)}: <span>${esc(v)}</span></li>`).join("")}</ul>` : ""}
+<h2>${esc(c.title)}: what to know</h2>
+<div class="guide">${c.guide.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
+<p><a href="/dishes/${c.slug}">More about ${esc(c.title.toLowerCase())} →</a></p>
+${related.length ? `<h2>Similar dishes</h2><ul class="grid">${related.map(dishCard).join("")}</ul>` : ""}
+<h2>At the restaurant?</h2>
+<p>Open the K-Bite app to search ${dishes.length} dishes by name or ingredient, or scan a menu photo to find the dish name first.</p>
+<a class="cta" href="/">Open K-Bite</a>
+<p class="note">Spice levels, ingredients and serving style vary between restaurants. If you have an allergy or dietary requirement, tell the staff before ordering.</p>`;
+  return layout({
+    title,
+    description,
+    path,
+    body,
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: `How to eat ${d.en.name} (${d.ko})`,
+        description: d.en.desc,
+        inLanguage: "en",
+        mainEntityOfPage: SITE + path,
+        ...d.photo ? { image: d.photo } : {},
+        publisher: { "@type": "Organization", name: "K-Bite Guide", url: SITE }
+      },
+      crumbLd([["K-Bite", "/"], ["Dishes", "/dishes"], [c.title, `/dishes/${c.slug}`], [d.en.name, path]])
+    ]
+  });
+}
+function renderCategory(slug) {
+  const c = categories.find((x) => x.slug === slug);
+  if (!c) return null;
+  const list = c.ids.map((x) => byId.get(x)).filter(Boolean);
+  const path = `/dishes/${slug}`;
+  const body = `
+<p class="crumbs"><a href="/">K-Bite</a> › <a href="/dishes">Dishes</a></p>
+<h1>${esc(c.title)}: how to eat them in Korea</h1>
+<p class="lede">${esc(c.lede)}</p>
+<div class="guide">${c.guide.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
+<h2>${list.length} dishes in this guide</h2>
+<ul class="grid">${list.map(dishCard).join("")}</ul>
+<h2>Other food guides</h2>
+<ul class="grid">${categories.filter((x) => x.slug !== slug).map((x) => `<li><a href="/dishes/${x.slug}">${esc(x.title)}<small>${esc(x.lede)}</small></a></li>`).join("")}</ul>`;
+  return layout({
+    title: `${c.title} — how to eat them in Korea | K-Bite Guide`,
+    description: `${c.lede} Practical tips for visitors and a guide to ${list.length} dishes.`,
+    path,
+    body,
+    jsonLd: [crumbLd([["K-Bite", "/"], ["Dishes", "/dishes"], [c.title, path]])]
+  });
+}
+function renderIndex() {
+  const body = `
+<p class="crumbs"><a href="/">K-Bite</a></p>
+<h1>Korean food guide: ${dishes.length} dishes and how to eat them</h1>
+<p class="lede">What each dish is, how Koreans eat it, and a phrase to ask restaurant staff — grouped by type of food.</p>
+${categories.map((c) => `<h2><a href="/dishes/${c.slug}">${esc(c.title)}</a></h2><p>${esc(c.lede)}</p><ul class="grid">${c.ids.map((x) => byId.get(x)).filter(Boolean).map(dishCard).join("")}</ul>`).join("\n")}`;
+  return layout({
+    title: `Korean food guide: ${dishes.length} dishes and how to eat them | K-Bite Guide`,
+    description: `A visitor's guide to ${dishes.length} Korean dishes — BBQ, stews, noodles, street food and more — with how to eat each one and a Korean phrase for restaurant staff.`,
+    path: "/dishes",
+    body,
+    jsonLd: [crumbLd([["K-Bite", "/"], ["Dishes", "/dishes"]])]
+  });
+}
+function handleDishRoute(pathname, adsenseClient = "") {
+  let html2 = null;
+  const p = pathname.replace(/\/+$/, "") || "/";
+  if (p === "/dishes") html2 = renderIndex();
+  else if (p.startsWith("/dishes/")) html2 = renderCategory(p.slice(8));
+  else if (p.startsWith("/dish/")) html2 = renderDish(p.slice(6));
+  else return null;
+  if (!html2) return new Response("Not found", { status: 404, headers: { "content-type": "text/plain; charset=utf-8" } });
+  const ads = adsenseClient ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${esc(adsenseClient)}" crossorigin="anonymous"></script>` : "";
+  return new Response(html2.replace("<!--adsense-->", ads), {
+    headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=3600" }
+  });
+}
+function dishSitemapPaths() {
+  return ["/dishes", ...categories.map((c) => `/dishes/${c.slug}`), ...dishes.map((d) => `/dish/${d.id}`)];
+}
+
+// ../../../../../home/claude/k-bite-guide/dist/server/index.js
+var html = String.raw`<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -2052,8 +6130,7 @@ const html = String.raw`<!doctype html>
   </script>
 </body>
 </html>`;
-
-const manifest = {
+var manifest = {
   name: "K-Bite Guide",
   short_name: "K-Bite",
   description: "Mobile guide for eating Korean food with search, food name scan, Korean staff phrases, and monthly Korean-style bite challenges.",
@@ -2066,18 +6143,16 @@ const manifest = {
   categories: ["food", "travel", "education"],
   icons: [
     { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any maskable" }
-  ],
+  ]
 };
-
-const icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+var icon = String.raw`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="112" fill="#17120d"/>
   <circle cx="360" cy="132" r="74" fill="#f4d06f"/>
   <path d="M96 344c72-148 200-182 320-120-44 128-166 190-320 120Z" fill="#9fbda8"/>
   <path d="M154 330c52-64 128-92 220-76" fill="none" stroke="#b94a36" stroke-width="28" stroke-linecap="round"/>
   <text x="256" y="316" text-anchor="middle" font-size="118" font-family="Arial, sans-serif" font-weight="800" fill="#fff7ea">K</text>
 </svg>`;
-
-const serviceWorker = String.raw`const CACHE = "k-bite-guide-v31";
+var serviceWorker = String.raw`const CACHE = "k-bite-guide-v31";
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(["/", "/manifest.webmanifest", "/icon.svg"])));
   self.skipWaiting();
@@ -2094,11 +6169,9 @@ self.addEventListener("fetch", event => {
     return response;
   }).catch(() => caches.match(event.request).then(response => response || caches.match("/"))));
 });`;
-
 function escapeHtml(value = "") {
-  return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+  return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
 }
-
 function legalPage(title, body) {
   return String.raw`<!doctype html>
 <html lang="en">
@@ -2138,8 +6211,7 @@ function legalPage(title, body) {
 </body>
 </html>`;
 }
-
-const pages = {
+var pages = {
   "/about": legalPage("About", String.raw`
     <p>K-Bite Guide is a free mobile guide for foreign visitors in Korea. It helps travelers search Korean dishes, scan for likely food names, learn table customs, and ask restaurant staff simple questions in Korean.</p>
     <p>The guide focuses on practical eating steps: how to grill meat, wrap ssam, mix bibimbap, add an egg to sundubu jjigae, and choose sauces for raw fish or barbecue.</p>
@@ -2184,10 +6256,9 @@ const pages = {
       </section>
     </div>
     <p class="note">결제는 Stripe Payment Links 또는 Polar Checkout Links 중 하나를 연결해 즉시 구매 방식으로 운영할 수 있습니다. 결제 링크가 연결되면 위 버튼이 바로 결제창으로 이동합니다.</p>
-  `),
+  `)
 };
-
-const paymentPlans = {
+var paymentPlans = {
   adfree: {
     title: "앱 사용자 광고 제거",
     price: "월 2,900원",
@@ -2209,8 +6280,7 @@ const paymentPlans = {
     envKey: "PAYMENT_CHALLENGE_SPONSOR_URL"
   }
 };
-
-const paymentCopy = {
+var paymentCopy = {
   en: {
     pending: "Payment link preparing",
     adfreeTitle: "Remove ads for app users",
@@ -2300,7 +6370,6 @@ const paymentCopy = {
     back: "Quay lại sản phẩm đối tác"
   }
 };
-
 function paymentPage(plan, lang = "ko") {
   const copy = paymentCopy[lang] || paymentCopy.en;
   const isAdfree = plan.envKey === "PAYMENT_ADFREE_URL";
@@ -2317,7 +6386,6 @@ function paymentPage(plan, lang = "ko") {
     <a class="cta" href="/partners">${copy.back}</a>
   `);
 }
-
 function extractOutputText(data) {
   if (data?.output_text) return data.output_text;
   const parts = [];
@@ -2328,7 +6396,6 @@ function extractOutputText(data) {
   }
   return parts.join("\n");
 }
-
 function parseJsonObject(text = "") {
   const clean = String(text).trim().replace(/^```json\s*/i, "").replace(/```$/i, "").trim();
   try {
@@ -2338,7 +6405,6 @@ function parseJsonObject(text = "") {
     return match ? JSON.parse(match[0]) : {};
   }
 }
-
 async function identifyFoodName(request, env) {
   if (!env?.OPENAI_API_KEY) {
     return new Response(JSON.stringify({
@@ -2347,10 +6413,10 @@ async function identifyFoodName(request, env) {
   }
   const payload = await request.json().catch(() => ({}));
   const image = String(payload.image || "");
-  if (!/^data:image\/(png|jpe?g|webp);base64,/i.test(image) || image.length > 4500000) {
+  if (!/^data:image\/(png|jpe?g|webp);base64,/i.test(image) || image.length > 45e5) {
     return new Response(JSON.stringify({ message: "A valid food photo is required." }), {
       status: 400,
-      headers: { "content-type": "application/json; charset=utf-8" },
+      headers: { "content-type": "application/json; charset=utf-8" }
     });
   }
   const prompt = [
@@ -2364,7 +6430,7 @@ async function identifyFoodName(request, env) {
     method: "POST",
     headers: {
       "authorization": `Bearer ${env.OPENAI_API_KEY}`,
-      "content-type": "application/json",
+      "content-type": "application/json"
     },
     body: JSON.stringify({
       model: env.OPENAI_VISION_MODEL || "gpt-5",
@@ -2381,7 +6447,7 @@ async function identifyFoodName(request, env) {
   if (!aiResponse.ok) {
     return new Response(JSON.stringify({ message: data?.error?.message || "Food name scan is unavailable right now." }), {
       status: 502,
-      headers: { "content-type": "application/json; charset=utf-8" },
+      headers: { "content-type": "application/json; charset=utf-8" }
     });
   }
   const parsed = parseJsonObject(extractOutputText(data));
@@ -2389,20 +6455,18 @@ async function identifyFoodName(request, env) {
     korean_name: String(parsed.korean_name || "").slice(0, 80),
     english_name: String(parsed.english_name || "").slice(0, 80),
     confidence: Math.max(0, Math.min(1, Number(parsed.confidence || 0))),
-    candidates: Array.isArray(parsed.candidates) ? parsed.candidates.map(v => String(v).slice(0, 60)).slice(0, 6) : [],
-    reason: String(parsed.reason || "").slice(0, 180),
+    candidates: Array.isArray(parsed.candidates) ? parsed.candidates.map((v) => String(v).slice(0, 60)).slice(0, 6) : [],
+    reason: String(parsed.reason || "").slice(0, 180)
   };
   return new Response(JSON.stringify(result), {
-    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
+    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }
   });
 }
-
 function withHeadTags(page, pathname) {
   const tags = '<meta name="google-adsense-account" content="ca-pub-9335333067725848"><link rel="canonical" href="https://k-biteguide.com' + pathname + '">';
   return page.replace(/\n?<\/head>/, "\n" + tags + "\n</head>");
 }
-
-export default {
+var index_default = {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/identify-food" && request.method === "POST") {
@@ -2417,60 +6481,61 @@ export default {
       }
       const lang = url.searchParams.get("lang") || "ko";
       return new Response(paymentPage(plan, lang), {
-        headers: { "content-type": "text/html; charset=utf-8" },
+        headers: { "content-type": "text/html; charset=utf-8" }
       });
     }
     const dishResponse = handleDishRoute(url.pathname, env?.ADSENSE_CLIENT || "");
     if (dishResponse) return dishResponse;
     if (url.pathname === "/sitemap.xml") {
       const paths = ["/", "/about", "/privacy", "/contact", "/partners", ...dishSitemapPaths()];
-      const body = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-        paths.map((p) => `  <url><loc>https://k-biteguide.com${p}</loc></url>`).join("\n") + "\n</urlset>\n";
+      const body = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + paths.map((p) => `  <url><loc>https://k-biteguide.com${p}</loc></url>`).join("\n") + "\n</urlset>\n";
       return new Response(body, {
-        headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=3600" },
+        headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=3600" }
       });
     }
     if (url.pathname === "/robots.txt") {
       return new Response("User-agent: *\nAllow: /\nSitemap: https://k-biteguide.com/sitemap.xml\n", {
-        headers: { "content-type": "text/plain; charset=utf-8" },
+        headers: { "content-type": "text/plain; charset=utf-8" }
       });
     }
     if (pages[url.pathname]) {
       return new Response(withHeadTags(pages[url.pathname], url.pathname), {
-        headers: { "content-type": "text/html; charset=utf-8" },
+        headers: { "content-type": "text/html; charset=utf-8" }
       });
     }
     if (url.pathname === "/manifest.webmanifest") {
       return new Response(JSON.stringify(manifest), {
-        headers: { "content-type": "application/manifest+json; charset=utf-8" },
+        headers: { "content-type": "application/manifest+json; charset=utf-8" }
       });
     }
     if (url.pathname === "/ads.txt") {
       const publisherId = env?.ADSENSE_PUBLISHER_ID || "";
-      const body = publisherId ? `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0\n` : "# Add ADSENSE_PUBLISHER_ID to publish ads.txt\n";
+      const body = publisherId ? `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0
+` : "# Add ADSENSE_PUBLISHER_ID to publish ads.txt\n";
       return new Response(body, {
-        headers: { "content-type": "text/plain; charset=utf-8" },
+        headers: { "content-type": "text/plain; charset=utf-8" }
       });
     }
     if (url.pathname === "/icon.svg") {
       return new Response(icon, {
-        headers: { "content-type": "image/svg+xml; charset=utf-8", "cache-control": "public, max-age=86400" },
+        headers: { "content-type": "image/svg+xml; charset=utf-8", "cache-control": "public, max-age=86400" }
       });
     }
     if (url.pathname === "/sw.js") {
       return new Response(serviceWorker, {
-        headers: { "content-type": "text/javascript; charset=utf-8", "cache-control": "no-cache" },
+        headers: { "content-type": "text/javascript; charset=utf-8", "cache-control": "no-cache" }
       });
     }
     const adsenseClient = env?.ADSENSE_CLIENT ? escapeHtml(env.ADSENSE_CLIENT) : "";
-    const monetizedHtml = adsenseClient
-      ? html.replace("</head>", `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script></head>`)
-      : html.replace("</head>", "<style>.sponsor-banner{display:none!important}</style></head>");
+    const monetizedHtml = adsenseClient ? html.replace("</head>", `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script></head>`) : html.replace("</head>", "<style>.sponsor-banner{display:none!important}</style></head>");
     return new Response(withHeadTags(monetizedHtml, "/"), {
       headers: {
         "content-type": "text/html; charset=utf-8",
-        "permissions-policy": "camera=*",
-      },
+        "permissions-policy": "camera=*"
+      }
     });
-  },
+  }
+};
+export {
+  index_default as default
 };
