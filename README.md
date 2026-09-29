@@ -21,22 +21,17 @@ adding or editing dishes in `index.js`, run:
 Ads load only when the `ADSENSE_CLIENT` Worker variable is set (app screen and guide pages).
 While it is not set, the "Remove ads" purchase banner is hidden, because there are no ads to remove.
 
-## Deploying (Cloudflare dashboard)
+## Deploying
 
-k-biteguide.com is deployed by pasting code in the Cloudflare dashboard, not from this repo's
-Workers Builds (that build only serves the old root `index.html` on workers.dev / pages.dev).
+The `k-bite-guide` Cloudflare Worker builds from `main` automatically (Workers Builds:
+`npm run build` then `npx wrangler deploy`). `wrangler.jsonc` points at `dist/server/index.js`.
+Secrets such as OPENAI_API_KEY and payment links live in the dashboard and survive deploys.
 
-`deploy/worker.js` is a single-file bundle of `dist/server/*` ready to paste:
-
-1. Cloudflare dashboard → Workers & Pages → the worker attached to k-biteguide.com → Edit code
-2. Replace the whole file with `deploy/worker.js` → Deploy
-3. Keep the existing variables (ADSENSE_PUBLISHER_ID, OPENAI_API_KEY, payment links) — they are not in code.
-4. Roll back from Deployments → previous version if anything looks wrong.
-
-Rebuild the bundle after changes:
+`deploy/worker.js` is the same code as one file, for pasting into the dashboard editor if ever needed.
+Rebuild it after changes:
 
     npx esbuild dist/server/index.js --bundle --format=esm --platform=neutral --charset=utf8 --outfile=deploy/worker.js
 
-`scripts/sync_live_2026_09.py` records how the repo was brought in line with the live site
-(verified byte-identical for /, /about, /privacy, /contact, /partners, /buy, /ads.txt,
-manifest, sw.js and icon before the new features were added).
+`scripts/sync_live_2026_09.py` records how this code was brought in line with the version that was
+serving k-biteguide.com in Sept 2026 (verified byte-identical for every existing route, including the
+404 page, before the new features were added). The old static prototype is kept in `legacy/`.

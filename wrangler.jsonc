@@ -1,9 +1,11 @@
-﻿{
+{
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "k-bite-guide",
+  "main": "dist/server/index.js",
   "compatibility_date": "2026-08-17",
-  "assets": {
-    "directory": ".",
-    "exclude": ["node_modules/**", ".wrangler/**", ".git/**"]
+  // Public values only. Secrets (OPENAI_API_KEY, payment links) are set in the dashboard
+  // and are kept across deploys.
+  "vars": {
+    "ADSENSE_PUBLISHER_ID": "pub-9335333067725848"
   }
 }

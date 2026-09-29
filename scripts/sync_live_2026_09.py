@@ -3,6 +3,7 @@ reconstructed by diffing the live responses against the repo:
   1. every HTML page gets the AdSense account tag + canonical link before </head>
   2. the empty 'Ad space reserved' slot on the home screen is removed
   3. the search screen's empty-state sponsor box is replaced by a 'Find a dish' help text
+  4. only / and /index.html serve the app; any other unknown path returns a small 404 page
 """
 import re, sys
 p = sys.argv[1]
@@ -33,6 +34,10 @@ s = s.replace(old, "      return new Response(withHeadTags(pages[url.pathname], 
 
 old = "    return new Response(monetizedHtml, {"
 assert s.count(old) == 1
-s = s.replace(old, "    return new Response(withHeadTags(monetizedHtml, \"/\"), {")
+s = s.replace(old, """    if (url.pathname !== "/" && url.pathname !== "/index.html") {
+      return new Response(NOT_FOUND_HTML, { status: 404, headers: { "content-type": "text/html; charset=utf-8" } });
+    }
+    return new Response(withHeadTags(monetizedHtml, url.pathname), {""")
+s = s.replace("\nfunction withHeadTags(", '\nconst NOT_FOUND_HTML = \'<html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | K-Bite Guide</title><main><h1>Page not found</h1><a href="/">Open K-Bite Guide</a></main></html>\';\n\nfunction withHeadTags(', 1)
 open(p, "w", encoding="utf-8").write(s)
 print("synced")

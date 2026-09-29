@@ -1,4 +1,4 @@
-// ../../../../../home/claude/k-bite-guide/dist/server/dish-data.js
+// dist/server/dish-data.js
 var dishes = [
   {
     "id": "samgyeopsal",
@@ -3733,7 +3733,7 @@ var dishes = [
   }
 ];
 
-// ../../../../../home/claude/k-bite-guide/dist/server/dish-pages.js
+// dist/server/dish-pages.js
 var SITE = "https://k-biteguide.com";
 var categories = [
   {
@@ -4076,7 +4076,7 @@ function dishSitemapPaths() {
   return ["/dishes", ...categories.map((c) => `/dishes/${c.slug}`), ...dishes.map((d) => `/dish/${d.id}`)];
 }
 
-// ../../../../../home/claude/k-bite-guide/dist/server/index.js
+// dist/server/index.js
 var html = String.raw`<!doctype html>
 <html lang="en">
 <head>
@@ -6462,6 +6462,7 @@ async function identifyFoodName(request, env) {
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }
   });
 }
+var NOT_FOUND_HTML = '<html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | K-Bite Guide</title><main><h1>Page not found</h1><a href="/">Open K-Bite Guide</a></main></html>';
 function withHeadTags(page, pathname) {
   const tags = '<meta name="google-adsense-account" content="ca-pub-9335333067725848"><link rel="canonical" href="https://k-biteguide.com' + pathname + '">';
   return page.replace(/\n?<\/head>/, "\n" + tags + "\n</head>");
@@ -6528,7 +6529,10 @@ var index_default = {
     }
     const adsenseClient = env?.ADSENSE_CLIENT ? escapeHtml(env.ADSENSE_CLIENT) : "";
     const monetizedHtml = adsenseClient ? html.replace("</head>", `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script></head>`) : html.replace("</head>", "<style>.sponsor-banner{display:none!important}</style></head>");
-    return new Response(withHeadTags(monetizedHtml, "/"), {
+    if (url.pathname !== "/" && url.pathname !== "/index.html") {
+      return new Response(NOT_FOUND_HTML, { status: 404, headers: { "content-type": "text/html; charset=utf-8" } });
+    }
+    return new Response(withHeadTags(monetizedHtml, url.pathname), {
       headers: {
         "content-type": "text/html; charset=utf-8",
         "permissions-policy": "camera=*"

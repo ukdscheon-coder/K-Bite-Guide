@@ -2397,6 +2397,8 @@ async function identifyFoodName(request, env) {
   });
 }
 
+const NOT_FOUND_HTML = '<html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | K-Bite Guide</title><main><h1>Page not found</h1><a href="/">Open K-Bite Guide</a></main></html>';
+
 function withHeadTags(page, pathname) {
   const tags = '<meta name="google-adsense-account" content="ca-pub-9335333067725848"><link rel="canonical" href="https://k-biteguide.com' + pathname + '">';
   return page.replace(/\n?<\/head>/, "\n" + tags + "\n</head>");
@@ -2466,7 +2468,10 @@ export default {
     const monetizedHtml = adsenseClient
       ? html.replace("</head>", `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}" crossorigin="anonymous"></script></head>`)
       : html.replace("</head>", "<style>.sponsor-banner{display:none!important}</style></head>");
-    return new Response(withHeadTags(monetizedHtml, "/"), {
+    if (url.pathname !== "/" && url.pathname !== "/index.html") {
+      return new Response(NOT_FOUND_HTML, { status: 404, headers: { "content-type": "text/html; charset=utf-8" } });
+    }
+    return new Response(withHeadTags(monetizedHtml, url.pathname), {
       headers: {
         "content-type": "text/html; charset=utf-8",
         "permissions-policy": "camera=*",
